@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    tools:context=".WelcomePage">
+
+    <ImageView
+        android:id="@+id/miniLogo"
+        android:layout_width="97dp"
+        android:layout_height="73dp"
+        android:layout_marginLeft="155dp"
+        app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/tseafull"
+        />
+
+    <Button
+        android:id="@+id/getStartedbtn"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="42dp"
+        android:backgroundTint="#D67229"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Get Started"
+        app:cornerRadius="9dp" />
+
+    <TextView
+        android:id="@+id/questiontxt"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="110sp"
+        android:text="Already a member?" />
+
+    <TextView
+        android:id="@+id/linktxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        android:layout_marginLeft="235dp"
+        android:text="@string/login"
+        android:textStyle="bold"
+        />
+
+</LinearLayout>

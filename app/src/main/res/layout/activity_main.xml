@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/miniLogo"
         android:layout_width="97dp"
         android:layout_height="73dp"
         app:srcCompat="@drawable/logo"
