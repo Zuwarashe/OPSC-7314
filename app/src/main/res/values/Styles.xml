@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bold Text Appearance for Active Item -->
+    <style name="BottomNavBoldTextActive" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item> <!-- You can adjust the size if needed -->
+    </style>
+
+    <!-- Bold Text Appearance for Inactive Item -->
+    <style name="BottomNavBoldTextInactive" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item> <!-- Adjust size if needed -->
+    </style>
+
+    <!-- Style for BottomNavigationView -->
+    <style name="BottomNavigationViewStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+</resources>

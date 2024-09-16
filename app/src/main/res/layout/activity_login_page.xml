@@ -24,6 +24,7 @@
         android:layout_marginLeft="-85dp"
         android:textStyle="bold"
         android:textSize="30dp"
+        android:textColor="@color/black"
         android:text="Login" />
 
 
@@ -92,18 +93,6 @@
         android:text="Login"
         app:cornerRadius="9dp" />
 
-
-    <Button
-        android:id="@+id/facebookBtn"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="-350dp"
-        android:layout_marginTop="525dp"
-        android:backgroundTint="#316FF6"
-        android:text="Login with Facebook"
-        android:textColor="@color/white"
-        app:cornerRadius="9dp" />
-
     <TextView
         android:id="@+id/orLbl"
         android:layout_width="wrap_content"
@@ -136,17 +125,50 @@
         android:layout_marginLeft="-160dp"
         android:backgroundTint="@color/white"
         android:textColor="@color/black"
-        android:text="Login with Google"
+        android:text="Sign Up with Google"
         app:cornerRadius="9dp"
         app:strokeColor="#A9A9A9"
-        app:strokeWidth="1dp" />
+        android:textStyle="bold"
+        app:strokeWidth="1dp"
+        />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="490dp"
+        android:layout_marginLeft="-263dp"
+        app:srcCompat="@drawable/gmail_svgrepo_com" />
+
+
+    <Button
+        android:id="@+id/facebookBtn"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-110dp"
+        android:layout_marginTop="525dp"
+        android:backgroundTint="#316FF6"
+        android:text="Sign Up with Facebook"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:cornerRadius="9dp" />
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="20dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="547dp"
+        android:layout_marginLeft="-275dp"
+        app:srcCompat="@drawable/facebook_color_svgrepo_com" />
+
 
     <TextView
         android:id="@+id/questiontxt"
         android:layout_width="105dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="600dp"
-        android:layout_marginLeft="-260sp"
+        android:layout_marginLeft="-20sp"
         android:text="Not a member?" />
 
     <TextView
