@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Circular Image Style -->
+    <style name="CircularImage">
+        <item name="shapeAppearanceOverlay">@style/CircularShape</item>
+    </style>
+
+    <!-- Circular Shape -->
+    <style name="CircularShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> <!-- This makes it a perfect circle -->
+    </style>
+</resources>
