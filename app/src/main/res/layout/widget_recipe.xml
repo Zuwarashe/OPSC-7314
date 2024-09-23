@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:id="@+id/your_recipes_btn"
-    android:background="@color/tealish"
+    android:background="@drawable/rounded_corners_bg"
     >
 
     <!-- ImageView with Recipe Image -->
