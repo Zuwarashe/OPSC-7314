@@ -41,8 +41,8 @@ class RegisterPage : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         if (currentUser != null) {
-            // The user is already signed in, navigate to MainActivity
-            val intent = Intent(this, PersonalisedMeals::class.java)
+            // The user is already signed in, navigate to Home
+            val intent = Intent(this, Home::class.java)
             startActivity(intent)
             finish() // finish the current activity to prevent the user from coming back to the SignInActivity using the back button
         }
@@ -51,8 +51,6 @@ class RegisterPage : AppCompatActivity() {
         signInButton.setOnClickListener {
             signIn()
         }
-        //val database = FirebaseDatabase.getInstance()
-        //val usersRef = database.getReference("users")
 
         // Enable Edge-to-Edge
         enableEdgeToEdge()
@@ -89,7 +87,7 @@ class RegisterPage : AppCompatActivity() {
                                 // Save user details (you may want to save the full name in Firestore or Realtime Database here)
                                 val user = auth.currentUser
                                 // Navigate to the next activity
-                                val intent = Intent(this, PersonalisedMeals::class.java)
+                                val intent = Intent(this, Home::class.java)
                                 startActivity(intent)
                                 finish() // Finish current activity
                             }
@@ -100,7 +98,7 @@ class RegisterPage : AppCompatActivity() {
                         }
 
                     // Navigate to Home page
-                    val intent = Intent(this, PersonalisedMeals::class.java)
+                    val intent = Intent(this, Home::class.java)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "Please agree to TseaAfrica's Terms and Conditions", Toast.LENGTH_SHORT).show()
@@ -121,7 +119,7 @@ class RegisterPage : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Registration successful, navigate to PersonalisedMeals
                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, PersonalisedMeals::class.java)
+                    val intent = Intent(this, Home::class.java)
                     startActivity(intent)
                     finish()
                 } else {
@@ -163,7 +161,7 @@ class RegisterPage : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, PersonalisedMeals::class.java))
+                    startActivity(Intent(this, Home::class.java))
                     finish()
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()

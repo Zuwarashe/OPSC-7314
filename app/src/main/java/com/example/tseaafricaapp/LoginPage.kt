@@ -58,7 +58,7 @@ class LoginPage : AppCompatActivity() {
             if (validateEmail(email) && password.isNotEmpty()) {
                 // Perform login logic here (e.g., authenticate user)
                 // Navigate to the PersonalisedMeals page
-                val intent = Intent(this, PersonalisedMeals::class.java)
+                val intent = Intent(this, Home::class.java)
                 startActivity(intent)
             }
         }
@@ -96,7 +96,7 @@ class LoginPage : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     // User is signed in, navigate to the next activity
-                    val intent = Intent(this, PersonalisedMeals::class.java)
+                    val intent = Intent(this, Home::class.java)
                     startActivity(intent)
                     finish()
                 } else {

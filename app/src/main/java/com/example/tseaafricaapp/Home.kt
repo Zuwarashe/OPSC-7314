@@ -21,7 +21,7 @@ class Home : AppCompatActivity() {
             when (item.itemId){
                 R.id.home -> true
                 R.id.mealPlan ->{
-                    startActivity(Intent(applicationContext, PersonalisedMeals::class.java))
+                    startActivity(Intent(applicationContext, Cookware::class.java))
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     finish()
                     true
