@@ -8,8 +8,8 @@ import android.view.ViewGroup
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+/*private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"*/
 
 /**
  * A simple [Fragment] subclass.
@@ -18,7 +18,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class CookwareInput : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    /*private var param1: String? = null
     private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class CookwareInput : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,7 @@ class CookwareInput : Fragment() {
         return inflater.inflate(R.layout.fragment_cookware_input, container, false)
     }
 
-    companion object {
+    /*companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -55,5 +55,5 @@ class CookwareInput : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
+    }*/
 }
