@@ -1,7 +1,9 @@
 package com.example.tseaafricaapp
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -17,6 +19,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.regex.Pattern
 
 class RegisterPage : AppCompatActivity() {
@@ -46,6 +51,8 @@ class RegisterPage : AppCompatActivity() {
         signInButton.setOnClickListener {
             signIn()
         }
+        //val database = FirebaseDatabase.getInstance()
+        //val usersRef = database.getReference("users")
 
         // Enable Edge-to-Edge
         enableEdgeToEdge()
@@ -72,6 +79,26 @@ class RegisterPage : AppCompatActivity() {
             // Validate inputs
             if (validateFullName(fullName) && validateEmail(email) && password.isNotEmpty()) {
                 if (checkBox.isChecked) {
+                   // registerUser( email, password)
+
+                    // Proceed to register the user using Firebase Authentication
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful){
+                                Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
+                                // Save user details (you may want to save the full name in Firestore or Realtime Database here)
+                                val user = auth.currentUser
+                                // Navigate to the next activity
+                                val intent = Intent(this, PersonalisedMeals::class.java)
+                                startActivity(intent)
+                                finish() // Finish current activity
+                            }
+                            else {
+                                // If registration fails, display a message to the user.
+                                Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
                     // Navigate to Home page
                     val intent = Intent(this, PersonalisedMeals::class.java)
                     startActivity(intent)
@@ -87,6 +114,23 @@ class RegisterPage : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    private fun registerUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Registration successful, navigate to PersonalisedMeals
+                    Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, PersonalisedMeals::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    // If registration fails, show a message to the user
+                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
 
     private fun signIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -119,7 +163,7 @@ class RegisterPage : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, PersonalisedMeals::class.java))
                     finish()
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()

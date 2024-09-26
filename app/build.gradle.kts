@@ -53,7 +53,9 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:31.5.0"))
     // Firebase Authentication
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation(libs.firebase.auth) // Ensure this line is uncommented
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.database.ktx)
+    //implementation(libs.firebase.auth) // Ensure this line is uncommented
 
     //implementation(libs.firebase.auth)
     testImplementation(libs.junit)
