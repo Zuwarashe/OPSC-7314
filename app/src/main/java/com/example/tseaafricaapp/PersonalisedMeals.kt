@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -23,6 +24,23 @@ class PersonalisedMeals : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             enableEdgeToEdge()
             setContentView(R.layout.activity_personalised_meals)
+        ///--------------Navigation
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigationView.selectedItemId = R.id.home
+
+        bottomNavigationView.setOnItemSelectedListener{item ->
+            when (item.itemId){
+                R.id.mealPlan -> true
+                R.id.home ->{
+                    startActivity(Intent(applicationContext, Home::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
+///--------------Navigation end
 
         auth = FirebaseAuth.getInstance()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

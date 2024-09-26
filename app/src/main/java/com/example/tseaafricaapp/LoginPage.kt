@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputEditText
@@ -20,6 +21,7 @@ import java.util.regex.Pattern
 
 class LoginPage : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,18 +30,17 @@ class LoginPage : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
         val gmailBtn = findViewById<Button>(R.id.gmailBtn)
 
         gmailBtn.setOnClickListener {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-
-            val googleSignInClient = GoogleSignIn.getClient(this, gso)
-
-            val signInIntent = googleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
+            signIn()
         }
 
         // Initialize UI elements
@@ -54,7 +55,7 @@ class LoginPage : AppCompatActivity() {
             val password = passwordTxt.text.toString()
 
             // Validate inputs
-            if (validateEmail(email) && validatePassword(password)) {
+            if (validateEmail(email) && password.isNotEmpty()) {
                 // Perform login logic here (e.g., authenticate user)
                 // Navigate to the PersonalisedMeals page
                 val intent = Intent(this, PersonalisedMeals::class.java)
@@ -68,6 +69,12 @@ class LoginPage : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    private fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -91,6 +98,7 @@ class LoginPage : AppCompatActivity() {
                     // User is signed in, navigate to the next activity
                     val intent = Intent(this, PersonalisedMeals::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }
