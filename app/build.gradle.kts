@@ -55,6 +55,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.database.ktx)
+    implementation(libs.firebase.database)
     //implementation(libs.firebase.auth) // Ensure this line is uncommented
 
     //implementation(libs.firebase.auth)
