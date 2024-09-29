@@ -14,14 +14,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-       val NextBtn = findViewById<Button>(R.id.Next_Button)
 
 
-        NextBtn.setOnClickListener {
-            // Navigate to the Signup page
-            val intent = Intent(this, Settings::class.java)  // Make sure to replace with your actual signup activity class
-            startActivity(intent)
-        }
+
+
 
     }
 }
