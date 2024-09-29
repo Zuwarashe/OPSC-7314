@@ -1,7 +1,9 @@
 package com.example.tseaafricaapp
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -15,8 +17,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import java.util.regex.Pattern
 
 class RegisterPage : AppCompatActivity() {
@@ -24,23 +32,24 @@ class RegisterPage : AppCompatActivity() {
     companion object {
         private const val RC_SIGN_IN = 9001
     }
-
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_page)
 
+
         auth = FirebaseAuth.getInstance()
 
         val currentUser = auth.currentUser
 
         if (currentUser != null) {
-            // The user is already signed in, navigate to MainActivity
-            val intent = Intent(this, PersonalisedMeals::class.java)
+            // The user is already signed in, navigate to Home
+            val intent = Intent(this, Home::class.java)
             startActivity(intent)
             finish() // finish the current activity to prevent the user from coming back to the SignInActivity using the back button
         }
+
 
         val signInButton = findViewById<Button>(R.id.gmailBtn)
         signInButton.setOnClickListener {
@@ -72,8 +81,40 @@ class RegisterPage : AppCompatActivity() {
             // Validate inputs
             if (validateFullName(fullName) && validateEmail(email) && password.isNotEmpty()) {
                 if (checkBox.isChecked) {
-                    // Navigate to Home page
-                    val intent = Intent(this, PersonalisedMeals::class.java)
+                    // Proceed to register the user using Firebase Authentication
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful){
+                                Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
+                                val user = auth.currentUser
+
+//-----------------------------add UID into realtime database
+                                val userId = user?.uid
+                                val userEmail = user?.email
+                                val database = FirebaseDatabase.getInstance().reference
+                                val userData = hashMapOf(
+                                    "email" to userEmail
+                                )as HashMap<String, Any>
+
+                                database.child("users").child(userId!!).updateChildren(userData)
+                                    .addOnCompleteListener { databaseTask ->
+                                        if (databaseTask.isSuccessful) {
+                                            Toast.makeText(this, "User ID saved to database!", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            Toast.makeText(this, "Failed to save user ID to database: ${databaseTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+
+//-----------------------------END: add UID into realtime database
+                                // Navigate to the next activity
+                                val intent = Intent(this, Home::class.java)
+                                startActivity(intent)
+                            }
+                            else {
+                                Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    val intent = Intent(this, Home::class.java)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "Please agree to TseaAfrica's Terms and Conditions", Toast.LENGTH_SHORT).show()
@@ -87,6 +128,24 @@ class RegisterPage : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
+    private fun registerUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Registration successful, navigate to PersonalisedMeals
+                    Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, Home::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    // If registration fails, show a message to the user
+                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
 
     private fun signIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -119,7 +178,24 @@ class RegisterPage : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Toast.makeText(this, "Signed in as ${user?.displayName}", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
+
+//--------------add userID and email into realtime database
+                    val userId = user?.uid
+                    val userEmail = user?.email
+                    val database = FirebaseDatabase.getInstance().reference
+                    val userData = hashMapOf(
+                        "email" to userEmail
+                    ) as HashMap<String, Any>
+                    database.child("users").child(userId!!).updateChildren(userData)
+                        .addOnCompleteListener { databaseTask ->
+                            if (databaseTask.isSuccessful) {
+                                Toast.makeText(this, "User ID saved to database!", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this, "Failed to save user ID to database: ${databaseTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+//--------------END: add userID and email into realtime database
+                    startActivity(Intent(this, Home::class.java))
                     finish()
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
