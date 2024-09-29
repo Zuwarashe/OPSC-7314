@@ -21,16 +21,24 @@ class Cookware : AppCompatActivity() {
 
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
-//---Claude  METHOD save into realtime database
 
     private lateinit var txtName: EditText
     private lateinit var txtMinutes: EditText
     private lateinit var txtServings: EditText
     private lateinit var chkPublic: CheckBox
 
-    private var cookwareList = mutableListOf<String>()
-    private val ingredientsList = mutableListOf<IngredientInput.Ingredient>()
-    private val instructionsList = mutableListOf<String>()
+    private lateinit var txtCookware: EditText
+    private lateinit var btnAddCookware: Button
+    private lateinit var cookwareList: MutableList<String>
+
+    private lateinit var txtIngredient: EditText
+    private lateinit var txtQuantity: EditText
+    private lateinit var txtMeasurement: EditText
+
+    private lateinit var btnAddIngredient: Button
+    private lateinit var ingredientsList: MutableList<String>
+
+
 
 
 //=======END :Claude  METHOD save into realtime databas
@@ -41,63 +49,39 @@ class Cookware : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
-//------Claude  METHOD save into realtime database
         txtName = findViewById(R.id.txtName)
         txtMinutes = findViewById(R.id.txtMinutes)
         txtServings = findViewById(R.id.txtServings)
         chkPublic = findViewById(R.id.chkPublic)
 
-//=======END: Claude  METHOD save into realtime database
-//-------CHAT METHOD save into realtime database
-        /*
+        txtCookware = findViewById(R.id.txtCookware)
+        btnAddCookware = findViewById(R.id.btnAddCookware)
+        chkPublic = findViewById(R.id.chkPublic)
 
-        val txtName = findViewById<EditText>(R.id.txtName)
-        val txtMinutes = findViewById<EditText>(R.id.txtMinutes)
-        val txtServings = findViewById<EditText>(R.id.txtServings)
-        val chkPublic = findViewById<CheckBox>(R.id.chkPublic)
-        */
-//-----END CHAT METHOD : save into realtime database
+        txtIngredient = findViewById(R.id.txtIngredient)
+        txtQuantity = findViewById(R.id.txtQuantity)
+        txtMeasurement = findViewById(R.id.txtMeasurement)
+
+        btnAddIngredient = findViewById(R.id.btnAddIngredient)
+
+
+
+        cookwareList = mutableListOf()
+
+        ingredientsList = mutableListOf()
+
+        btnAddCookware.setOnClickListener {
+        addCookwareToList()
+        }
+
+        btnAddIngredient.setOnClickListener {
+        addIngredientToList()
+        }
         val btnSave = findViewById<Button>(R.id.btnSave)
 
 
         btnSave.setOnClickListener {
             saveRecipe()
-//------CHAT METHOD : save into realtime database
-            /*
-            val name = txtName.text.toString().trim()
-            val totalMinutes = txtMinutes.text.toString().trim().toIntOrNull() ?: 0
-            val totalServings = txtServings.text.toString().trim().toIntOrNull() ?: 0
-            val isPublic = chkPublic.isChecked
-
-            val recipeId = database.child("recipes").push().key ?: return@setOnClickListener
-
-            // Get the list of cookware from the CookwareInput fragment
-            val cookwareItems = (supportFragmentManager.findFragmentById(android.R.id.content) as? CookwareInput)?.cookwareList ?: emptyList()
-
-            val recipeData = mapOf(
-                "id" to recipeId,
-                "name" to name,
-                "totalMinutes" to totalMinutes,
-                "totalServings" to totalServings,
-                "cookware" to cookwareItems,
-                "userID" to auth.currentUser?.uid,
-                "isPublic" to isPublic,
-                "isFavorite" to false // Default value for isFavorite
-            )
-            database.child("recipes").child(recipeId).setValue(recipeData)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Recipe saved successfully!", Toast.LENGTH_SHORT).show()
-                    // Clear inputs after saving
-                    txtName.text.clear()
-                    txtMinutes.text.clear()
-                    txtServings.text.clear()
-                    chkPublic.isChecked = false
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Failed to save recipe: ${it.message}", Toast.LENGTH_SHORT).show()
-                }
-*/
-//------END CHAT METHOD : save into realtime database
         }
 
 //-----Fragment
@@ -133,7 +117,42 @@ class Cookware : AppCompatActivity() {
         }
 ///--------------Navigation end
     }
-//---------Claude  METHOD save into realtime database
+
+    private fun addIngredientToList() {
+        val ingredientItem  = txtIngredient.text.toString()
+        val quantityItem  = txtQuantity.text.toString().toDoubleOrNull() ?: 0.0
+        val measurementItem  = txtMeasurement.text.toString()
+
+        if (ingredientItem.isNotEmpty() && measurementItem.isNotEmpty()) {
+            // Add ingredient details as a formatted string or a map
+            val ingredientEntry = "$quantityItem $measurementItem of $ingredientItem"
+            ingredientsList.add(ingredientEntry)
+
+            // Clear inputs after adding
+            txtIngredient.text.clear()
+            txtQuantity.text.clear()
+            txtMeasurement.text.clear()
+
+            Toast.makeText(this, "Ingredient added: $ingredientEntry", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show()
+        }
+
+
+    }
+
+    private fun addCookwareToList() {
+        val cookwareItem = txtCookware.text.toString()
+        if (cookwareItem.isNotEmpty()) {
+            cookwareList.add(cookwareItem)
+            Toast.makeText(this, "$cookwareItem added to cookware list", Toast.LENGTH_SHORT).show()
+            txtCookware.text.clear() // Clear the input field after adding
+        } else {
+            Toast.makeText(this, "Please enter cookware", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    //---------Claude  METHOD save into realtime database
     private fun saveRecipe() {
         val userId = auth.currentUser?.uid ?: return
         val recipeId = database.child("recipes").push().key ?: return
@@ -147,6 +166,7 @@ class Cookware : AppCompatActivity() {
             Toast.makeText(this, "Please enter a recipe name", Toast.LENGTH_SHORT).show()
             return
         }
+
         val recipe = hashMapOf(
             "recipeId" to recipeId,
             "userId" to userId,
@@ -155,14 +175,9 @@ class Cookware : AppCompatActivity() {
             "totalServings" to totalServings,
             "isPublic" to isPublic,
             "cookware" to cookwareList,
-            "ingredients" to ingredientsList.map { ingredient ->
-            hashMapOf(
-                "name" to ingredient.name,
-                "quantity" to ingredient.quantity,
-                "measurement" to ingredient.measurement
-            )
-            },
-            "instructions" to instructionsList
+            "ingredients" to ingredientsList,
+            "isFavorite" to false
+
         )
         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
         .addOnSuccessListener {
@@ -180,9 +195,6 @@ class Cookware : AppCompatActivity() {
         txtMinutes.text.clear()
         txtServings.text.clear()
         chkPublic.isChecked = false
-        cookwareList.clear()
-        ingredientsList.clear()
-        instructionsList.clear()
 
     }
 //======END: Claude  METHOD save into realtime database

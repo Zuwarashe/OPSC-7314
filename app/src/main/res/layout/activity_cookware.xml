@@ -147,6 +147,122 @@
             android:text="Instructions"
             android:textColor="@color/black" />
     </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="201dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+<!--========Cookeware -->
+            <TextView
+                android:id="@+id/lblCookware"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Cookware"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txtCookware"
+                    android:layout_width="195dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/customtxtbox"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:hint="Enter Cookware"
+                    android:inputType="text" />
+
+                <Button
+                    android:id="@+id/btnAddCookware"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#D67229"
+                    android:text="Add Cookware"
+                    android:textColor="#FFFFFF"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+<!--=========Ingredient -->
+            <TextView
+                android:id="@+id/lblIngredient"
+                android:layout_width="89dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Ingredient"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtIngredient"
+                android:layout_width="248dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/customtxtbox"
+                android:hint="Enter Ingredient"
+                android:inputType="text" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtQuantity"
+                android:layout_width="246dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/customtxtbox"
+                android:hint="Enter Quantity"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/txtMeasurement"
+                android:layout_width="246dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/customtxtbox"
+                android:hint="Enter Measuremen"
+                android:inputType="text" />
+
+        </LinearLayout>
+            <Button
+                android:id="@+id/btnAddIngredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#D67229"
+                android:text="Add Ingredient"
+                android:textColor="#FFFFFF"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_gravity="center_vertical" />
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 

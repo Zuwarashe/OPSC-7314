@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 class CookwareInput : Fragment() {
 
 
+
+
     interface OnCookwareListListener {
         fun onCookwareListUpdate(cookwareList: List<String>)
     }
@@ -32,6 +34,8 @@ class CookwareInput : Fragment() {
 
     val cookwareList = mutableListOf<String>()
     private lateinit var cookwareAdapter: CookwareAdapter
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
