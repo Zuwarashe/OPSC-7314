@@ -86,7 +86,7 @@
             android:id="@+id/txtMinutes"
             android:layout_width="129dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="29dp"
             android:background="@drawable/customtxtbox"
             android:ems="19" />
     </LinearLayout>
@@ -110,7 +110,7 @@
             android:id="@+id/txtServings"
             android:layout_width="129dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="27dp"
+            android:layout_marginLeft="25dp"
             android:background="@drawable/customtxtbox"
             android:ems="19" />
     </LinearLayout>
@@ -134,7 +134,7 @@
             android:id="@+id/txtCookware"
             android:layout_width="129dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="56dp"
+            android:layout_marginLeft="54dp"
             android:background="@drawable/customtxtbox"
             android:ems="19" />
 
@@ -167,7 +167,7 @@
             android:id="@+id/txtIngredient"
             android:layout_width="127dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="49dp"
+            android:layout_marginLeft="46dp"
             android:background="@drawable/customtxtbox"
             android:hint="Ingredient"
             android:inputType="text" />
@@ -185,7 +185,7 @@
             android:id="@+id/txtQuantity"
             android:layout_width="127dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="148dp"
+            android:layout_marginLeft="146dp"
             android:background="@drawable/customtxtbox"
             android:hint="Enter Quantity"
             android:inputType="text" />
@@ -206,7 +206,7 @@
             android:id="@+id/txtMeasurement"
             android:layout_width="127dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="148dp"
+            android:layout_marginLeft="146dp"
             android:background="@drawable/customtxtbox"
             android:hint="Measurement"
             android:inputType="text" />
@@ -230,7 +230,7 @@
             android:id="@+id/txtInstruction"
             android:layout_width="129dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="47dp"
+            android:layout_marginLeft="42dp"
             android:background="@drawable/customtxtbox"
             android:ems="19" />
 
