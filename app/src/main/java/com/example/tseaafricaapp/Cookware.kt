@@ -97,19 +97,6 @@ class Cookware : AppCompatActivity() {
         }
 
 //-----Fragment
-        val btnCookware = findViewById<Button>(R.id.btnCookware)
-        val btnIngredients = findViewById<Button>(R.id.btnIngredients)
-        val btnInstructions = findViewById<Button>(R.id.btnInstructions)
-
-        btnCookware.setOnClickListener {
-            CookwareFragmentDisplay()
-        }
-        btnIngredients.setOnClickListener {
-            IngredientsFragmentDisplay()
-        }
-        btnInstructions.setOnClickListener {
-            InstructionsFragmentDisplay()
-        }
 //------END: Fragment
 ///------------------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
@@ -222,33 +209,5 @@ class Cookware : AppCompatActivity() {
 
     }
 //======END: Claude  METHOD save into realtime database
-///-------------    Fragment
 
-    private fun CookwareFragmentDisplay(){
-        val cookwareInput = CookwareInput()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(android.R.id.content, cookwareInput)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-    private fun IngredientsFragmentDisplay(){
-        val ingredientInput = IngredientInput()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(android.R.id.content, ingredientInput)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-    private fun InstructionsFragmentDisplay(){
-        val instructionInput = InstructionInput()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(android.R.id.content, instructionInput)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-
-
-//---END: Fragment
 }
