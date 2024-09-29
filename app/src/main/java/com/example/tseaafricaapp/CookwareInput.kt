@@ -33,7 +33,7 @@ class CookwareInput : Fragment() {
 
 
     val cookwareList = mutableListOf<String>()
-    private lateinit var cookwareAdapter: CookwareAdapter
+   // private lateinit var cookwareAdapter: CookwareAdapter
 
 
 
@@ -47,15 +47,15 @@ class CookwareInput : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewCookware)
         val imageBtnClose: ImageButton = view.findViewById(R.id.imageBtnClose)
 
-        cookwareAdapter = CookwareAdapter(cookwareList)
+        //cookwareAdapter = CookwareAdapter(cookwareList)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = cookwareAdapter
+      //  recyclerView.adapter = cookwareAdapter
 
         btnAddCookware.setOnClickListener {
             val cookwareItem = txtCookware.text.toString().trim()
             if (cookwareItem.isNotEmpty()) {
                 cookwareList.add(cookwareItem)
-                cookwareAdapter.notifyDataSetChanged()
+//                cookwareAdapter.notifyDataSetChanged()
                 txtCookware.text.clear()
             }
         }
