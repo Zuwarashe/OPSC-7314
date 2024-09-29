@@ -148,21 +148,7 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="201dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -170,14 +156,15 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="131dp"
+        <CheckBox
+            android:id="@+id/chkPublic"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:backgroundTint="#D67229"
-            android:text="Add Item"
-            app:cornerRadius="20dp" />
+            android:text="Public"
+            android:textColor="@color/black"
+            android:buttonTint="@color/black" />
+
 
         <Button
             android:id="@+id/btnSave"

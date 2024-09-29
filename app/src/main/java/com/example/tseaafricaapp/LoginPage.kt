@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -44,24 +45,18 @@ class LoginPage : AppCompatActivity() {
         gmailBtn.setOnClickListener {
             signIn()
         }
-
-        // Initialize UI elements
         val emailTxt = findViewById<EditText>(R.id.emailTxt)
         val passwordTxt = findViewById<TextInputEditText>(R.id.passwordTxt)
         val loginBtn = findViewById<Button>(R.id.createAccBtn)
         val linkTxt3 = findViewById<TextView>(R.id.linktxt3)
 
         loginBtn.setOnClickListener {
-            // Retrieve user inputs
             val email = emailTxt.text.toString()
             val password = passwordTxt.text.toString()
-
-            // Validate inputs
             if (validateEmail(email) && password.isNotEmpty()) {
-                // Perform login logic here (e.g., authenticate user)
-                // Navigate to the PersonalisedMeals page
-                val intent = Intent(this, PersonalisedMeals::class.java)
-                startActivity(intent)
+                //val intent = Intent(this, Home::class.java)
+                //startActivity(intent)
+                signInWithEmailPassword(email, password)
             }
         }
 
@@ -69,6 +64,30 @@ class LoginPage : AppCompatActivity() {
             // Navigate to the Signup page
             val intent = Intent(this, RegisterPage::class.java)  // Make sure to replace with your actual signup activity class
             startActivity(intent)
+        }
+    }
+
+    private fun signInWithEmailPassword(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    checkUserExists(user)
+                } else {
+                    Toast.makeText(this, "Authentication failed. Account does not exist.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun checkUserExists(user: FirebaseUser?) {
+        if (user != null) {
+            // User exists, proceed to Home activity
+            val intent = Intent(this, Home::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            // User does not exist
+            Toast.makeText(this, "User account does not exist. Please sign up.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -97,10 +116,11 @@ class LoginPage : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
+                    checkUserExists(user)
                     // User is signed in, navigate to the next activity
-                    val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                    finish()
+                    //val intent = Intent(this, Home::class.java)
+                    //startActivity(intent)
+                    //finish()
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }
