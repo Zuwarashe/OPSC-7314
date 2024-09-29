@@ -38,6 +38,9 @@ class Cookware : AppCompatActivity() {
     private lateinit var btnAddIngredient: Button
     private lateinit var ingredientsList: MutableList<String>
 
+    private lateinit var txtInstruction: EditText
+    private lateinit var btnAddInstruction: Button
+    private lateinit var instructionList: MutableList<String>
 
 
 
@@ -64,11 +67,16 @@ class Cookware : AppCompatActivity() {
 
         btnAddIngredient = findViewById(R.id.btnAddIngredient)
 
+        txtInstruction = findViewById(R.id.txtInstruction)
+        btnAddInstruction = findViewById(R.id.btnAddInstruction)
+
 
 
         cookwareList = mutableListOf()
 
         ingredientsList = mutableListOf()
+
+        instructionList = mutableListOf()
 
         btnAddCookware.setOnClickListener {
         addCookwareToList()
@@ -76,6 +84,10 @@ class Cookware : AppCompatActivity() {
 
         btnAddIngredient.setOnClickListener {
         addIngredientToList()
+        }
+
+        btnAddInstruction.setOnClickListener {
+        addInstructionToList()
         }
         val btnSave = findViewById<Button>(R.id.btnSave)
 
@@ -116,6 +128,17 @@ class Cookware : AppCompatActivity() {
             }
         }
 ///--------------Navigation end
+    }
+
+    private fun addInstructionToList() {
+        val instructionItem = txtInstruction.text.toString()
+        if (instructionItem.isNotEmpty()) {
+            instructionList.add(instructionItem)
+            Toast.makeText(this, "$instructionItem added to instructionItem list", Toast.LENGTH_SHORT).show()
+            txtInstruction.text.clear() // Clear the input field after adding
+        } else {
+            Toast.makeText(this, "Please enter instructionItem", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun addIngredientToList() {
@@ -175,6 +198,7 @@ class Cookware : AppCompatActivity() {
             "totalServings" to totalServings,
             "isPublic" to isPublic,
             "cookware" to cookwareList,
+            "instruction" to instructionList,
             "ingredients" to ingredientsList,
             "isFavorite" to false
 

@@ -149,7 +149,7 @@
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="201dp">
+        android:layout_height="275dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -257,6 +257,47 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:layout_gravity="center_vertical" />
+<!-- -->
+            <TextView
+                android:id="@+id/lblInstruction"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Instruction"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txtInstruction"
+                    android:layout_width="195dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/customtxtbox"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:hint="Enter Instruction"
+                    android:inputType="text" />
+
+                <Button
+                    android:id="@+id/btnAddInstruction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#D67229"
+                    android:text="Add Instruction"
+                    android:textColor="#FFFFFF"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
 
 
 
