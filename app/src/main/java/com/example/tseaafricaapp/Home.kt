@@ -30,11 +30,18 @@ class Home : AppCompatActivity() {
     private lateinit var recipeAdapter: RecipeAdapter
     private val recipesList: MutableList<Recipe> = mutableListOf()
 
+    private lateinit var publicRecipeRecyclerView: RecyclerView
+    private lateinit var publicRecipeAdapter: RecipeAdapter
+    private val publicRecipesList: MutableList<Recipe> = mutableListOf()
+
 //=================END : Fetch Recipes from Firebase in the Home Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+
+    publicRecipeRecyclerView = findViewById(R.id.publciRecView)
+    publicRecipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 ///----------Fetch Recipes from Firebase in the Home Activity
         recipeRecyclerView = findViewById(R.id.recCreatedRecView)
@@ -42,7 +49,8 @@ class Home : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
-        fetchPublicRecipes()
+
+    fetchPublicRecipesFromDatabase()
 ///-----------END: Read Recipe from database
 
 
@@ -70,32 +78,36 @@ class Home : AppCompatActivity() {
         }
     }
 
-    private fun updateRecyclerView() {
-        recipeAdapter = RecipeAdapter(recipesList.distinct())
-        recipeRecyclerView.adapter = recipeAdapter
-    }
-
-    private fun fetchPublicRecipes() {
+    private fun fetchPublicRecipesFromDatabase() {
         val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
-        databaseReference.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot){
-                for (userSnapshot in snapshot.children){
-                    for (recipeSnapshot in userSnapshot.children){
+
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                publicRecipesList.clear()
+                for (userSnapshot in snapshot.children) {
+                    for (recipeSnapshot in userSnapshot.children) {
                         val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                        recipe?.let{
-                            if (it.isPublic == true) {
-                                recipesList.add(it)
-                            }
+                        if (recipe?.isPublic == true) {
+                            publicRecipesList.add(recipe)
                         }
                     }
                 }
-                updateRecyclerView()
+                publicRecipeAdapter = RecipeAdapter(publicRecipesList)
+                publicRecipeRecyclerView.adapter = publicRecipeAdapter
             }
+
             override fun onCancelled(error: DatabaseError) {
                 // Handle error
             }
         })
     }
+
+    private fun updateRecyclerView() {
+        recipeAdapter = RecipeAdapter(recipesList.distinct())
+        recipeRecyclerView.adapter = recipeAdapter
+    }
+
+
 
     //------------Fetch Recipes from Firebase in the Home ActivitY
     private fun fetchRecipesFromDatabase() {
