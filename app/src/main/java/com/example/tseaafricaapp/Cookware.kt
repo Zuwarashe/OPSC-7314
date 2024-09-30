@@ -107,22 +107,6 @@ class Cookware : AppCompatActivity() {
             saveRecipe()
         }
 
-
-//-----Fragment
-        val btnCookware = findViewById<Button>(R.id.btnCookware)
-        val btnIngredients = findViewById<Button>(R.id.btnIngredients)
-        val btnInstructions = findViewById<Button>(R.id.btnInstructions)
-
-        btnCookware.setOnClickListener {
-            CookwareFragmentDisplay()
-        }
-        btnIngredients.setOnClickListener {
-            IngredientsFragmentDisplay()
-        }
-        btnInstructions.setOnClickListener {
-            InstructionsFragmentDisplay()
-        }
-//------END: Fragment
 ///------------------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.mealPlan
