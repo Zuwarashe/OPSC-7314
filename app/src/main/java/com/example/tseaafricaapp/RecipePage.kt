@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class RecipePage : AppCompatActivity() {
+
     private lateinit var lblRecipeName: TextView
     private lateinit var lblMinutes: TextView
     private lateinit var lblServings: TextView
@@ -53,6 +54,10 @@ class RecipePage : AppCompatActivity() {
             finish()
         }
 
+
+
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -71,16 +76,8 @@ class RecipePage : AppCompatActivity() {
                     val recipe = snapshot.getValue(Recipe::class.java)
                     recipe?.let {
                         lblRecipeName.text = it.name
-                        lblMinutes.text = "${it.totalMinutes} minutes"
-                        lblServings.text = "${it.totalServings} servings"
-
-                        btnCookware.setOnClickListener {
-
-                        }
-
-                        if(btnCookware.isSelected){
-                            recyclerView
-                        }
+                        lblMinutes.text = "Total Time: ${it.totalMinutes} minutes"
+                        lblServings.text = "Servings: ${it.totalServings}"
 
                         // TODO: Implement logic for displaying cookware, ingredients, and instructions
                         // You might want to create separate adapters for each of these lists

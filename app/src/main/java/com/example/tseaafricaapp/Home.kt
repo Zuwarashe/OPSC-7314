@@ -42,12 +42,6 @@ class Home : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
-
-
-
-
-
-
 ///-----------END: Read Recipe from database
 
 
