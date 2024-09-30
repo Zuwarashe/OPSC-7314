@@ -23,27 +23,29 @@
         android:id="@+id/imageView2"
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="172dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView"
         app:shapeAppearanceOverlay="@style/CircularImage"
-    app:srcCompat="@drawable/profilepic"
-    android:scaleType="centerCrop"
-    app:strokeColor="@color/button_default_background"
-    app:strokeWidth="2dp"
-    />
+        app:srcCompat="@drawable/profileimage"
+        app:strokeColor="@color/button_default_background"
+        app:strokeWidth="2dp" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:paddingTop="10dp"
         android:text="Settings"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -76,23 +78,25 @@
             <include
                 android:id="@+id/meet_our_team_btn"
                 layout="@layout/settingsbtn_meet_our_team" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:itemIconSize="25dp"
+                app:itemIconTint="@drawable/item_selector"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:menu="@menu/bottom_menu"
+                android:elevation="2dp"
+                app:itemRippleColor="@android:color/transparent"
+                app:labelVisibilityMode="unlabeled"
+                >
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:itemIconSize="25dp"
-        app:itemIconTint="@drawable/item_selector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/bottom_menu"
-        android:elevation="2dp"
-        app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="unlabeled"
-        >
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
