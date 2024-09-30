@@ -32,6 +32,8 @@ class RecipePage : AppCompatActivity() {
     private lateinit var btnIngredients: Button
     private lateinit var btnInstructions: Button
     private lateinit var recyclerView: RecyclerView
+//-------FAV
+    private var isFavorite: Boolean = false
 
     // Array of drawable resource IDs
     private val drawables = intArrayOf(
@@ -47,6 +49,7 @@ class RecipePage : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_recipe_page)
@@ -82,7 +85,37 @@ class RecipePage : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+/////-----fave
+        imageBtnFavourite.setOnClickListener {
+            recipeId?.let { id ->
+                isFavorite = !isFavorite
+                updateFavoriteButton(isFavorite)
+                updateFavoriteStatusInDatabase(id, isFavorite)
+            } ?: run {
+                Log.e("RecipePage", "Error: recipeId is null")
+            }
+        }
+
+
     }
+
+    private fun updateFavoriteStatusInDatabase(recipeId: String, isFavorite: Boolean) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            val databaseReference =
+                FirebaseDatabase.getInstance().getReference("recipes").child(userId).child(recipeId)
+            databaseReference.child("isFavorite").setValue(isFavorite)
+        }
+    }
+
+    private fun saveFavoriteStatus(recipeId: String?, favorite: Boolean) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null && recipeId != null) {
+            val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId).child(recipeId)
+            databaseReference.child("isFavorite").setValue(isFavorite)
+        }
+    }
+
 
     private fun setRandomImage() {
         val randomIndex = Random.nextInt(drawables.size)

@@ -3,6 +3,7 @@ package com.example.tseaafricaapp
 import RecipeAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class Home : AppCompatActivity() {
     private lateinit var recipeRecyclerView: RecyclerView
     private lateinit var recipeAdapter: RecipeAdapter
     private val recipesList: MutableList<Recipe> = mutableListOf()
+    private lateinit var favoriteRecipesList: MutableList<Recipe>
 
 //=================END : Fetch Recipes from Firebase in the Home Activity
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +45,7 @@ class Home : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
         fetchPublicRecipes()
+    fetchFavoriteRecipes()
 ///-----------END: Read Recipe from database
 
 
@@ -83,6 +86,7 @@ class Home : AppCompatActivity() {
     }
 
     private fun updateRecyclerView() {
+        val allRecipesList = recipesList.distinct() + favoriteRecipesList.distinct()
         recipeAdapter = RecipeAdapter(recipesList.distinct())
         recipeRecyclerView.adapter = recipeAdapter
     }
@@ -141,4 +145,35 @@ class Home : AppCompatActivity() {
             finish()
         }
     }
+    private fun fetchFavoriteRecipes() {
+        val userId = auth.currentUser?.uid ?: return
+        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)
+
+        // Query for recipes where isFavorite is true
+        val query = databaseReference.orderByChild("isFavorite").equalTo(true)
+
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val favoriteRecipesList = mutableListOf<Recipe>()
+                for (recipeSnapshot in snapshot.children) {
+                    val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                    recipe?.let { favoriteRecipesList.add(it) }  // Add to the favorite list
+                }
+                // Update the RecyclerView with the favorite recipes
+                displayFavoriteRecipes(favoriteRecipesList)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+                Log.e("HomePage", "Error fetching favorite recipes: ${error.message}")
+            }})
+    }
+
+    private fun displayFavoriteRecipes(favoriteRecipesList: List<Recipe>) {
+        val favoritesRecView = findViewById<RecyclerView>(R.id.favoritesRecView)
+        val favoritesAdapter = RecipeAdapter(favoriteRecipesList)  // Use your existing RecipeAdapter
+        favoritesRecView.layoutManager = LinearLayoutManager(this)
+        favoritesRecView.adapter = favoritesAdapter
+    }
+
+
 }
