@@ -83,7 +83,7 @@ class Home : AppCompatActivity() {
                     for (recipeSnapshot in userSnapshot.children){
                         val recipe = recipeSnapshot.getValue(Recipe::class.java)
                         recipe?.let{
-                            if (it.isPublic == true && it.userId != auth.currentUser?.uid) {
+                            if (it.isPublic == true) {
                                 recipesList.add(it)
                             }
                         }
