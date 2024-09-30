@@ -30,7 +30,6 @@ class Home : AppCompatActivity() {
     private lateinit var recipeRecyclerView: RecyclerView
     private lateinit var recipeAdapter: RecipeAdapter
     private val recipesList: MutableList<Recipe> = mutableListOf()
-    private lateinit var favoriteRecipesList: MutableList<Recipe>
 
 //=================END : Fetch Recipes from Firebase in the Home Activity
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +39,7 @@ class Home : AppCompatActivity() {
 
 ///----------Fetch Recipes from Firebase in the Home Activity
         recipeRecyclerView = findViewById(R.id.recCreatedRecView)
-        recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recipeRecyclerView.layoutManager = LinearLayoutManager(this)
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
@@ -74,7 +73,6 @@ class Home : AppCompatActivity() {
                     finish()
                     true
                 }
-
                 else -> false
             }
         }
@@ -87,7 +85,7 @@ class Home : AppCompatActivity() {
     }
 
     private fun updateRecyclerView() {
-        val allRecipesList = recipesList.distinct() + favoriteRecipesList.distinct()
+
         recipeAdapter = RecipeAdapter(recipesList.distinct())
         recipeRecyclerView.adapter = recipeAdapter
     }
@@ -170,10 +168,10 @@ class Home : AppCompatActivity() {
     }
 
     private fun displayFavoriteRecipes(favoriteRecipesList: List<Recipe>) {
-        val favoritesRecView = findViewById<RecyclerView>(R.id.favoritesRecView)
         val favoritesAdapter = RecipeAdapter(favoriteRecipesList)  // Use your existing RecipeAdapter
-        favoritesRecView.layoutManager = LinearLayoutManager(this)
+        val favoritesRecView = findViewById<RecyclerView>(R.id.favoritesRecView) // Ensure you have the correct reference
         favoritesRecView.adapter = favoritesAdapter
+        favoritesRecView.layoutManager = LinearLayoutManager(this)
     }
 
 
