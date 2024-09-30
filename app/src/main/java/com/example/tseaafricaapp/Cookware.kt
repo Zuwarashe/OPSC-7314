@@ -1,13 +1,22 @@
 package com.example.tseaafricaapp
 
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
@@ -16,6 +25,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.UUID
+
 
 class Cookware : AppCompatActivity() {
 
@@ -91,6 +104,14 @@ class Cookware : AppCompatActivity() {
             saveRecipe()
         }
 
+
+
+//-----Fragment
+        val btnCookware = findViewById<Button>(R.id.btnCookware)
+        val btnIngredients = findViewById<Button>(R.id.btnIngredients)
+        val btnInstructions = findViewById<Button>(R.id.btnInstructions)
+
+
 ///------------------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.mealPlan
@@ -109,6 +130,9 @@ class Cookware : AppCompatActivity() {
         }
 ///--------------Navigation end
     }
+
+
+
 
     private fun addInstructionToList() {
         val instructionItem = txtInstruction.text.toString()
@@ -153,7 +177,6 @@ class Cookware : AppCompatActivity() {
         }
     }
 
-    //---------Claude  METHOD save into realtime database
     private fun saveRecipe() {
         val userId = auth.currentUser?.uid ?: return
         val recipeId = database.child("recipes").push().key ?: return
@@ -181,14 +204,16 @@ class Cookware : AppCompatActivity() {
             "isFavorite" to false
         )
         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
-        .addOnSuccessListener {
-            Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
-            clearInputs()
-        }
-        .addOnFailureListener {
-            Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
-        }
+
+            .addOnSuccessListener {
+                Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
+                clearInputs()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
+            }
     }
+
 
     private fun clearInputs(){
         txtName.text.clear()
@@ -196,5 +221,37 @@ class Cookware : AppCompatActivity() {
         txtServings.text.clear()
         chkPublic.isChecked = false
     }
+
+///-------------    Fragment
+
+    private fun CookwareFragmentDisplay(){
+        val cookwareInput = CookwareInput()
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(android.R.id.content, cookwareInput)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+    private fun IngredientsFragmentDisplay(){
+        val ingredientInput = IngredientInput()
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(android.R.id.content, ingredientInput)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+    private fun InstructionsFragmentDisplay(){
+        val instructionInput = InstructionInput()
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(android.R.id.content, instructionInput)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+
+
+//---END: Fragment
+
 //======END: Claude  METHOD save into realtime database
+
 }
