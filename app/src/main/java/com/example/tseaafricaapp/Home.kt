@@ -59,6 +59,18 @@ class Home : AppCompatActivity() {
                     finish()
                     true
                 }
+                R.id.fave ->{
+                    startActivity(Intent(applicationContext, Favourites::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
+                R.id.settings ->{
+                    startActivity(Intent(applicationContext, Settings::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
                 else -> false
             }
         }
