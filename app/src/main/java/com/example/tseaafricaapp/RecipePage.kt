@@ -1,6 +1,7 @@
 package com.example.tseaafricaapp
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -88,23 +89,6 @@ class RecipePage : AppCompatActivity() {
         imageRecipe.setImageResource(drawables[randomIndex])
     }
 
-    //--------Display cookware list
-    private fun displayCookwareList(cookwareList: List<String>) {
-        val adapter = CookwareAdapter(cookwareList)
-        recyclerView.adapter = adapter
-    }
-    private fun displayIngredientsList(ingredientsList: List<String>) {
-        val adapter = IngredientsAdapter(ingredientsList)
-        recyclerView.adapter = adapter
-    }
-
-    private fun displayInstructionsList(instructionList: List<String>) {
-        val adapter = InstructionsAdapter(instructionList)
-        recyclerView.adapter = adapter
-    }
-
-//=====END Display cookware list
-
     private fun fetchRecipeDetails(recipeId: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
@@ -120,15 +104,30 @@ class RecipePage : AppCompatActivity() {
                         lblServings.text = "${it.totalServings} servings"
                         
                         btnCookware.setOnClickListener {
+                            btnCookware.setBackgroundColor(Color.parseColor("#FED8B1"))
+                            btnIngredients.setBackgroundColor(Color.parseColor("White"))
+                            btnInstructions.setBackgroundColor(Color.parseColor("White"))
+
                             val cookwareList = recipe?.cookware ?: listOf() // Retrieve cookware list from the recipe
                             displayCookwareList(cookwareList)
                         }
+
                         btnIngredients.setOnClickListener {
+                            btnIngredients.setBackgroundColor(Color.parseColor("#FED8B1"))
+                            btnCookware.setBackgroundColor(Color.parseColor("White"))
+                            btnInstructions.setBackgroundColor(Color.parseColor("White"))
+
                             val ingredientsList = recipe.ingredients ?: listOf()
                             displayIngredientsList(ingredientsList)
                         }
+
                         btnInstructions.setOnClickListener {
-                            val instructionList = recipe.instructions ?: listOf()
+                            btnInstructions.setBackgroundColor(Color.parseColor("#FED8B1"))
+                            btnIngredients.setBackgroundColor(Color.parseColor("White"))
+                            btnCookware.setBackgroundColor(Color.parseColor("White"))
+
+                            val instructionList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
+                            Log.d("RecipePage", "Instructions list: $instructionList")
                             displayInstructionsList(instructionList)
                         }
                     }
@@ -141,7 +140,22 @@ class RecipePage : AppCompatActivity() {
         }
     }
 
+    //--------Display cookware, ingredients and instructions list
+    private fun displayCookwareList(cookwareList: List<String>) {
+        val adapter = CookwareAdapter(cookwareList)
+        recyclerView.adapter = adapter
+    }
 
+    private fun displayIngredientsList(ingredientsList: List<String>) {
+        val adapter = IngredientsAdapter(ingredientsList)
+        recyclerView.adapter = adapter
+    }
+
+    private fun displayInstructionsList(instructionList: List<String>) {
+        val adapter = InstructionsAdapter(instructionList)
+        recyclerView.adapter = adapter
+    }
+    //=====END Display lists
 
     private fun updateFavoriteButton(isFavorite: Boolean) {
         imageBtnFavourite.setImageResource(
