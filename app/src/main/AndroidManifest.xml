@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TseaAfricaApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".UserPrefence"
+            android:exported="false" />
         <!-- Activities from both branches -->
         <activity
             android:name=".RecipeEntry"
@@ -41,17 +43,13 @@
             android:exported="false" />
         <activity
             android:name=".RegisterPage"
-            android:exported="false" />
-
-        <!-- Additional activities from the other branch -->
+            android:exported="false" /> <!-- Additional activities from the other branch -->
         <activity
             android:name=".Favourites"
             android:exported="false" />
         <activity
             android:name=".Settings"
-            android:exported="true" />
-
-        <!-- MainActivity and WelcomePage -->
+            android:exported="true" /> <!-- MainActivity and WelcomePage -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -60,6 +58,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
