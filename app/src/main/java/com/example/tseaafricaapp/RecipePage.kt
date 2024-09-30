@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlin.random.Random
 
 class RecipePage : AppCompatActivity() {
 
@@ -30,6 +31,18 @@ class RecipePage : AppCompatActivity() {
     private lateinit var btnIngredients: Button
     private lateinit var btnInstructions: Button
     private lateinit var recyclerView: RecyclerView
+
+    // Array of drawable resource IDs
+    private val drawables = intArrayOf(
+        R.drawable.image2,
+        R.drawable.image3,
+        R.drawable.image4,
+        R.drawable.image5,
+        R.drawable.image6,
+
+
+        // Add more drawable IDs as needed
+    )
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +60,14 @@ class RecipePage : AppCompatActivity() {
         btnInstructions = findViewById(R.id.btnInstructions)
         recyclerView = findViewById(R.id.recyclerView)
 
+        // Set a random image
+        setRandomImage()
+
         val recipeId = intent.getStringExtra("RECIPE_ID")
         if (recipeId != null) {
             fetchRecipeDetails(recipeId)
         }
 //---------instution btn and ingredient
-        btnIngredients.setOnClickListener { displayIngredients() }
-        btnInstructions.setOnClickListener { displayInstructions() }
 
         findViewById<ImageButton>(R.id.imageBtnBack).setOnClickListener {
             finish()
@@ -68,9 +82,19 @@ class RecipePage : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
     }
-//--------Display cookware list
+
+    private fun setRandomImage() {
+        val randomIndex = Random.nextInt(drawables.size)
+        imageRecipe.setImageResource(drawables[randomIndex])
+    }
+
+    //--------Display cookware list
     private fun displayCookwareList(cookwareList: List<String>) {
         val adapter = CookwareAdapter(cookwareList)
+        recyclerView.adapter = adapter
+    }
+    private fun displayIngredientsList(ingredientsList: List<String>) {
+        val adapter = IngredientsAdapter(ingredientsList)
         recyclerView.adapter = adapter
     }
 
@@ -99,15 +123,13 @@ class RecipePage : AppCompatActivity() {
                             val cookwareList = recipe?.cookware ?: listOf() // Retrieve cookware list from the recipe
                             displayCookwareList(cookwareList)
                         }
-
-                        btnInstructions.setOnClickListener {
-                            val instructionList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
-                            Log.d("RecipePage", "Instructions list: $instructionList")
-                            displayInstructionsList(instructionList)
-                        }
                         btnIngredients.setOnClickListener {
                             val ingredientsList = recipe.ingredients ?: listOf()
                             displayIngredientsList(ingredientsList)
+                        }
+                        btnInstructions.setOnClickListener {
+                            val instructionList = recipe.instructions ?: listOf()
+                            displayInstructionsList(instructionList)
                         }
                     }
                 }
@@ -119,10 +141,7 @@ class RecipePage : AppCompatActivity() {
         }
     }
 
-    private fun displayIngredientsList(ingredientsList: List<String>) {
-        val adapter = IngredientsAdapter(ingredientsList)
-        recyclerView.adapter = adapter
-    }
+
 
     private fun updateFavoriteButton(isFavorite: Boolean) {
         imageBtnFavourite.setImageResource(
@@ -130,11 +149,6 @@ class RecipePage : AppCompatActivity() {
             else R.drawable.favourite_svgrepo_com
         )
     }
-    private fun displayIngredients() {
-        // Fetch and display ingredients in the RecyclerView
-    }
 
-    private fun displayInstructions() {
-        // Fetch and display instructions in the RecyclerView
-    }
+
 }
