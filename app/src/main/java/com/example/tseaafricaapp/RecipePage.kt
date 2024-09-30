@@ -70,8 +70,8 @@ class RecipePage : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
-    private fun displayInstructionsList(instructionsList: List<String>) {
-        val adapter = InstructionsAdapter(instructionsList)
+    private fun displayInstructionsList(instructionList: List<String>) {
+        val adapter = InstructionsAdapter(instructionList)
         recyclerView.adapter = adapter
     }
 
@@ -96,8 +96,8 @@ class RecipePage : AppCompatActivity() {
                         }
 
                         btnInstructions.setOnClickListener {
-                            val instructionsList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
-                            displayInstructionsList(instructionsList)
+                            val instructionList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
+                            displayInstructionsList(instructionList)
                         }
                     }
                 }

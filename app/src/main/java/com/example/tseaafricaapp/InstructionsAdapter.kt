@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class InstructionsAdapter (private val instructionsList: List<String>) : RecyclerView.Adapter<InstructionsAdapter.InstructionsViewHolder>() {
+class InstructionsAdapter (private val instructionList: List<String>) : RecyclerView.Adapter<InstructionsAdapter.InstructionsViewHolder>() {
 
     class InstructionsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val instructionStep: TextView = view.findViewById(R.id.tvInstruction)
+        val instructionItem: TextView = view.findViewById(R.id.tvInstruction)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InstructionsViewHolder {
@@ -18,9 +18,9 @@ class InstructionsAdapter (private val instructionsList: List<String>) : Recycle
     }
 
     override fun onBindViewHolder(holder: InstructionsViewHolder, position: Int) {
-        val instructions = instructionsList[position]
-        holder.instructionStep.text = instructions
+        val instructions = instructionList[position]
+        holder.instructionItem.text = instructions
     }
 
-    override fun getItemCount() = instructionsList.size
+    override fun getItemCount() = instructionList.size
 }
