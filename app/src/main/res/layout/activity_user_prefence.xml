@@ -1,0 +1,64 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/minCarbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Min Carbs (g)"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/maxCarbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Max Carbs (g)"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/minProtein"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Min Protein (g)"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/maxProtein"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Max Protein (g)"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/minCalories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Min Calories"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/maxCalories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Max Calories"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search Recipes" />
+
+    <TextView
+        android:id="@+id/tvResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Results will appear here"
+        android:textSize="16sp"
+        android:paddingTop="16dp" />
+
+</LinearLayout>

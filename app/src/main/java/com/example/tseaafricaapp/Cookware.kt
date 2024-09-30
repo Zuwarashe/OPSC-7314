@@ -1,13 +1,22 @@
 package com.example.tseaafricaapp
 
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
@@ -16,6 +25,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import java.util.UUID
+
 
 class Cookware : AppCompatActivity() {
 
@@ -41,8 +54,6 @@ class Cookware : AppCompatActivity() {
     private lateinit var txtInstruction: EditText
     private lateinit var btnAddInstruction: Button
     private lateinit var instructionList: MutableList<String>
-
-
 
 //=======END :Claude  METHOD save into realtime databas
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +81,6 @@ class Cookware : AppCompatActivity() {
         txtInstruction = findViewById(R.id.txtInstruction)
         btnAddInstruction = findViewById(R.id.btnAddInstruction)
 
-
-
         cookwareList = mutableListOf()
 
         ingredientsList = mutableListOf()
@@ -91,26 +100,18 @@ class Cookware : AppCompatActivity() {
         }
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-
         btnSave.setOnClickListener {
             saveRecipe()
         }
+
+
 
 //-----Fragment
         val btnCookware = findViewById<Button>(R.id.btnCookware)
         val btnIngredients = findViewById<Button>(R.id.btnIngredients)
         val btnInstructions = findViewById<Button>(R.id.btnInstructions)
 
-        btnCookware.setOnClickListener {
-            CookwareFragmentDisplay()
-        }
-        btnIngredients.setOnClickListener {
-            IngredientsFragmentDisplay()
-        }
-        btnInstructions.setOnClickListener {
-            InstructionsFragmentDisplay()
-        }
-//------END: Fragment
+
 ///------------------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.mealPlan
@@ -129,6 +130,9 @@ class Cookware : AppCompatActivity() {
         }
 ///--------------Navigation end
     }
+
+
+
 
     private fun addInstructionToList() {
         val instructionItem = txtInstruction.text.toString()
@@ -160,8 +164,6 @@ class Cookware : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show()
         }
-
-
     }
 
     private fun addCookwareToList() {
@@ -175,7 +177,6 @@ class Cookware : AppCompatActivity() {
         }
     }
 
-    //---------Claude  METHOD save into realtime database
     private fun saveRecipe() {
         val userId = auth.currentUser?.uid ?: return
         val recipeId = database.child("recipes").push().key ?: return
@@ -201,27 +202,26 @@ class Cookware : AppCompatActivity() {
             "instruction" to instructionList,
             "ingredients" to ingredientsList,
             "isFavorite" to false
-
         )
         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
-        .addOnSuccessListener {
-            Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
-            clearInputs()
-        }
-        .addOnFailureListener {
-            Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
-        }
 
+            .addOnSuccessListener {
+                Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
+                clearInputs()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
+            }
     }
+
 
     private fun clearInputs(){
         txtName.text.clear()
         txtMinutes.text.clear()
         txtServings.text.clear()
         chkPublic.isChecked = false
-
     }
-//======END: Claude  METHOD save into realtime database
+
 ///-------------    Fragment
 
     private fun CookwareFragmentDisplay(){
@@ -251,4 +251,7 @@ class Cookware : AppCompatActivity() {
 
 
 //---END: Fragment
+
+//======END: Claude  METHOD save into realtime database
+
 }

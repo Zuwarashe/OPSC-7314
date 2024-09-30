@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class InstructionInput : Fragment() {
     private val instructionList = mutableListOf<String>()
-   // private lateinit var instructionAdapter: InstructionAdapter
+    private lateinit var instructionAdapter: InstructionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,9 +28,9 @@ class InstructionInput : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewInstruction)
 
-      //  instructionAdapter = InstructionAdapter(instructionList)
+        instructionAdapter = InstructionAdapter(instructionList)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        //recyclerView.adapter = instructionAdapter
+        recyclerView.adapter = instructionAdapter
 
 
         imageBtnClose.setOnClickListener {
@@ -44,7 +44,7 @@ class InstructionInput : Fragment() {
                 instructionList.add(instructionText)
 
                 // Notify the adapter that the data has changed
-                //instructionAdapter.notifyDataSetChanged()
+                instructionAdapter.notifyDataSetChanged()
 
                 // Clear the input box
                 txtInstruction.text.clear()
