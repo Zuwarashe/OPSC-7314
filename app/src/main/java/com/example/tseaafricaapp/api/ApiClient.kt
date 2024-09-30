@@ -9,7 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object ApiClient {
     private const val BASE_URL = "https://api.spoonacular.com"
-    private const val API_KEY = ""  // 
+    private const val API_KEY = ""  // Replace with your actual API key
 
     // Create the OkHttpClient with the interceptor to add the API key
     private val client = OkHttpClient.Builder()

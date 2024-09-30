@@ -21,9 +21,8 @@ class Settings : AppCompatActivity() {
         val meetOurTeamLayout = findViewById<LinearLayout>(R.id.meet_our_team_btn)
 
         healthGoalLayout.setOnClickListener {
-            // Handle click event
-            Toast.makeText(this, "Health Goal clicked", Toast.LENGTH_SHORT).show()
-            // Or start a new activity, navigate, etc.
+            val intent = Intent(this, UserPrefence::class.java)  // Make sure to replace with your actual signup activity class
+            startActivity(intent)
         }
 
         yourRecipesLayout.setOnClickListener {
@@ -32,11 +31,13 @@ class Settings : AppCompatActivity() {
         }
 
         eatinPrefLayout.setOnClickListener {
-            Toast.makeText(this, "Eatin Pref clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, UserPrefence::class.java)  // Make sure to replace with your actual signup activity class
+            startActivity(intent)
         }
 
         meetOurTeamLayout.setOnClickListener {
-            Toast.makeText(this, "Meet Our Team clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, Team::class.java)  // Make sure to replace with your actual signup activity class
+            startActivity(intent)
         }
     }
 }
