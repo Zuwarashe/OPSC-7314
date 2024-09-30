@@ -55,41 +55,12 @@ class Cookware : AppCompatActivity() {
     private lateinit var btnAddInstruction: Button
     private lateinit var instructionList: MutableList<String>
 
-//------------friebase storage
-private lateinit var storage: FirebaseStorage
-    private lateinit var imgRecipe: ImageView
-    private lateinit var btnSelectImage: Button
-    private var selectedImageUri: Uri? = null
-
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            selectedImageUri = it
-            imgRecipe.setImageURI(selectedImageUri)
-        }
-    }
-
-
-
-//============END: firebase storage
-
-
-
 //=======END :Claude  METHOD save into realtime databas
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_cookware)
-//--------firebase storage
-        storage = FirebaseStorage.getInstance()
-        imgRecipe = findViewById(R.id.imgRecipe)
-        btnSelectImage = findViewById(R.id.btnSelectImage)
 
-        btnSelectImage.setOnClickListener {
-            openImageChooser()
-        }
-
-
-//========END: firebase storage
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
         txtName = findViewById(R.id.txtName)
@@ -135,9 +106,7 @@ private lateinit var storage: FirebaseStorage
         btnSave.setOnClickListener {
             saveRecipe()
         }
-//-------------firebase storage
 
-//============END:firebase storage
 
 //-----Fragment
         val btnCookware = findViewById<Button>(R.id.btnCookware)
@@ -174,36 +143,6 @@ private lateinit var storage: FirebaseStorage
     }
 
 
-
-
-//--------------Firebase storage
-    private fun openImageChooser() {
-        getContent.launch("image/*")
-    }
-    private fun uploadImage(callback: (String?) -> Unit) {
-        if (selectedImageUri == null) {
-            callback(null)
-            return
-        }
-        val storageRef = storage.reference
-        val imageRef = storageRef.child("recipe_images/${System.currentTimeMillis()}.jpg")
-
-        imageRef.putFile(selectedImageUri!!)
-            .addOnSuccessListener { taskSnapshot ->
-                imageRef.downloadUrl.addOnSuccessListener { uri ->
-                    callback(uri.toString())
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
-                callback(null)
-            }
-    }
-
-
-
-
-//==============END: Firebase storage
 
 
     private fun addInstructionToList() {
@@ -252,43 +191,41 @@ private lateinit var storage: FirebaseStorage
     }
 
     private fun saveRecipe() {
-        uploadImage { imageUrl ->
-            val userId = auth.currentUser?.uid ?: return@uploadImage
-            val recipeId = database.child("recipes").push().key ?: return@uploadImage
+        val userId = auth.currentUser?.uid ?: return
+        val recipeId = database.child("recipes").push().key ?: return
 
-            val recipeName = txtName.text.toString().trim()
-            val totalMinutes = txtMinutes.text.toString().toIntOrNull() ?: 0
-            val totalServings = txtServings.text.toString().toIntOrNull() ?: 0
-            val isPublic = chkPublic.isChecked
+        val recipeName = txtName.text.toString().trim()
+        val totalMinutes = txtMinutes.text.toString().toIntOrNull() ?: 0
+        val totalServings = txtServings.text.toString().toIntOrNull() ?: 0
+        val isPublic = chkPublic.isChecked
 
-            if (recipeName.isEmpty()) {
-                Toast.makeText(this, "Please enter a recipe name", Toast.LENGTH_SHORT).show()
-                return@uploadImage
+        if (recipeName.isEmpty()) {
+            Toast.makeText(this, "Please enter a recipe name", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val recipe = hashMapOf(
+            "recipeId" to recipeId,
+            "userId" to userId,
+            "name" to recipeName,
+            "totalMinutes" to totalMinutes,
+            "totalServings" to totalServings,
+            "isPublic" to isPublic,
+            "cookware" to cookwareList,
+            "instruction" to instructionList,
+            "ingredients" to ingredientsList,
+            "isFavorite" to false
+
+        )
+        database.child("recipes").child(userId).child(recipeId).setValue(recipe)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
+                clearInputs()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
             }
 
-            val recipe = hashMapOf(
-                "recipeId" to recipeId,
-                "userId" to userId,
-                "name" to recipeName,
-                "totalMinutes" to totalMinutes,
-                "totalServings" to totalServings,
-                "isPublic" to isPublic,
-                "cookware" to cookwareList,
-                "instruction" to instructionList,
-                "ingredients" to ingredientsList,
-                "isFavorite" to false,
-                "imageUrl" to imageUrl
-            )
-
-            database.child("recipes").child(userId).child(recipeId).setValue(recipe)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
-                    clearInputs()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
-                }
-        }
     }
 
 
