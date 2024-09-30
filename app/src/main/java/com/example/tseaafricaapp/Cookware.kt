@@ -221,32 +221,7 @@ class Cookware : AppCompatActivity() {
         chkPublic.isChecked = false
 
     }
-///-------------    Fragment
 
-    private fun CookwareFragmentDisplay(){
-        val cookwareInput = CookwareInput()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(android.R.id.content, cookwareInput)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-    private fun IngredientsFragmentDisplay(){
-        val ingredientInput = IngredientInput()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(android.R.id.content, ingredientInput)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
-    private fun InstructionsFragmentDisplay(){
-        val instructionInput = InstructionInput()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(android.R.id.content, instructionInput)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-    }
 
 
 //---END: Fragment
