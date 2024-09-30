@@ -187,7 +187,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="146dp"
             android:background="@drawable/customtxtbox"
-            android:hint="Enter Quantity"
+            android:hint="Quantity"
             android:inputType="text" />
 
         <Button
