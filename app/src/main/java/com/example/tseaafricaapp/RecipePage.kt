@@ -1,6 +1,7 @@
 package com.example.tseaafricaapp
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -51,10 +52,8 @@ class RecipePage : AppCompatActivity() {
         if (recipeId != null) {
             fetchRecipeDetails(recipeId)
         }
-//---------instution btn and ingredient
-        btnIngredients.setOnClickListener { displayIngredients() }
-        btnInstructions.setOnClickListener { displayInstructions() }
 
+        //button to go back
         findViewById<ImageButton>(R.id.imageBtnBack).setOnClickListener {
             finish()
         }
@@ -66,21 +65,9 @@ class RecipePage : AppCompatActivity() {
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-    }
-//--------Display cookware list
-    private fun displayCookwareList(cookwareList: List<String>) {
-        val adapter = CookwareAdapter(cookwareList)
-        recyclerView.adapter = adapter
     }
 
-    private fun displayInstructionsList(instructionList: List<String>) {
-        val adapter = InstructionsAdapter(instructionList)
-        recyclerView.adapter = adapter
-    }
-
-//=====END Display cookware list
-
+    //method that fetches details from the database
     private fun fetchRecipeDetails(recipeId: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
@@ -91,23 +78,40 @@ class RecipePage : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val recipe = snapshot.getValue(Recipe::class.java)
                     recipe?.let {
+                        //displaying the details
                         lblRecipeName.text = it.name
                         lblMinutes.text = "${it.totalMinutes} minutes"
                         lblServings.text = "${it.totalServings} servings"
-                        
+
+                        //when button is clicked it will display the cookware
                         btnCookware.setOnClickListener {
+                            btnCookware.setBackgroundColor(Color.parseColor("#FED8B1"))
+                            btnIngredients.setBackgroundColor(Color.parseColor("White"))
+                            btnInstructions.setBackgroundColor(Color.parseColor("White"))
+
                             val cookwareList = recipe?.cookware ?: listOf() // Retrieve cookware list from the recipe
                             displayCookwareList(cookwareList)
                         }
 
+                        //when button is clicked it will display the ingredients
+                        btnIngredients.setOnClickListener {
+                            btnIngredients.setBackgroundColor(Color.parseColor("#FED8B1"))
+                            btnCookware.setBackgroundColor(Color.parseColor("White"))
+                            btnInstructions.setBackgroundColor(Color.parseColor("White"))
+
+                            val ingredientsList = recipe.ingredients ?: listOf()
+                            displayIngredientsList(ingredientsList)
+                        }
+
+                        //when button is clicked it will display the instructions
                         btnInstructions.setOnClickListener {
+                            btnInstructions.setBackgroundColor(Color.parseColor("#FED8B1"))
+                            btnIngredients.setBackgroundColor(Color.parseColor("White"))
+                            btnCookware.setBackgroundColor(Color.parseColor("White"))
+
                             val instructionList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
                             Log.d("RecipePage", "Instructions list: $instructionList")
                             displayInstructionsList(instructionList)
-                        }
-                        btnIngredients.setOnClickListener {
-                            val ingredientsList = recipe.ingredients ?: listOf()
-                            displayIngredientsList(ingredientsList)
                         }
                     }
                 }
@@ -119,22 +123,27 @@ class RecipePage : AppCompatActivity() {
         }
     }
 
+    //--------Display cookware, ingredients and instructions list
+    private fun displayCookwareList(cookwareList: List<String>) {
+        val adapter = CookwareAdapter(cookwareList)
+        recyclerView.adapter = adapter
+    }
+
     private fun displayIngredientsList(ingredientsList: List<String>) {
         val adapter = IngredientsAdapter(ingredientsList)
         recyclerView.adapter = adapter
     }
+
+    private fun displayInstructionsList(instructionList: List<String>) {
+        val adapter = InstructionsAdapter(instructionList)
+        recyclerView.adapter = adapter
+    }
+    //=====END Display lists
 
     private fun updateFavoriteButton(isFavorite: Boolean) {
         imageBtnFavourite.setImageResource(
             if (isFavorite) R.drawable.favourite_filled
             else R.drawable.favourite_svgrepo_com
         )
-    }
-    private fun displayIngredients() {
-        // Fetch and display ingredients in the RecyclerView
-    }
-
-    private fun displayInstructions() {
-        // Fetch and display instructions in the RecyclerView
     }
 }
