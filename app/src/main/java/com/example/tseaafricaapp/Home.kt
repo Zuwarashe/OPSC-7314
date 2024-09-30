@@ -40,7 +40,7 @@ class Home : AppCompatActivity() {
 
 ///----------Fetch Recipes from Firebase in the Home Activity
         recipeRecyclerView = findViewById(R.id.recCreatedRecView)
-        recipeRecyclerView.layoutManager = LinearLayoutManager(this)
+        recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
@@ -74,6 +74,7 @@ class Home : AppCompatActivity() {
                     finish()
                     true
                 }
+
                 else -> false
             }
         }
