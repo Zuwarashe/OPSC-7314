@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/your_recipes_btn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:clickable="true"
+    android:background="@drawable/button_background"> <!-- Background from selector -->
+
+    <!-- Icon on the left -->
+    <ImageView
+        android:id="@+id/left_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cooking_pot"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Text in the center -->
+
+    <!-- Arrow icon on the right -->
+    <TextView
+        android:id="@+id/button_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="Your Recepies "
+        android:textColor="@color/your_text_color"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_forward_ios_24"
+        android:layout_marginStart="8dp" />
+
+</LinearLayout>

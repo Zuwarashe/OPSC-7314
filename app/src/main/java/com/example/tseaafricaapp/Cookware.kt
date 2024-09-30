@@ -81,8 +81,6 @@ class Cookware : AppCompatActivity() {
         txtInstruction = findViewById(R.id.txtInstruction)
         btnAddInstruction = findViewById(R.id.btnAddInstruction)
 
-
-
         cookwareList = mutableListOf()
 
         ingredientsList = mutableListOf()
@@ -102,10 +100,10 @@ class Cookware : AppCompatActivity() {
         }
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-
         btnSave.setOnClickListener {
             saveRecipe()
         }
+
 
 
 //-----Fragment
@@ -113,16 +111,7 @@ class Cookware : AppCompatActivity() {
         val btnIngredients = findViewById<Button>(R.id.btnIngredients)
         val btnInstructions = findViewById<Button>(R.id.btnInstructions)
 
-        btnCookware.setOnClickListener {
-            CookwareFragmentDisplay()
-        }
-        btnIngredients.setOnClickListener {
-            IngredientsFragmentDisplay()
-        }
-        btnInstructions.setOnClickListener {
-            InstructionsFragmentDisplay()
-        }
-//------END: Fragment
+
 ///------------------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.mealPlan
@@ -175,8 +164,6 @@ class Cookware : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show()
         }
-
-
     }
 
     private fun addCookwareToList() {
@@ -215,9 +202,9 @@ class Cookware : AppCompatActivity() {
             "instruction" to instructionList,
             "ingredients" to ingredientsList,
             "isFavorite" to false
-
         )
         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
+
             .addOnSuccessListener {
                 Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
                 clearInputs()
@@ -225,9 +212,7 @@ class Cookware : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
             }
-
     }
-
 
 
     private fun clearInputs(){
@@ -235,8 +220,8 @@ class Cookware : AppCompatActivity() {
         txtMinutes.text.clear()
         txtServings.text.clear()
         chkPublic.isChecked = false
-
     }
+
 ///-------------    Fragment
 
     private fun CookwareFragmentDisplay(){
@@ -266,4 +251,7 @@ class Cookware : AppCompatActivity() {
 
 
 //---END: Fragment
+
+//======END: Claude  METHOD save into realtime database
+
 }
