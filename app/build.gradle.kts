@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    id("kotlin-kapt")
 }
 
 android {
@@ -41,6 +42,11 @@ android {
 
 dependencies {
 
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    // OkHttp for HTTP client
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -53,11 +59,12 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:31.5.0"))
     // Firebase Authentication
     implementation("com.google.firebase:firebase-auth-ktx")
+
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
-    //implementation(libs.firebase.auth) // Ensure this line is uncommented
+
 
     //implementation(libs.firebase.auth)
     testImplementation(libs.junit)
