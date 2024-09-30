@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:id="@+id/your_recipes_btn"
+    android:background="@drawable/rounded_corners_bg"
+    >
+
+    <!-- ImageView with Recipe Image -->
+    <ImageView
+        android:id="@+id/recipeImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/food"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Add Button in the Top Right Corner of the Image -->
+    <ImageButton
+        android:id="@+id/addButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@id/recipeImageView"
+        android:layout_alignTop="@id/recipeImageView"
+        android:src="@drawable/baseline_add_circle_24"
+        android:background="@null"
+        android:padding="5dp"
+        android:layout_marginEnd="5dp"
+        />
+
+    <!-- Recipe Name Below the ImageView -->
+    <TextView
+        android:id="@+id/recipeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recipeImageView"
+        android:layout_centerHorizontal="true"
+        android:text="Recipe Name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:textColor="@android:color/black" />
+
+</RelativeLayout>

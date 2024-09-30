@@ -42,8 +42,6 @@ class Cookware : AppCompatActivity() {
     private lateinit var btnAddInstruction: Button
     private lateinit var instructionList: MutableList<String>
 
-
-
 //=======END :Claude  METHOD save into realtime databas
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,8 +68,6 @@ class Cookware : AppCompatActivity() {
         txtInstruction = findViewById(R.id.txtInstruction)
         btnAddInstruction = findViewById(R.id.btnAddInstruction)
 
-
-
         cookwareList = mutableListOf()
 
         ingredientsList = mutableListOf()
@@ -91,13 +87,10 @@ class Cookware : AppCompatActivity() {
         }
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-
         btnSave.setOnClickListener {
             saveRecipe()
         }
 
-//-----Fragment
-//------END: Fragment
 ///------------------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.mealPlan
@@ -147,8 +140,6 @@ class Cookware : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show()
         }
-
-
     }
 
     private fun addCookwareToList() {
@@ -188,7 +179,6 @@ class Cookware : AppCompatActivity() {
             "instruction" to instructionList,
             "ingredients" to ingredientsList,
             "isFavorite" to false
-
         )
         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
         .addOnSuccessListener {
@@ -198,7 +188,6 @@ class Cookware : AppCompatActivity() {
         .addOnFailureListener {
             Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun clearInputs(){
@@ -206,8 +195,6 @@ class Cookware : AppCompatActivity() {
         txtMinutes.text.clear()
         txtServings.text.clear()
         chkPublic.isChecked = false
-
     }
 //======END: Claude  METHOD save into realtime database
-
 }
