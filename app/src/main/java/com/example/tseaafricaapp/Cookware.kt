@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -42,7 +43,7 @@ class Cookware : AppCompatActivity() {
     private lateinit var btnAddInstruction: Button
     private lateinit var instructionList: MutableList<String>
 
-//=======END :Claude  METHOD save into realtime databas
+//=======END :Claude  METHOD save into realtime database
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -85,6 +86,11 @@ class Cookware : AppCompatActivity() {
         btnAddInstruction.setOnClickListener {
         addInstructionToList()
         }
+
+        findViewById<ImageButton>(R.id.imageBtnBack).setOnClickListener {
+            startActivity(Intent(applicationContext, Home::class.java))
+        }
+
         val btnSave = findViewById<Button>(R.id.btnSave)
 
         btnSave.setOnClickListener {
@@ -110,6 +116,7 @@ class Cookware : AppCompatActivity() {
 ///--------------Navigation end
     }
 
+    //Method adding instructions to list
     private fun addInstructionToList() {
         val instructionItem = txtInstruction.text.toString()
         if (instructionItem.isNotEmpty()) {
@@ -121,6 +128,7 @@ class Cookware : AppCompatActivity() {
         }
     }
 
+    //Method adding ingredients to list
     private fun addIngredientToList() {
         val ingredientItem  = txtIngredient.text.toString()
         val quantityItem  = txtQuantity.text.toString().toDoubleOrNull() ?: 0.0
@@ -142,6 +150,7 @@ class Cookware : AppCompatActivity() {
         }
     }
 
+    //Method adding cookware to list
     private fun addCookwareToList() {
         val cookwareItem = txtCookware.text.toString()
         if (cookwareItem.isNotEmpty()) {
@@ -190,6 +199,7 @@ class Cookware : AppCompatActivity() {
         }
     }
 
+    //Clearing inputs
     private fun clearInputs(){
         txtName.text.clear()
         txtMinutes.text.clear()
