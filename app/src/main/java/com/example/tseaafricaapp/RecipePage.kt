@@ -2,6 +2,7 @@ package com.example.tseaafricaapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -50,6 +51,9 @@ class RecipePage : AppCompatActivity() {
         if (recipeId != null) {
             fetchRecipeDetails(recipeId)
         }
+//---------instution btn and ingredient
+        btnIngredients.setOnClickListener { displayIngredients() }
+        btnInstructions.setOnClickListener { displayInstructions() }
 
         findViewById<ImageButton>(R.id.imageBtnBack).setOnClickListener {
             finish()
@@ -64,7 +68,7 @@ class RecipePage : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
     }
-
+//--------Display cookware list
     private fun displayCookwareList(cookwareList: List<String>) {
         val adapter = CookwareAdapter(cookwareList)
         recyclerView.adapter = adapter
@@ -75,6 +79,7 @@ class RecipePage : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
+//=====END Display cookware list
 
     private fun fetchRecipeDetails(recipeId: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -89,7 +94,7 @@ class RecipePage : AppCompatActivity() {
                         lblRecipeName.text = it.name
                         lblMinutes.text = "${it.totalMinutes} minutes"
                         lblServings.text = "${it.totalServings} servings"
-
+                        
                         btnCookware.setOnClickListener {
                             val cookwareList = recipe?.cookware ?: listOf() // Retrieve cookware list from the recipe
                             displayCookwareList(cookwareList)
@@ -97,7 +102,12 @@ class RecipePage : AppCompatActivity() {
 
                         btnInstructions.setOnClickListener {
                             val instructionList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
+                            Log.d("RecipePage", "Instructions list: $instructionList")
                             displayInstructionsList(instructionList)
+                        }
+                        btnIngredients.setOnClickListener {
+                            val ingredientsList = recipe.ingredients ?: listOf()
+                            displayIngredientsList(ingredientsList)
                         }
                     }
                 }
@@ -107,5 +117,24 @@ class RecipePage : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    private fun displayIngredientsList(ingredientsList: List<String>) {
+        val adapter = IngredientsAdapter(ingredientsList)
+        recyclerView.adapter = adapter
+    }
+
+    private fun updateFavoriteButton(isFavorite: Boolean) {
+        imageBtnFavourite.setImageResource(
+            if (isFavorite) R.drawable.favourite_filled
+            else R.drawable.favourite_svgrepo_com
+        )
+    }
+    private fun displayIngredients() {
+        // Fetch and display ingredients in the RecyclerView
+    }
+
+    private fun displayInstructions() {
+        // Fetch and display instructions in the RecyclerView
     }
 }
