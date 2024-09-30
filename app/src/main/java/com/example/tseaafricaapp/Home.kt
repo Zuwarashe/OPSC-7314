@@ -42,12 +42,7 @@ class Home : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
-
-
-
-
-
-
+        fetchPublicRecipes()
 ///-----------END: Read Recipe from database
 
 
@@ -74,7 +69,35 @@ class Home : AppCompatActivity() {
             insets
         }
     }
-//------------Fetch Recipes from Firebase in the Home ActivitY
+
+    private fun updateRecyclerView() {
+        recipeAdapter = RecipeAdapter(recipesList.distinct())
+        recipeRecyclerView.adapter = recipeAdapter
+    }
+
+    private fun fetchPublicRecipes() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
+        databaseReference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot){
+                for (userSnapshot in snapshot.children){
+                    for (recipeSnapshot in userSnapshot.children){
+                        val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                        recipe?.let{
+                            if (it.isPublic == true) {
+                                recipesList.add(it)
+                            }
+                        }
+                    }
+                }
+                updateRecyclerView()
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+            }
+        })
+    }
+
+    //------------Fetch Recipes from Firebase in the Home ActivitY
     private fun fetchRecipesFromDatabase() {
         val userId = auth.currentUser?.uid ?: return
         val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)

@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-09-28T15:56:56.749168300Z">
+        <DropdownSelection timestamp="2024-09-30T15:16:27.634384700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\neoma\.android\avd\Medium_Phone_API_35.avd" />
