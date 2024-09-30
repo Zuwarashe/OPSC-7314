@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -54,16 +55,26 @@ class RecipePage : AppCompatActivity() {
             finish()
         }
 
-
-
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
+
+    private fun displayCookwareList(cookwareList: List<String>) {
+        val adapter = CookwareAdapter(cookwareList)
+        recyclerView.adapter = adapter
+    }
+
+    private fun displayInstructionsList(instructionsList: List<String>) {
+        val adapter = InstructionsAdapter(instructionsList)
+        recyclerView.adapter = adapter
+    }
+
 
     private fun fetchRecipeDetails(recipeId: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -76,11 +87,18 @@ class RecipePage : AppCompatActivity() {
                     val recipe = snapshot.getValue(Recipe::class.java)
                     recipe?.let {
                         lblRecipeName.text = it.name
-                        lblMinutes.text = "Total Time: ${it.totalMinutes} minutes"
-                        lblServings.text = "Servings: ${it.totalServings}"
+                        lblMinutes.text = "${it.totalMinutes} minutes"
+                        lblServings.text = "${it.totalServings} servings"
 
-                        // TODO: Implement logic for displaying cookware, ingredients, and instructions
-                        // You might want to create separate adapters for each of these lists
+                        btnCookware.setOnClickListener {
+                            val cookwareList = recipe?.cookware ?: listOf() // Retrieve cookware list from the recipe
+                            displayCookwareList(cookwareList)
+                        }
+
+                        btnInstructions.setOnClickListener {
+                            val instructionsList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
+                            displayInstructionsList(instructionsList)
+                        }
                     }
                 }
 
