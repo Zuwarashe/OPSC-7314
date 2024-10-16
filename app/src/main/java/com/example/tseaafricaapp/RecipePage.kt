@@ -32,7 +32,8 @@ class RecipePage : AppCompatActivity() {
     private lateinit var btnIngredients: Button
     private lateinit var btnInstructions: Button
     private lateinit var recyclerView: RecyclerView
-//-------FAV
+
+  //-------FAV
     private var isFavorite: Boolean = false
 
     // Array of drawable resource IDs
@@ -67,15 +68,18 @@ class RecipePage : AppCompatActivity() {
         // Set a random image
         setRandomImage()
 
+
         val recipeId = intent.getStringExtra("RECIPE_ID")
         if (recipeId != null) {
             fetchRecipeDetails(recipeId)
         }
 //---------instution btn and ingredient
 
+
         findViewById<ImageButton>(R.id.imageBtnBack).setOnClickListener {
             finish()
         }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -98,6 +102,7 @@ class RecipePage : AppCompatActivity() {
 
 
     }
+
 
     private fun updateFavoriteStatusInDatabase(recipeId: String, isFavorite: Boolean) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -122,6 +127,7 @@ class RecipePage : AppCompatActivity() {
         imageRecipe.setImageResource(drawables[randomIndex])
     }
 
+
     private fun fetchRecipeDetails(recipeId: String) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
@@ -133,6 +139,7 @@ class RecipePage : AppCompatActivity() {
                     val recipe = snapshot.getValue(Recipe::class.java)
                     recipe?.let {
                         lblRecipeName.text = it.name
+
                         lblMinutes.text = "${it.totalMinutes} minutes"
                         lblServings.text = "${it.totalServings} servings"
                         
@@ -163,6 +170,8 @@ class RecipePage : AppCompatActivity() {
                             Log.d("RecipePage", "Instructions list: $instructionList")
                             displayInstructionsList(instructionList)
                         }
+
+                      
                     }
                 }
 
@@ -172,6 +181,7 @@ class RecipePage : AppCompatActivity() {
             })
         }
     }
+
 
     //--------Display cookware, ingredients and instructions list
     private fun displayCookwareList(cookwareList: List<String>) {
