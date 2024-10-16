@@ -54,11 +54,18 @@ class LoginPage : AppCompatActivity() {
             val email = emailTxt.text.toString()
             val password = passwordTxt.text.toString()
             if (validateEmail(email) && password.isNotEmpty()) {
-                //val intent = Intent(this, Home::class.java)
-                //startActivity(intent)
-                signInWithEmailPassword(email, password)
+                val firebaseManager = FirebaseManager(this)
+                firebaseManager.signInWithEmail(email, password) { success, errorMessage ->
+                    if (success) {
+                        val intent = Intent(this, Home::class.java)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
+
 
         linkTxt3.setOnClickListener {
             // Navigate to the Signup page

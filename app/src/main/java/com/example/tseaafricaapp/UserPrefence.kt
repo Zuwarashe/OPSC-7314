@@ -1,5 +1,6 @@
 package com.example.tseaafricaapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.telecom.Call
 import android.widget.Button
@@ -35,7 +36,12 @@ class UserPrefence : AppCompatActivity() {
         tvResults = findViewById(R.id.tvResults)
 
 
-
+        val myButton: Button = findViewById(R.id.myButton)
+        myButton.setOnClickListener {
+            // Intent to go back to the UserPrefence activity
+            val intent = Intent(this, Settings::class.java)
+            startActivity(intent)
+        }
 
         searchButton.setOnClickListener {
             // Collect user inputs

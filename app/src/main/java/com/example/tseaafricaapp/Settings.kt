@@ -1,5 +1,6 @@
 package com.example.tseaafricaapp
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
@@ -8,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,5 +41,34 @@ class Settings : AppCompatActivity() {
             val intent = Intent(this, Team::class.java)  // Make sure to replace with your actual signup activity class
             startActivity(intent)
         }
+        ///--------------Navigation
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigationView.selectedItemId = R.id.settings
+
+        bottomNavigationView.setOnItemSelectedListener{item ->
+            when (item.itemId){
+                R.id.settings -> true
+                R.id.home ->{
+                    startActivity(Intent(applicationContext, Home::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
+                R.id.mealPlan ->{
+                    startActivity(Intent(applicationContext, Cookware::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
+                R.id.fave ->{
+                    startActivity(Intent(applicationContext, Favourites::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
+///--------------Navigation end
     }
 }
