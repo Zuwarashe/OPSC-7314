@@ -306,6 +306,43 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/txtQuantity"
+            android:layout_width="127dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="146dp"
+            android:background="@drawable/customtxtbox"
+            android:hint="Quantity"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnAddIngredient"
+            android:layout_width="79dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="#D67229"
+            android:text="Add"
+            app:cornerRadius="20dp"/>
+    </LinearLayout>
+
+
+
+        <EditText
+            android:id="@+id/txtMeasurement"
+            android:layout_width="127dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="146dp"
+            android:background="@drawable/customtxtbox"
+            android:hint="Measurement"
+            android:inputType="text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
