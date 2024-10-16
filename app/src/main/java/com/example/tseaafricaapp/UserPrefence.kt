@@ -1,13 +1,16 @@
 package com.example.tseaafricaapp
 
 import android.os.Bundle
+import android.telecom.Call
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsAnimationCompat
 import com.example.tseaafricaapp.api.ApiClient
 import com.example.tseaafricaapp.api.SpoonacularApiService
 import com.example.tseaafricaapp.model.Recipe
+import com.google.android.gms.common.api.Response
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,13 +61,13 @@ class UserPrefence : AppCompatActivity() {
         maxCalories: Int
     ) {
         api.searchRecipesByNutrients(minCarbs, maxCarbs, minProtein, maxProtein, minCalories, maxCalories)
-            .enqueue(object : Callback<List<Recipe>> {
+            .enqueue(object : WindowInsetsAnimationCompat.Callback<List<Recipe>> {
                 override fun onResponse(call: Call<List<Recipe>>, response: Response<List<Recipe>>) {
                     if (response.isSuccessful) {
                         val recipes = response.body()
                         tvResults.text = formatRecipes(recipes)
                     } else {
-                        tvResults.text = "Error: ${response.code()}"
+                        tvResults.text = "Error: ${response.code}"
                     }
                 }
 

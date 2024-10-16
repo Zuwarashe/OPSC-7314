@@ -17,7 +17,7 @@ class IngredientInput : Fragment() {
     data class Ingredient(val name: String, val quantity: String, val measurement: String)
 
 
-    private lateinit var ingredientAdapter: IngredientAdapter
+  //  private lateinit var ingredientAdapter: IngredientAdapter
     private val ingredientList = mutableListOf<Ingredient>()
 
 
@@ -37,9 +37,9 @@ class IngredientInput : Fragment() {
         val txtQuantity: EditText = view.findViewById(R.id.txtQuantity)
         val txtMeasurement: EditText = view.findViewById(R.id.txtMeasurement)
 
-        ingredientAdapter = IngredientAdapter(ingredientList)
+            //  ingredientAdapter = IngredientAdapter(ingredientList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = ingredientAdapter
+       // recyclerView.adapter = ingredientAdapter
 
 
 
@@ -61,7 +61,7 @@ class IngredientInput : Fragment() {
                 Log.d("IngredientList", "Current list: $ingredientList")
 
                 // Notify adapter of data change
-                ingredientAdapter.notifyDataSetChanged()
+               // ingredientAdapter.notifyDataSetChanged()
 
                 // Clear input fields
                 txtIngredient.text.clear()
