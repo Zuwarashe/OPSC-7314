@@ -20,10 +20,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 class Cookware : AppCompatActivity() {
 
-    private lateinit var firebaseManager: FirebaseManager
-
-    //private lateinit var database: DatabaseReference
-    //private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var auth: FirebaseAuth
 
     private lateinit var txtName: EditText
     private lateinit var txtMinutes: EditText
@@ -51,12 +49,8 @@ class Cookware : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_cookware)
 
-        firebaseManager = FirebaseManager(this)
-
-        //auth = FirebaseAuth.getInstance()
-        //database = FirebaseDatabase.getInstance().reference
-
-
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference
         txtName = findViewById(R.id.txtName)
         txtMinutes = findViewById(R.id.txtMinutes)
         txtServings = findViewById(R.id.txtServings)
@@ -116,18 +110,6 @@ class Cookware : AppCompatActivity() {
                     finish()
                     true
                 }
-                R.id.fave ->{
-                    startActivity(Intent(applicationContext, Favourites::class.java))
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                    finish()
-                    true
-                }
-                R.id.settings ->{
-                    startActivity(Intent(applicationContext, Settings::class.java))
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                    finish()
-                    true
-                }
                 else -> false
             }
         }
@@ -182,30 +164,38 @@ class Cookware : AppCompatActivity() {
 
     //---------Claude  METHOD save into realtime database
     private fun saveRecipe() {
-        //val userId = auth.currentUser?.uid ?: return
-        //val recipeId = database.child("recipes").push().key ?: return
+        val userId = auth.currentUser?.uid ?: return
+        val recipeId = database.child("recipes").push().key ?: return
 
         val recipeName = txtName.text.toString().trim()
         val totalMinutes = txtMinutes.text.toString().toIntOrNull() ?: 0
         val totalServings = txtServings.text.toString().toIntOrNull() ?: 0
         val isPublic = chkPublic.isChecked
 
-        firebaseManager.saveRecipeToDatabase(
-            recipeName,
-            totalMinutes,
-            totalServings,
-            cookwareList,
-            instructionList,
-            ingredientsList,
-            isPublic
+        if (recipeName.isEmpty()) {
+            Toast.makeText(this, "Please enter a recipe name", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val recipe = hashMapOf(
+            "recipeId" to recipeId,
+            "userId" to userId,
+            "name" to recipeName,
+            "totalMinutes" to totalMinutes,
+            "totalServings" to totalServings,
+            "isPublic" to isPublic,
+            "cookware" to cookwareList,
+            "instruction" to instructionList,
+            "ingredients" to ingredientsList,
+            "isFavorite" to false
         )
-        { success, message ->
-            if (success) {
-                Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
-                clearInputs()
-            } else {
-                Toast.makeText(this, message ?: "Failed to save recipe", Toast.LENGTH_SHORT).show()
-            }
+        database.child("recipes").child(userId).child(recipeId).setValue(recipe)
+        .addOnSuccessListener {
+            Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
+            clearInputs()
+        }
+        .addOnFailureListener {
+            Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
         }
     }
 
