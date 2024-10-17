@@ -3,6 +3,7 @@ package com.example.tseaafricaapp
 import RecipeAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -30,29 +31,21 @@ class Home : AppCompatActivity() {
     private lateinit var recipeAdapter: RecipeAdapter
     private val recipesList: MutableList<Recipe> = mutableListOf()
 
-    private lateinit var publicRecipeRecyclerView: RecyclerView
-    private lateinit var publicRecipeAdapter: RecipeAdapter
-    private val publicRecipesList: MutableList<Recipe> = mutableListOf()
-
 //=================END : Fetch Recipes from Firebase in the Home Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
-    publicRecipeRecyclerView = findViewById(R.id.publciRecView)
-    publicRecipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
 ///----------Fetch Recipes from Firebase in the Home Activity
         recipeRecyclerView = findViewById(R.id.recCreatedRecView)
-        recipeRecyclerView.layoutManager = LinearLayoutManager(this)
+        recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
 
-    fetchPublicRecipesFromDatabase()
-///-----------END: Read Recipe from database
-
+        fetchPublicRecipes()
+    fetchFavoriteRecipes()
 
 ///--------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
@@ -63,6 +56,18 @@ class Home : AppCompatActivity() {
                 R.id.home -> true
                 R.id.mealPlan ->{
                     startActivity(Intent(applicationContext, Cookware::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
+                R.id.fave ->{
+                    startActivity(Intent(applicationContext, Favourites::class.java))
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                    true
+                }
+                R.id.settings ->{
+                    startActivity(Intent(applicationContext, Settings::class.java))
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     finish()
                     true
@@ -78,39 +83,62 @@ class Home : AppCompatActivity() {
         }
     }
 
-    private fun fetchPublicRecipesFromDatabase() {
-        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
+    private fun updateRecyclerView() {
 
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                publicRecipesList.clear()
-                for (userSnapshot in snapshot.children) {
-                    for (recipeSnapshot in userSnapshot.children) {
+        recipeAdapter = RecipeAdapter(recipesList.distinct())
+        recipeRecyclerView.adapter = recipeAdapter
+    }
+
+    private fun fetchPublicRecipes() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
+        databaseReference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot){
+                for (userSnapshot in snapshot.children){
+                    for (recipeSnapshot in userSnapshot.children){
                         val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                        if (recipe?.isPublic == true) {
-                            publicRecipesList.add(recipe)
+                        recipe?.let{
+                            if (it.isPublic == true) {
+                                recipesList.add(it)
+                            }
                         }
                     }
                 }
-                publicRecipeAdapter = RecipeAdapter(publicRecipesList)
-                publicRecipeRecyclerView.adapter = publicRecipeAdapter
+                updateRecyclerView()
             }
-
             override fun onCancelled(error: DatabaseError) {
                 // Handle error
             }
         })
     }
 
-    private fun updateRecyclerView() {
-        recipeAdapter = RecipeAdapter(recipesList.distinct())
-        recipeRecyclerView.adapter = recipeAdapter
-    }
-
-
-
     //------------Fetch Recipes from Firebase in the Home ActivitY
     private fun fetchRecipesFromDatabase() {
+    val userId = auth.currentUser?.uid ?: return
+    val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
+
+    // Fetch the public recipes
+    databaseReference.orderByChild("isPublic").equalTo(true)
+        .addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                recipesList.clear()
+                // Fetch and add all public recipes to the list
+                for (recipeSnapshot in snapshot.children) {
+                    val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                    recipe?.let { recipesList.add(it) }
+                }
+
+                // Fetch the current user's recipes (private and public)
+                fetchUserRecipes(userId)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+            }
+        })
+    //original
+
+        /*
+
         val userId = auth.currentUser?.uid ?: return
         val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)
 
@@ -129,6 +157,30 @@ class Home : AppCompatActivity() {
             // Handle error
         }
         })
+    */
+    //original
+    }
+
+    private fun fetchUserRecipes(userId: String) {
+        val userRecipeReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)
+
+        userRecipeReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Add user's recipes (both public and private) to the list
+                for (recipeSnapshot in snapshot.children) {
+                    val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                    recipe?.let { recipesList.add(it) }
+                }
+
+                // After fetching both public and user-specific recipes, update the adapter
+                recipeAdapter = RecipeAdapter(recipesList)
+                recipeRecyclerView.adapter = recipeAdapter
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+            }
+        })
     }
 //============END: Fetch Recipes from Firebase in the Home ActivitY
 
@@ -141,4 +193,35 @@ class Home : AppCompatActivity() {
             finish()
         }
     }
+    private fun fetchFavoriteRecipes() {
+        val userId = auth.currentUser?.uid ?: return
+        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)
+
+        // Query for recipes where isFavorite is true
+        val query = databaseReference.orderByChild("isFavorite").equalTo(true)
+
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val favoriteRecipesList = mutableListOf<Recipe>()
+                for (recipeSnapshot in snapshot.children) {
+                    val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                    recipe?.let { favoriteRecipesList.add(it) }  // Add to the favorite list
+                }
+                // Update the RecyclerView with the favorite recipes
+                displayFavoriteRecipes(favoriteRecipesList)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+                Log.e("HomePage", "Error fetching favorite recipes: ${error.message}")
+            }})
+    }
+
+    private fun displayFavoriteRecipes(favoriteRecipesList: List<Recipe>) {
+        val favoritesAdapter = RecipeAdapter(favoriteRecipesList)  // Use your existing RecipeAdapter
+        val favoritesRecView = findViewById<RecyclerView>(R.id.favoritesRecView) // Ensure you have the correct reference
+        favoritesRecView.adapter = favoritesAdapter
+        favoritesRecView.layoutManager = LinearLayoutManager(this)
+    }
+
+
 }

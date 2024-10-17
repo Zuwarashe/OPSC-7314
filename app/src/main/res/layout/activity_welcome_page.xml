@@ -10,18 +10,11 @@
     tools:context=".WelcomePage">
 
     <ImageView
-        android:id="@+id/miniLogo"
-        android:layout_width="97dp"
-        android:layout_height="73dp"
-        android:layout_marginLeft="155dp"
-        app:srcCompat="@drawable/logo" />
-
-    <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/tseafull"
-        />
+        android:layout_marginTop="100dp"/>
 
     <Button
         android:id="@+id/getStartedbtn"

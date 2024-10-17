@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Circular Image Style -->
+
+    <style name="CircularImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> <!-- This ensures it's circular -->
+    </style>
+    <!-- Circular Shape -->
+    <style name="CircularShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> <!-- This makes it a perfect circle -->
+    </style>
+
     <!-- Bold Text Appearance for Active Item -->
     <style name="BottomNavBoldTextActive" parent="TextAppearance.AppCompat.Small">
         <item name="android:textStyle">bold</item>
