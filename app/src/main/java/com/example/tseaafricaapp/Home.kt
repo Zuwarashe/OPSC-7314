@@ -49,6 +49,7 @@ class Home : AppCompatActivity() {
     savePreMadeRecipes()
 
 
+
     //end: testing Manula recipe
 
 ///----------Fetch Recipes from Firebase in the Home Activity
@@ -97,6 +98,8 @@ class Home : AppCompatActivity() {
             insets
         }
     }
+
+
 
     private fun savePreMadeRecipes() {
         val premadeRecipes = listOf(
