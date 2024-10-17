@@ -31,15 +31,16 @@
             android:layout_marginLeft="95dp"
             app:srcCompat="@drawable/logo" />
 
-        <ImageButton
-            android:id="@+id/imageBtnMore"
-            android:layout_width="38dp"
-            android:layout_height="34dp"
-            android:layout_marginLeft="95dp"
-            android:layout_marginTop="25dp"
-            android:background="@color/design_default_color_background"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/more" />
+        <CheckBox
+            android:id="@+id/chkPublic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:text="Public"
+            android:textColor="@color/black"
+            android:buttonTint="@color/black" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -85,7 +86,7 @@
             android:id="@+id/txtMinutes"
             android:layout_width="129dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="29dp"
             android:background="@drawable/customtxtbox"
             android:ems="19" />
     </LinearLayout>
@@ -109,200 +110,70 @@
             android:id="@+id/txtServings"
             android:layout_width="129dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="27dp"
+            android:layout_marginLeft="25dp"
             android:background="@drawable/customtxtbox"
             android:ems="19" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnCookware"
-            android:layout_width="125dp"
+        <TextView
+            android:id="@+id/lblCookware"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/white"
-            android:text="Cookware"
-            android:textColor="@color/black" />
+            android:layout_marginLeft="20dp"
+            android:text="Cookware:"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtCookware"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="54dp"
+            android:background="@drawable/customtxtbox"
+            android:ems="19" />
 
         <Button
-            android:id="@+id/btnIngredients"
-            android:layout_width="125dp"
+            android:id="@+id/btnAddCookware"
+            android:layout_width="79dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/white"
-            android:text="Ingredients"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/btnInstructions"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/white"
-            android:text="Instructions"
-            android:textColor="@color/black" />
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="#D67229"
+            android:text="Add"
+            app:cornerRadius="20dp" />
     </LinearLayout>
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lblIngredient"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-<!--========Cookeware -->
-            <TextView
-                android:id="@+id/lblCookware"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Cookware"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+            android:layout_marginLeft="20dp"
+            android:text="Ingredients:"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/txtCookware"
-                    android:layout_width="195dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/customtxtbox"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:hint="Enter Cookware"
-                    android:inputType="text" />
-
-                <Button
-                    android:id="@+id/btnAddCookware"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="#D67229"
-                    android:text="Add Cookware"
-                    android:textColor="#FFFFFF"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout>
-<!--=========Ingredient -->
-            <TextView
-                android:id="@+id/lblIngredient"
-                android:layout_width="89dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Ingredient"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/txtIngredient"
-                android:layout_width="248dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/customtxtbox"
-                android:hint="Enter Ingredient"
-                android:inputType="text" />
-        <LinearLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/txtIngredient"
+            android:layout_width="127dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/txtQuantity"
-                android:layout_width="246dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/customtxtbox"
-                android:hint="Enter Quantity"
-                android:inputType="text" />
-            <EditText
-                android:id="@+id/txtMeasurement"
-                android:layout_width="246dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/customtxtbox"
-                android:hint="Enter Measuremen"
-                android:inputType="text" />
-
-        </LinearLayout>
-            <Button
-                android:id="@+id/btnAddIngredient"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="#D67229"
-                android:text="Add Ingredient"
-                android:textColor="#FFFFFF"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:layout_gravity="center_vertical" />
-<!-- -->
-            <TextView
-                android:id="@+id/lblInstruction"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Instruction"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/txtInstruction"
-                    android:layout_width="195dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/customtxtbox"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:hint="Enter Instruction"
-                    android:inputType="text" />
-
-                <Button
-                    android:id="@+id/btnAddInstruction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="#D67229"
-                    android:text="Add Instruction"
-                    android:textColor="#FFFFFF"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:layout_gravity="center_vertical" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </ScrollView>
+            android:layout_marginLeft="46dp"
+            android:background="@drawable/customtxtbox"
+            android:hint="Ingredient"
+            android:inputType="text" />
 
 
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -316,7 +187,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="146dp"
             android:background="@drawable/customtxtbox"
-            android:hint="Quantity"
+            android:hint="Enter Quantity"
             android:inputType="text" />
 
         <Button
@@ -343,25 +214,48 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/chkPublic"
+        <TextView
+            android:id="@+id/lblInstruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:text="Public"
-            android:textColor="@color/black"
-            android:buttonTint="@color/black" />
+            android:layout_marginLeft="20dp"
+            android:text="Instructions:"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/txtInstruction"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="42dp"
+            android:background="@drawable/customtxtbox"
+            android:ems="19" />
+
+        <Button
+            android:id="@+id/btnAddInstruction"
+            android:layout_width="79dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="#D67229"
+            android:text="Add"
+            app:cornerRadius="20dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="131dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
+            android:layout_marginLeft="150dp"
             android:backgroundTint="#D67229"
             android:text="Save Recipe"
             app:cornerRadius="20dp" />
