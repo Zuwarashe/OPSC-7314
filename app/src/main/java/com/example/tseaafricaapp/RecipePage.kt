@@ -90,17 +90,15 @@ class RecipePage : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 /////-----fave
+        // Favorite button functionality
         imageBtnFavourite.setOnClickListener {
-            recipeId?.let { id ->
-                isFavorite = !isFavorite
-                updateFavoriteButton(isFavorite)
-                updateFavoriteStatusInDatabase(id, isFavorite)
-            } ?: run {
-                Log.e("RecipePage", "Error: recipeId is null")
-            }
+            isFavorite = !isFavorite
+            updateFavoriteButton(isFavorite)
+
+            // Use the safe call and provide a default value if recipeId is null
+            val nonNullRecipeId = recipeId ?: return@setOnClickListener // Exit if recipeId is null
+            updateFavoriteStatusInDatabase(nonNullRecipeId, isFavorite)
         }
-
-
     }
 
 
@@ -202,7 +200,7 @@ class RecipePage : AppCompatActivity() {
 
     private fun updateFavoriteButton(isFavorite: Boolean) {
         imageBtnFavourite.setImageResource(
-            if (isFavorite) R.drawable.favourite_filled
+            if (isFavorite) R.drawable.ic_heart_fave
             else R.drawable.favourite_svgrepo_com
         )
     }

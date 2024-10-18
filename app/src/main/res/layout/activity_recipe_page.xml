@@ -55,7 +55,6 @@
             android:id="@+id/imageBtnFavourite"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:backgroundTint="@color/white"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/favourite_svgrepo_com" />
 

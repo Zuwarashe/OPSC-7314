@@ -101,7 +101,18 @@ class Home : AppCompatActivity() {
     }
 
 
+    override fun onStart() {
+        super.onStart()
 
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            // If no user is logged in, redirect to the login page
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+            finish() // To prevent returning to this activity
+        }
+    }
     private fun savePreMadeRecipes() {
         val premadeRecipes = listOf(
             mapOf(
