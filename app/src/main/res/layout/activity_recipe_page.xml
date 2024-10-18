@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/lblRecipeName"
-            android:layout_width="344dp"
+            android:layout_width="311dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Name"
@@ -56,7 +56,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/favourite_svgrepo_com" />
+            android:background="@null"
+            app:srcCompat="@drawable/favourite_svgrepo_com"
+            app:tint="@color/red"/>
 
 
 
