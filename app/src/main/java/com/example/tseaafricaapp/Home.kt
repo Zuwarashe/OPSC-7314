@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
@@ -23,6 +24,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class Home : AppCompatActivity() {
+
+    //testing Manula recipe
+
+    private lateinit var firebaseManager: FirebaseManager
+    //end: testing Manula recipe
+
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
@@ -37,7 +44,16 @@ class Home : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
+    //testing Manula recipe
+    firebaseManager = FirebaseManager(this)
+    savePreMadeRecipes()
+
+
+
+    //end: testing Manula recipe
+
 ///----------Fetch Recipes from Firebase in the Home Activity
+
         recipeRecyclerView = findViewById(R.id.recCreatedRecView)
         recipeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
@@ -82,6 +98,41 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+
+
+    private fun savePreMadeRecipes() {
+        val premadeRecipes = listOf(
+            mapOf(
+                "name" to "Test Recipe 1",
+                "totalMinutes" to 30,
+                "totalServings" to 4,
+                "cookware" to listOf("Pan", "Oven"),
+                "instruction" to listOf("Preheat oven to 350°F", "Cook for 20 minutes"),
+                "ingredients" to listOf("Chicken", "Rice", "Vegetables"),
+                "isPublic" to true,
+                "isFavorite" to false
+            ),
+            mapOf(
+                "name" to "Test Recipe 2",
+                "totalMinutes" to 45,
+                "totalServings" to 2,
+                "cookware" to listOf("Stove", "Pot"),
+                "instruction" to listOf("Boil water", "Cook pasta for 10 minutes"),
+                "ingredients" to listOf("Pasta", "Tomato sauce"),
+                "isPublic" to true,
+                "isFavorite" to false
+            )
+        )
+        firebaseManager.saveMultipleRecipesToDatabase(premadeRecipes) { success, message ->
+            if (success) {
+                Toast.makeText(this, "All premade recipes saved successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Failed to save premade recipes: $message", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     private fun updateRecyclerView() {
