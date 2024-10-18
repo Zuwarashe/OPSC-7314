@@ -188,7 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="146dp"
             android:background="@drawable/customtxtbox"
-            android:hint="Enter Quantity"
+            android:hint="Quantity"
             android:inputType="text" />
 
         <Button
@@ -203,14 +203,14 @@
 
 
 
-        <EditText
-            android:id="@+id/txtMeasurement"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="146dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="Measurement"
-            android:inputType="text" />
+    <EditText
+        android:id="@+id/txtMeasurement"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="146dp"
+        android:background="@drawable/customtxtbox"
+        android:hint="Measurement"
+        android:inputType="text" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -245,12 +245,14 @@
             app:cornerRadius="20dp" />
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
+
+
 
         <Button
             android:id="@+id/btnSave"

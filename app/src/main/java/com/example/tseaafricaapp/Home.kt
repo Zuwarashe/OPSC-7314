@@ -33,12 +33,12 @@ class Home : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
-//------------------Fetch Recipes from Firebase in the Home Activity
+    //------------------Fetch Recipes from Firebase in the Home Activity
     private lateinit var recipeRecyclerView: RecyclerView
     private lateinit var recipeAdapter: RecipeAdapter
     private val recipesList: MutableList<Recipe> = mutableListOf()
 
-//=================END : Fetch Recipes from Firebase in the Home Activity
+    //=================END : Fetch Recipes from Firebase in the Home Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -59,9 +59,10 @@ class Home : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
-
         fetchPublicRecipes()
-    fetchFavoriteRecipes()
+        fetchFavoriteRecipes()
+///-----------END: Read Recipe from database
+
 
 ///--------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
@@ -100,7 +101,18 @@ class Home : AppCompatActivity() {
     }
 
 
+    override fun onStart() {
+        super.onStart()
 
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            // If no user is logged in, redirect to the login page
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+            finish() // To prevent returning to this activity
+        }
+    }
     private fun savePreMadeRecipes() {
         val premadeRecipes = listOf(
             mapOf(
@@ -165,66 +177,16 @@ class Home : AppCompatActivity() {
 
     //------------Fetch Recipes from Firebase in the Home ActivitY
     private fun fetchRecipesFromDatabase() {
-    val userId = auth.currentUser?.uid ?: return
-    val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
-
-    // Fetch the public recipes
-    databaseReference.orderByChild("isPublic").equalTo(true)
-        .addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                recipesList.clear()
-                // Fetch and add all public recipes to the list
-                for (recipeSnapshot in snapshot.children) {
-                    val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                    recipe?.let { recipesList.add(it) }
-                }
-
-                // Fetch the current user's recipes (private and public)
-                fetchUserRecipes(userId)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Handle error
-            }
-        })
-    //original
-
-        /*
-
         val userId = auth.currentUser?.uid ?: return
         val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)
 
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-            recipesList.clear()
-            for (recipeSnapshot in snapshot.children) {
-                val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                recipe?.let { recipesList.add(it) }
-            }
-            recipeAdapter = RecipeAdapter(recipesList)
-            recipeRecyclerView.adapter = recipeAdapter
-        }
-
-        override fun onCancelled(error: DatabaseError) {
-            // Handle error
-        }
-        })
-    */
-    //original
-    }
-
-    private fun fetchUserRecipes(userId: String) {
-        val userRecipeReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)
-
-        userRecipeReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // Add user's recipes (both public and private) to the list
+                recipesList.clear()
                 for (recipeSnapshot in snapshot.children) {
                     val recipe = recipeSnapshot.getValue(Recipe::class.java)
                     recipe?.let { recipesList.add(it) }
                 }
-
-                // After fetching both public and user-specific recipes, update the adapter
                 recipeAdapter = RecipeAdapter(recipesList)
                 recipeRecyclerView.adapter = recipeAdapter
             }

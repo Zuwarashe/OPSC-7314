@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/lblRecipeName"
-            android:layout_width="344dp"
+            android:layout_width="311dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Name"
@@ -55,9 +55,10 @@
             android:id="@+id/imageBtnFavourite"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:backgroundTint="@color/white"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/favourite_svgrepo_com" />
+            android:background="@null"
+            app:srcCompat="@drawable/favourite_svgrepo_com"
+            app:tint="@color/red"/>
 
 
 
@@ -125,7 +126,7 @@
         android:layout_height="match_parent">
 
 
-    <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
