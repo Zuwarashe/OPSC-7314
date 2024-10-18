@@ -92,13 +92,14 @@ class RecipePage : AppCompatActivity() {
 /////-----fave
         // Favorite button functionality
         imageBtnFavourite.setOnClickListener {
-            isFavorite = !isFavorite
-            updateFavoriteButton(isFavorite)
+            isFavorite = !isFavorite // Toggle the favorite status
+            updateFavoriteButton(isFavorite) // Update the button based on the new favorite status
 
-            // Use the safe call and provide a default value if recipeId is null
-            val nonNullRecipeId = recipeId ?: return@setOnClickListener // Exit if recipeId is null
+            // Save the new favorite status to the database
+            val nonNullRecipeId = recipeId ?: return@setOnClickListener
             updateFavoriteStatusInDatabase(nonNullRecipeId, isFavorite)
         }
+
     }
 
 
@@ -137,16 +138,21 @@ class RecipePage : AppCompatActivity() {
                     val recipe = snapshot.getValue(Recipe::class.java)
                     recipe?.let {
                         lblRecipeName.text = it.name
-
                         lblMinutes.text = "${it.totalMinutes} minutes"
                         lblServings.text = "${it.totalServings} servings"
 
+                        // Check if the recipe is a favorite and update the heart icon
+                        val isFavoriteFromDB = snapshot.child("isFavorite").getValue(Boolean::class.java) ?: false
+                        isFavorite = isFavoriteFromDB // Set the local variable to match the DB status
+                        updateFavoriteButton(isFavorite) // Update the favorite button accordingly
+
+                        // Cookware, ingredients, and instructions button functionality...
                         btnCookware.setOnClickListener {
                             btnCookware.setBackgroundColor(Color.parseColor("#FED8B1"))
                             btnIngredients.setBackgroundColor(Color.parseColor("White"))
                             btnInstructions.setBackgroundColor(Color.parseColor("White"))
 
-                            val cookwareList = recipe?.cookware ?: listOf() // Retrieve cookware list from the recipe
+                            val cookwareList = recipe?.cookware ?: listOf()
                             displayCookwareList(cookwareList)
                         }
 
@@ -164,12 +170,9 @@ class RecipePage : AppCompatActivity() {
                             btnIngredients.setBackgroundColor(Color.parseColor("White"))
                             btnCookware.setBackgroundColor(Color.parseColor("White"))
 
-                            val instructionList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
-                            Log.d("RecipePage", "Instructions list: $instructionList")
+                            val instructionList = recipe.instructions ?: listOf()
                             displayInstructionsList(instructionList)
                         }
-
-
                     }
                 }
 
