@@ -46,7 +46,7 @@ class Home : AppCompatActivity() {
 
     //testing Manula recipe
     firebaseManager = FirebaseManager(this)
-    savePreMadeRecipes()
+    //savePreMadeRecipes()
 
 
 
