@@ -58,6 +58,9 @@
             android:backgroundTint="@color/white"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/favourite_svgrepo_com" />
+
+
+
     </LinearLayout>
 
     <LinearLayout
