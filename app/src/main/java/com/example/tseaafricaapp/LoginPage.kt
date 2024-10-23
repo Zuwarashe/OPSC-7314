@@ -2,6 +2,7 @@ package com.example.tseaafricaapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -20,6 +21,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.core.view.View
+
 import java.util.regex.Pattern
 
 class LoginPage : AppCompatActivity() {
@@ -50,6 +53,17 @@ class LoginPage : AppCompatActivity() {
         val loginBtn = findViewById<Button>(R.id.createAccBtn)
         val linkTxt3 = findViewById<TextView>(R.id.linktxt3)
 
+        // Find the button by ID
+        val bioBtn: Button = findViewById(R.id.bioBtn)
+
+        // Set the click listener to navigate to BiometricsActivity
+        bioBtn.setOnClickListener {
+            Log.d("LoginPage", "Biometrics button clicked")
+            val intent = Intent(this, Biometrics::class.java)
+            startActivity(intent)
+        }
+
+
         loginBtn.setOnClickListener {
             val email = emailTxt.text.toString()
             val password = passwordTxt.text.toString()
@@ -73,6 +87,30 @@ class LoginPage : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
+    private fun checkIfBiometricsEnabled(userId: String) {
+        val database = FirebaseDatabase.getInstance().getReference("Users")
+        val userBiometricRef = database.child(userId).child("biometricEnabled")
+
+        userBiometricRef.get().addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.exists() && dataSnapshot.getValue(Boolean::class.java) == true) {
+                // Biometric login is enabled, prompt for authentication
+                promptForBiometricLogin()
+            } else {
+                // Biometric login is not enabled, continue with password login
+            }
+        }.addOnFailureListener { exception ->
+            Toast.makeText(this, "Failed to check biometric status: ${exception.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun promptForBiometricLogin() {
+        val intent = Intent(this, Biometrics::class.java)
+        startActivity(intent)
+    }
+
+
 
     private fun signInWithEmailPassword(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
@@ -161,4 +199,7 @@ class LoginPage : AppCompatActivity() {
             false
         }
     }
+
+
+
 }
