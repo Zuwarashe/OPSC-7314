@@ -32,7 +32,7 @@
         android:id="@+id/emailLbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="120dp"
         android:layout_marginLeft="-215dp"
         android:textStyle="bold"
         android:text="Email Address" />
@@ -42,7 +42,7 @@
         android:layout_width="350dp"
         android:layout_height="40dp"
         android:layout_marginLeft="-92dp"
-        android:layout_marginTop="215dp"
+        android:layout_marginTop="155dp"
         android:background="@drawable/customtxtbox"
         android:ems="19"
         android:inputType="textEmailAddress" />
@@ -51,7 +51,7 @@
         android:id="@+id/passwordLbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="255dp"
+        android:layout_marginTop="195dp"
         android:layout_marginLeft="-350dp"
         android:textStyle="bold"
         android:text="Password" />
@@ -62,16 +62,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="-63dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="240dp"
         android:layout_marginRight="24dp"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordTxt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/customtxtbox"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -79,7 +80,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="280dp"
         android:layout_marginLeft="-365dp"
         android:text="@string/forgot" />
 
@@ -87,18 +88,36 @@
         android:id="@+id/createAccBtn"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="380dp"
+        android:layout_marginTop="320dp"
         android:layout_marginLeft="-125dp"
         android:backgroundTint="#D67229"
         android:text="Login"
         app:cornerRadius="9dp" />
+
+    <Button
+        android:id="@+id/bioBtn"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="375dp"
+        android:layout_marginLeft="-352dp"
+        android:text="Login with Biometrics"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"/>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_marginTop="396dp"
+        android:layout_marginLeft="-274dp"
+        app:srcCompat="@drawable/baseline_fingerprint_24" />
 
     <TextView
         android:id="@+id/orLbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="425dp"
-        android:layout_marginLeft="-180dp"
+        android:layout_marginLeft="75dp"
         android:text="Or" />
 
     <View
@@ -180,6 +199,5 @@
         android:text="@string/signup"
         android:textStyle="bold"
         />
-
 
 </LinearLayout>
