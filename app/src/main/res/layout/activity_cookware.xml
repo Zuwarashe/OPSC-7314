@@ -9,257 +9,298 @@
     android:background="@drawable/background"
     tools:context=".Cookware">
 
-    <LinearLayout
+    <!-- Add ScrollView here -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <ImageButton
-            android:id="@+id/imageBtnBack"
-            android:layout_width="25dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/design_default_color_background"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/backk" />
-
-        <ImageView
-            android:id="@+id/imageLogo"
-            android:layout_width="124dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="95dp"
-            app:srcCompat="@drawable/logo" />
+            android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/chkPublic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="30dp"
-            android:text="Public"
-            android:textColor="@color/black"
-            android:buttonTint="@color/black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/imageBtnBack"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/design_default_color_background"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/backk" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/imageLogo"
+                    android:layout_width="124dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dp"
+                    app:srcCompat="@drawable/logo" />
 
-        <TextView
-            android:id="@+id/lblName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Recipe Name:"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <CheckBox
+                    android:id="@+id/chkPublic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Public"
+                    android:textColor="@color/black"
+                    android:buttonTint="@color/black" />
 
-        <EditText
-            android:id="@+id/txtName"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/lblMinutes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Total Minutes:"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/lblName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Recipe Name:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/txtMinutes"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/txtName"
+                    android:layout_width="129dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/customtxtbox"
+                    android:ems="19" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/lblServings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Total Servings:"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/lblMinutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Total Minutes:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/txtServings"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/txtMinutes"
+                    android:layout_width="129dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="29dp"
+                    android:background="@drawable/customtxtbox"
+                    android:ems="19" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/lblCookware"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Cookware:"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/lblServings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Total Servings:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/txtCookware"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="54dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
+                <EditText
+                    android:id="@+id/txtServings"
+                    android:layout_width="129dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/customtxtbox"
+                    android:ems="19" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btnAddCookware"
-            android:layout_width="79dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="#D67229"
-            android:text="Add"
-            app:cornerRadius="20dp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblCookware"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Cookware:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lblIngredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Ingredients:"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/txtCookware"
+                    android:layout_width="129dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="54dp"
+                    android:background="@drawable/customtxtbox"
+                    android:ems="19" />
 
-        <EditText
-            android:id="@+id/txtIngredient"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="46dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="Ingredient"
-            android:inputType="text" />
+                <Button
+                    android:id="@+id/btnAddCookware"
+                    android:layout_width="79dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="#D67229"
+                    android:text="Add"
+                    app:cornerRadius="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblIngredient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Ingredients:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/txtIngredient"
+                    android:layout_width="127dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="46dp"
+                    android:background="@drawable/customtxtbox"
+                    android:hint="Ingredient"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txtQuantity"
+                    android:layout_width="127dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="146dp"
+                    android:background="@drawable/customtxtbox"
+                    android:hint="Enter Quantity"
+                    android:inputType="text" />
+
+                <Button
+                    android:id="@+id/btnAddIngredient"
+                    android:layout_width="79dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="#D67229"
+                    android:text="Add"
+                    app:cornerRadius="20dp"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/txtMeasurement"
+                android:layout_width="127dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="146dp"
+                android:background="@drawable/customtxtbox"
+                android:hint="Measurement"
+                android:inputType="text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblInstruction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Instructions:"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/txtInstruction"
+                    android:layout_width="129dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="42dp"
+                    android:background="@drawable/customtxtbox"
+                    android:ems="19" />
+
+                <Button
+                    android:id="@+id/btnAddInstruction"
+                    android:layout_width="79dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="#D67229"
+                    android:text="Add"
+                    app:cornerRadius="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <!-- New section for adding a photo -->
+                <TextView
+                    android:id="@+id/add_photo_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Add a photo (optional)"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/photoImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="16dp"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Recipe photo" />
 
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/selectPhotoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Select Photo" />
+                <Button
+                    android:id="@+id/takePhotoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="Take Photo" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/txtQuantity"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="146dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="Enter Quantity"
-            android:inputType="text" />
-
-        <Button
-            android:id="@+id/btnAddIngredient"
-            android:layout_width="79dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="#D67229"
-            android:text="Add"
-            app:cornerRadius="20dp"/>
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="131dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="150dp"
+                    android:backgroundTint="#D67229"
+                    android:text="Save Recipe"
+                    app:cornerRadius="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
-
-        <EditText
-            android:id="@+id/txtMeasurement"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="146dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="Measurement"
-            android:inputType="text" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/lblInstruction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Instructions:"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/txtInstruction"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="42dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
-
-        <Button
-            android:id="@+id/btnAddInstruction"
-            android:layout_width="79dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="#D67229"
-            android:text="Add"
-            app:cornerRadius="20dp" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="131dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:backgroundTint="#D67229"
-            android:text="Save Recipe"
-            app:cornerRadius="20dp" />
-    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"

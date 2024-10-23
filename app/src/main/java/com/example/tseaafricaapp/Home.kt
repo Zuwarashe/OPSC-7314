@@ -33,6 +33,12 @@ class Home : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
+//-------------------explore
+    private lateinit var exploreRecyclerView: RecyclerView
+    private lateinit var exploreRecipeAdapter: RecipeAdapter
+    private val exploreRecipeList: MutableList<Recipe> = mutableListOf()
+//===================END:  explore
+
 //------------------Fetch Recipes from Firebase in the Home Activity
     private lateinit var recipeRecyclerView: RecyclerView
     private lateinit var recipeAdapter: RecipeAdapter
@@ -46,7 +52,16 @@ class Home : AppCompatActivity() {
 
     //testing Manula recipe
     firebaseManager = FirebaseManager(this)
-    savePreMadeRecipes()
+    //savePreMadeRecipes()
+
+//--------------------    explore
+    exploreRecyclerView = findViewById(R.id.exploreRecView)
+    exploreRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    exploreRecipeAdapter = RecipeAdapter(exploreRecipeList)
+    exploreRecyclerView.adapter = exploreRecipeAdapter
+
+    fetchPublicRecipes()
+//==========================END: explore
 
 
 
@@ -59,8 +74,6 @@ class Home : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
-
-        fetchPublicRecipes()
     fetchFavoriteRecipes()
 
 ///--------------Navigation
@@ -99,25 +112,45 @@ class Home : AppCompatActivity() {
         }
     }
 
+    private fun fetchPublicRecipes() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child("public")
+
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                exploreRecipeList.clear() // Clear the previous list
+                for (recipeSnapshot in snapshot.children) {
+                    val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                    recipe?.let { exploreRecipeList.add(it) }  // Add the public recipe to the list
+                }
+                exploreRecipeAdapter.notifyDataSetChanged() // Notify the adapter to refresh the view
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+                Log.e("HomePage", "Error fetching public recipes: ${error.message}")
+            }
+        })
+    }
+
 
 
     private fun savePreMadeRecipes() {
         val premadeRecipes = listOf(
             mapOf(
-                "name" to "Test Recipe 1",
-                "totalMinutes" to 30,
+                "name" to "West African Peanut Stew",
+                "totalMinutes" to 45,
                 "totalServings" to 4,
-                "cookware" to listOf("Pan", "Oven"),
+                "cookware" to listOf("Large pot"),
                 "instruction" to listOf("Preheat oven to 350°F", "Cook for 20 minutes"),
-                "ingredients" to listOf("Chicken", "Rice", "Vegetables"),
+                "ingredients" to listOf("1 tablespoon vegetable oil", "1 onion, chopped", "1 sweet potato, peeled", "1 can (14 oz) diced tomatoes" ,"4 cups vegetable broth", "1/2 cup peanut butter"),
                 "isPublic" to true,
                 "isFavorite" to false
             ),
             mapOf(
-                "name" to "Test Recipe 2",
-                "totalMinutes" to 45,
-                "totalServings" to 2,
-                "cookware" to listOf("Stove", "Pot"),
+                "name" to "Shakshuka",
+                "totalMinutes" to 35,
+                "totalServings" to 4,
+                "cookware" to listOf("Skillet", "Pot"),
                 "instruction" to listOf("Boil water", "Cook pasta for 10 minutes"),
                 "ingredients" to listOf("Pasta", "Tomato sauce"),
                 "isPublic" to true,
@@ -138,29 +171,6 @@ class Home : AppCompatActivity() {
 
         recipeAdapter = RecipeAdapter(recipesList.distinct())
         recipeRecyclerView.adapter = recipeAdapter
-    }
-
-    private fun fetchPublicRecipes() {
-        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
-        databaseReference.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot){
-                for (userSnapshot in snapshot.children){
-                    for (recipeSnapshot in userSnapshot.children){
-                        val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                        recipe?.let{
-                            //(it.isPublic == true)
-                            if (it.isPublic) {
-                                recipesList.add(it)
-                            }
-                        }
-                    }
-                }
-                updateRecyclerView()
-            }
-            override fun onCancelled(error: DatabaseError) {
-                // Handle error
-            }
-        })
     }
 
     //------------Fetch Recipes from Firebase in the Home ActivitY
@@ -187,30 +197,7 @@ class Home : AppCompatActivity() {
                 // Handle error
             }
         })
-    //original
 
-        /*
-
-        val userId = auth.currentUser?.uid ?: return
-        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child(userId)
-
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-            recipesList.clear()
-            for (recipeSnapshot in snapshot.children) {
-                val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                recipe?.let { recipesList.add(it) }
-            }
-            recipeAdapter = RecipeAdapter(recipesList)
-            recipeRecyclerView.adapter = recipeAdapter
-        }
-
-        override fun onCancelled(error: DatabaseError) {
-            // Handle error
-        }
-        })
-    */
-    //original
     }
 
     private fun fetchUserRecipes(userId: String) {
