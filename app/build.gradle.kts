@@ -45,6 +45,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
+    implementation ("com.google.android.material:material:1.2.1")
+
     // OkHttp for HTTP client
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation(libs.androidx.core.ktx)

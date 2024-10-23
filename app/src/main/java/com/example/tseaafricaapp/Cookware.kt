@@ -193,18 +193,30 @@ private lateinit var photoImageView: ImageView
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.mealPlan
 
-        bottomNavigationView.setOnItemSelectedListener{item ->
-            when (item.itemId){
-                R.id.mealPlan -> true
-                R.id.home ->{
-                    startActivity(Intent(applicationContext, Home::class.java))
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                    finish()
-                    true
-                }
-                else -> false
+    bottomNavigationView.setOnItemSelectedListener{item ->
+        when (item.itemId){
+            R.id.mealPlan -> true
+            R.id.home ->{
+                startActivity(Intent(applicationContext, Home::class.java))
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                finish()
+                true
             }
+            R.id.fave ->{
+                startActivity(Intent(applicationContext, Favourites::class.java))
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                finish()
+                true
+            }
+            R.id.settings ->{
+                startActivity(Intent(applicationContext, Settings::class.java))
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                finish()
+                true
+            }
+            else -> false
         }
+    }
 ///--------------Navigation end
     }
 //------------------------------------------Photo ------------------------------------------
