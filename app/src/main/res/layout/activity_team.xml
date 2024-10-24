@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Team">
+
+
+
+    <!-- Zuwarashe - Frontend Developer -->
+    <ImageView
+        android:id="@+id/zuwarasheIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/zuwa"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/zuwarasheName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zuwarashe"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/zuwarasheIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/zuwarasheRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frontend Developer"
+        app:layout_constraintTop_toBottomOf="@+id/zuwarasheName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- Courtney - Project Manager -->
+    <ImageView
+        android:id="@+id/courtneyIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/courtney"
+        app:layout_constraintTop_toBottomOf="@+id/zuwarasheRole"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/courtneyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Courtney"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/courtneyIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/courtneyRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Project Manager"
+        app:layout_constraintTop_toBottomOf="@+id/courtneyName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- Nande - Developer -->
+    <ImageView
+        android:id="@+id/nandeIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/nande"
+        app:layout_constraintTop_toBottomOf="@+id/courtneyRole"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/nandeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nande"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/nandeIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/nandeRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Developer"
+        app:layout_constraintTop_toBottomOf="@+id/nandeName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- Manneng - Backend Developer -->
+    <ImageView
+        android:id="@+id/mannengIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/manneng"
+        app:layout_constraintTop_toBottomOf="@+id/nandeRole"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/mannengName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manneng"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/mannengIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/mannengRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Backend Developer"
+        app:layout_constraintTop_toBottomOf="@+id/mannengName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <Button
+        android:id="@+id/myButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return"
+        android:backgroundTint="#D67229"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

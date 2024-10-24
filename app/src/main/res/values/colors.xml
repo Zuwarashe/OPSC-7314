@@ -6,6 +6,7 @@
     <color name="lightOrange">#ff9c1d</color>
     <color name="candyPink">#E4717A</color>
     <color name="grey">#808080</color>
+    <color name="red">#FF0000</color>
 
     <!-- Colors from the other branch -->
     <color name="button_default_background">#006200EE</color>

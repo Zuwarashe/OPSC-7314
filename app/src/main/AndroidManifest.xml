@@ -2,7 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Indicate that the camera is an optional feature -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +23,11 @@
         android:theme="@style/Theme.TseaAfricaApp"
         tools:targetApi="31">
         <activity
-            android:name=".UserPrefence"
+            android:name=".Team"
             android:exported="false" />
-        <!-- Activities from both branches -->
+        <activity
+            android:name=".UserPrefence"
+            android:exported="false" /> <!-- Activities from both branches -->
         <activity
             android:name=".RecipeEntry"
             android:exported="false" />

@@ -6,26 +6,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-// Adapter class for the RecyclerView
-class CookwareAdapter(private val cookwareList: List<String>) :
-    RecyclerView.Adapter<CookwareAdapter.CookwareViewHolder>() {
+class CookwareAdapter(private val cookwareList: List<String>) : RecyclerView.Adapter<CookwareAdapter.CookwareViewHolder>() {
 
-    class CookwareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtCookwareItem: TextView = itemView.findViewById(R.id.txtCookwareItem)
+    class CookwareViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val cookwareItem: TextView = view.findViewById(R.id.tvCookware)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CookwareViewHolder {
-        // Inflate the item layout for the RecyclerView
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cookware, parent, false)
         return CookwareViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CookwareViewHolder, position: Int) {
-        // Bind the cookware item to the TextView
-        holder.txtCookwareItem.text = cookwareList[position]
+        val cookware = cookwareList[position]
+        holder.cookwareItem.text = cookware
     }
 
-    override fun getItemCount(): Int {
-        return cookwareList.size
-    }
+    override fun getItemCount() = cookwareList.size
 }
