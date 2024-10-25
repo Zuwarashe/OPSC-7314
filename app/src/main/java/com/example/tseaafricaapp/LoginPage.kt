@@ -47,6 +47,8 @@ class LoginPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_page)
 
+        val bioBtn: Button = findViewById(R.id.bioBtn)
+
         // Initialize the fingerprint ImageView
         fingerprint = findViewById(R.id.fingerprint)
 
@@ -152,7 +154,7 @@ class LoginPage : AppCompatActivity() {
         // Consider integrating with the keystore to unlock cryptographic operations,
         // if needed by your app.
 
-        fingerprint.setOnClickListener {
+        bioBtn.setOnClickListener {
             biometricPrompt.authenticate(promptInfo)
         }
     }
