@@ -20,4 +20,16 @@
     </string>
     <!-- Strings used for Settings -->
     <string name="settings">Instellings</string>
+    <!-- Strings used for Cookware -->
+    <string name="recipe_name">Resep Naam:</string>
+    <string name="total_minutes">Aantal Minute:</string>
+    <string name="total_servings">Aantal Porsies:</string>
+    <string name="cookware">Kookgerei:</string>
+    <string name="ingredients">Bestanddele:</string>
+    <string name="ingredient">Bestanddeel</string>
+    <string name="enter_quantity">Hoeveelheid</string>
+    <string name="measurement">Meting</string>
+    <string name="instructions">Instruksies:</string>
+    <string name="add">Voeg by</string>
+    <string name="save_recipe">Stoor Resep</string>
 </resources>

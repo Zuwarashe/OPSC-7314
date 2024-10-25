@@ -19,5 +19,17 @@
     </string>
     <!-- Strings used for Settings -->
     <string name="settings">Settings</string>
+    <!-- Strings used for Cookware -->
+    <string name="recipe_name">Recipe Name:</string>
+    <string name="total_minutes">Total Minutes:</string>
+    <string name="total_servings">Total Servings:</string>
+    <string name="cookware">Cookware:</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="enter_quantity">Quantity</string>
+    <string name="measurement">Measurement</string>
+    <string name="instructions">Instructions:</string>
+    <string name="add">Add</string>
+    <string name="save_recipe">Save Recipe</string>
 
 </resources>
