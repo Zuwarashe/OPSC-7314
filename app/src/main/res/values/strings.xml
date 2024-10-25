@@ -5,7 +5,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
+    <!-- Strings used for Login and Sign Up -->
     <string name="login">
         <u>Login</u>
     </string>
@@ -17,5 +17,7 @@
     <string name="forgot">
         <u>Forgot Password?</u>
     </string>
+    <!-- Strings used for Settings -->
+    <string name="settings">Settings</string>
 
 </resources>

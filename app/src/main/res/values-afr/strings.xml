@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TseaAfricaApp</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Eerste Fragment</string>
+    <string name="second_fragment_label">Tweede Fragment</string>
+    <string name="next">Volgende</string>
+    <string name="previous">Vorige</string>
+    <!-- Strings used for Login and Sign Up -->
+    <string name="login">
+        <u>Skakel in</u>
+    </string>
+
+    <string name="signup">
+        <u>Meld Aan</u>
+    </string>
+
+    <string name="forgot">
+        <u>Wagwoord Vergeet?</u>
+    </string>
+    <!-- Strings used for Settings -->
+    <string name="settings">Instellings</string>
+</resources>
