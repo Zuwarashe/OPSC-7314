@@ -9,6 +9,8 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
+
+
     <ImageView
         android:id="@+id/miniLogo"
         android:layout_width="97dp"
