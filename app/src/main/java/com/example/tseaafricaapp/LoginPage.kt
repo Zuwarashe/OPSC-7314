@@ -44,18 +44,52 @@ class LoginPage : AppCompatActivity() {
     private lateinit var firebaseManager: FirebaseManager
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
-    //private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_page)
 
+        initBiometricAuthentication() // Set up biometric prompt here
+
         // Initialize Firebase and biometric manager
         firebaseManager = FirebaseManager(this)
         auth = FirebaseAuth.getInstance()
 
+        // Setup for biometric authentication
+        val biometricManager = BiometricManager.from(this)
+        // Initialize executor
+        executor = ContextCompat.getMainExecutor(this)
+
         val bioBtn: Button = findViewById(R.id.bioBtn)
-        // Initialize the fingerprint ImageView
+
+
+        bioBtn.setOnClickListener {
+           // val biometricManager = BiometricManager.from(this)
+            when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+                BiometricManager.BIOMETRIC_SUCCESS -> {
+                    firebaseManager.authenticateWithBiometrics(this) {
+                        val userId = auth.currentUser?.uid ?: return@authenticateWithBiometrics
+                        val biometricIdentifier = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+
+                        firebaseManager.saveBiometricData(userId, biometricIdentifier) { success, error ->
+                            if (success) {
+                                startActivity(Intent(this, Home::class.java))
+                            } else {
+                                Toast.makeText(this, "Failed to save biometric data: $error", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+                BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
+                    Toast.makeText(this, "No biometric hardware available.", Toast.LENGTH_SHORT).show()
+                BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
+                    Toast.makeText(this, "Biometric hardware is currently unavailable.", Toast.LENGTH_SHORT).show()
+                BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
+                    Toast.makeText(this, "No biometric credentials enrolled.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         fingerprint = findViewById(R.id.fingerprint)
 
 
@@ -87,7 +121,9 @@ class LoginPage : AppCompatActivity() {
         loginBtn.setOnClickListener {
             val email = emailTxt.text.toString()
             val password = passwordTxt.text.toString()
-            if (validateEmail(email) && password.isNotEmpty()) {
+
+            // Call validateEmail and validatePassword before proceeding
+            if (validateEmail(email) && validatePassword(password)) {
                 val firebaseManager = FirebaseManager(this)
                 firebaseManager.signInWithEmail(email, password) { success, errorMessage ->
                     if (success) {
@@ -97,8 +133,11 @@ class LoginPage : AppCompatActivity() {
                         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 }
+            } else {
+                Toast.makeText(this, "Please check your email and password requirements.", Toast.LENGTH_SHORT).show()
             }
         }
+
 
 
         linkTxt3.setOnClickListener {
@@ -107,8 +146,8 @@ class LoginPage : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Setup for biometric authentication
-        val biometricManager = BiometricManager.from(this)
+
+
         when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS -> Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
 
@@ -132,13 +171,13 @@ class LoginPage : AppCompatActivity() {
             }
         }
 
-        // Initialize executor
-        executor = ContextCompat.getMainExecutor(this)
+
 
 
 
         // Configure biometric prompt for login
         biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
                 val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -148,14 +187,22 @@ class LoginPage : AppCompatActivity() {
                     val fingerprintData = mapOf("authType" to "fingerprint")
                     val faceData = mapOf("authType" to "face")
 
-                    firebaseManager.saveBiometricData(userId, fingerprintData, faceData) { success, error ->
+                    val biometricIdentifier =
+                        "fingerprintData: ${fingerprintData["authType"]}, faceData: ${faceData["authType"]}"
+
+                    firebaseManager.saveBiometricData(userId, biometricIdentifier) { success, error ->
                         if (success) {
                             startActivity(Intent(this@LoginPage, Home::class.java))
                             finish() // Prevent going back to login page
                         } else {
-                            Toast.makeText(this@LoginPage, "Biometric data save failed: $error", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@LoginPage,
+                                "Biometric data save failed: $error",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
+
                 }
             }
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -258,24 +305,68 @@ class LoginPage : AppCompatActivity() {
         }
     }
 
+    private fun initBiometricAuthentication() {
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric Login")
+            .setSubtitle("Log in using your biometric credential")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        biometricPrompt = BiometricPrompt(this,
+            ContextCompat.getMainExecutor(this),
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    saveBiometricData() // Call this function on successful authentication
+                }
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(this@LoginPage, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(this@LoginPage, "Authentication failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
+     }
+
+    private fun saveBiometricData() {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val biometricIdentifier = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+            firebaseManager.saveBiometricData(userId, biometricIdentifier) { success, error ->
+                if (success) {
+                    startActivity(Intent(this@LoginPage, Home::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "Failed to save biometric data: $error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun validatePassword(password: String): Boolean {
+        val passwordPattern = Pattern.compile(
+            "^(?=.[A-Z])(?=.[a-z])(?=.\\d)(?=.[@$!%?&])[A-Za-z\\d@$!%?&]{12,}$"
+        )
+        return if (passwordPattern.matcher(password).matches()) {
+            true
+        } else {
+            Toast.makeText(
+                this,
+                "Password must be at least 12 characters long, contain uppercase and lowercase letters, a number, and a special character",
+                Toast.LENGTH_LONG
+            ).show()
+            false
+        }
+    }
 }
 
 
-//    private fun validatePassword(password: String): Boolean {
-//        val passwordPattern = Pattern.compile(
-//            "^(?=.[A-Z])(?=.[a-z])(?=.\\d)(?=.[@$!%?&])[A-Za-z\\d@$!%?&]{12,}$"
-//        )
-//        return if (passwordPattern.matcher(password).matches()) {
-//            true
-//        } else {
-//            Toast.makeText(
-//                this,
-//                "Password must be at least 12 characters long, contain uppercase and lowercase letters, a number, and a special character",
-//                Toast.LENGTH_LONG
-//            ).show()
-//            false
-//        }
-//    }
+
 
 //    private fun loginUser(email: String, password: String) {
 //        firebaseManager.signInWithEmail(email, password) { success, error ->

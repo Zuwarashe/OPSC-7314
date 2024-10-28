@@ -218,23 +218,6 @@ class FirebaseManager(private val context: Context) {
     }
 //=========================END: Other: not implemented
 
-    //-------------------Save Biometric Data
-    fun saveBiometricData(userId: String, fingerprintData: Map<String, String>, faceData: Map<String, String>, callback: (Boolean, String?) -> Unit) {
-        val userRef = database.child("biometric_data").child(userId)
-        userRef.child("fingerprint").setValue(fingerprintData)
-            .addOnSuccessListener {
-                userRef.child("face").setValue(faceData)
-                    .addOnSuccessListener {
-                        callback(true, null)
-                    }
-                    .addOnFailureListener { e ->
-                        callback(false, e.message)
-                    }
-            }
-            .addOnFailureListener { e ->
-                callback(false, e.message)
-            }
-    }
 
     // Add this method to retrieve biometric data
     fun getBiometricData(userId: String, onResult: (Map<String, Any>?, String?) -> Unit) {
@@ -253,37 +236,50 @@ class FirebaseManager(private val context: Context) {
 //-------------------END: Save and Retrieve Biometric Data
     }
 
+    // Authenticate user with biometrics
     fun authenticateWithBiometrics(activity: FragmentActivity, onAuthenticationSuccess: () -> Unit) {
-        val biometricPrompt = BiometricPrompt(activity, ContextCompat.getMainExecutor(activity),
-            object : BiometricPrompt.AuthenticationCallback() {
+        val executor = ContextCompat.getMainExecutor(activity)
+        biometricPrompt =
+            BiometricPrompt(activity, executor, object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
                     Toast.makeText(activity, "Authentication successful", Toast.LENGTH_SHORT).show()
-
-                    // Use Handler directly to post to the main thread
-                    Handler(Looper.getMainLooper()).post {
-                        onAuthenticationSuccess()
-                    }
+                    onAuthenticationSuccess()
                 }
 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
-                    Toast.makeText(activity, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Authentication error: $errString", Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
                     Toast.makeText(activity, "Authentication failed", Toast.LENGTH_SHORT).show()
                 }
-            }
-        )
+            })
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Biometric Login")
-            .setSubtitle("Log in using your biometrics")
+            .setSubtitle("Authenticate using fingerprint or facial recognition")
             .setNegativeButtonText("Cancel")
             .build()
 
         biometricPrompt.authenticate(promptInfo)
+    }
+
+    // Store the biometric data into Firebase
+    fun saveBiometricData(userId: String, biometricIdentifier: String, callback: (Boolean, String?) -> Unit) {
+        val userRef = database.child("biometric_data").child(userId)
+        val biometricData = mapOf("biometricIdentifier" to biometricIdentifier)
+
+        userRef.setValue(biometricData)
+            .addOnSuccessListener { Log.d("FirebaseManager", "Biometric data saved successfully for user $userId")
+                callback(true, null)
+            }
+            .addOnFailureListener { e ->
+                Log.e("FirebaseManager", "Error saving biometric data: ${e.message}")
+                callback(false, e.message)
+            }
     }
 }
