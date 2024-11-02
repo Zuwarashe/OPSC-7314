@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.messaging.ktx)
+
+    implementation ("com.google.firebase:firebase-analytics-ktx")
 
 
     //implementation(libs.firebase.auth)
