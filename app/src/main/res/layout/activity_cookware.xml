@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -54,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="@string/recipe_name"
+            android:text="Recipe Name:"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -78,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="@string/total_minutes"
+            android:text="Total Minutes:"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -102,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="@string/total_servings"
+            android:text="Total Servings:"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -126,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="@string/cookware"
+            android:text="Cookware:"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -140,11 +141,11 @@
 
         <Button
             android:id="@+id/btnAddCookware"
-            android:layout_width="wrap_content"
+            android:layout_width="79dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:backgroundTint="#D67229"
-            android:text="@string/add"
+            android:text="Add"
             app:cornerRadius="20dp" />
     </LinearLayout>
 
@@ -159,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="@string/ingredients"
+            android:text="Ingredients:"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -169,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="46dp"
             android:background="@drawable/customtxtbox"
-            android:hint="@string/ingredient"
+            android:hint="Ingredient"
             android:inputType="text" />
 
 
@@ -187,29 +188,29 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="146dp"
             android:background="@drawable/customtxtbox"
-            android:hint="@string/enter_quantity"
+            android:hint="Quantity"
             android:inputType="text" />
 
         <Button
             android:id="@+id/btnAddIngredient"
-            android:layout_width="wrap_content"
+            android:layout_width="79dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:backgroundTint="#D67229"
-            android:text="@string/add"
+            android:text="Add"
             app:cornerRadius="20dp"/>
     </LinearLayout>
 
 
 
-        <EditText
-            android:id="@+id/txtMeasurement"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="146dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="@string/measurement"
-            android:inputType="text" />
+    <EditText
+        android:id="@+id/txtMeasurement"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="146dp"
+        android:background="@drawable/customtxtbox"
+        android:hint="Measurement"
+        android:inputType="text" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -222,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="@string/instructions"
+            android:text="Instructions:"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -236,28 +237,30 @@
 
         <Button
             android:id="@+id/btnAddInstruction"
-            android:layout_width="wrap_content"
+            android:layout_width="79dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:backgroundTint="#D67229"
-            android:text="@string/add"
+            android:text="Add"
             app:cornerRadius="20dp" />
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
+
+
+
         <Button
             android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
+            android:layout_width="131dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="150dp"
             android:backgroundTint="#D67229"
-            android:text="@string/save_recipe"
+            android:text="Save Recipe"
             app:cornerRadius="20dp" />
     </LinearLayout>
 

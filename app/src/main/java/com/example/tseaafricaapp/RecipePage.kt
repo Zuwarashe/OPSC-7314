@@ -33,7 +33,7 @@ class RecipePage : AppCompatActivity() {
     private lateinit var btnInstructions: Button
     private lateinit var recyclerView: RecyclerView
 
-  //-------FAV
+    //-------FAV
     private var isFavorite: Boolean = false
 
     // Array of drawable resource IDs
@@ -90,16 +90,15 @@ class RecipePage : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 /////-----fave
+        // Favorite button functionality
         imageBtnFavourite.setOnClickListener {
-            recipeId?.let { id ->
-                isFavorite = !isFavorite
-                updateFavoriteButton(isFavorite)
-                updateFavoriteStatusInDatabase(id, isFavorite)
-            } ?: run {
-                Log.e("RecipePage", "Error: recipeId is null")
-            }
-        }
+            isFavorite = !isFavorite // Toggle the favorite status
+            updateFavoriteButton(isFavorite) // Update the button based on the new favorite status
 
+            // Save the new favorite status to the database
+            val nonNullRecipeId = recipeId ?: return@setOnClickListener
+            updateFavoriteStatusInDatabase(nonNullRecipeId, isFavorite)
+        }
 
     }
 
@@ -139,16 +138,21 @@ class RecipePage : AppCompatActivity() {
                     val recipe = snapshot.getValue(Recipe::class.java)
                     recipe?.let {
                         lblRecipeName.text = it.name
-
                         lblMinutes.text = "${it.totalMinutes} minutes"
                         lblServings.text = "${it.totalServings} servings"
-                        
+
+                        // Check if the recipe is a favorite and update the heart icon
+                        val isFavoriteFromDB = snapshot.child("isFavorite").getValue(Boolean::class.java) ?: false
+                        isFavorite = isFavoriteFromDB // Set the local variable to match the DB status
+                        updateFavoriteButton(isFavorite) // Update the favorite button accordingly
+
+                        // Cookware, ingredients, and instructions button functionality...
                         btnCookware.setOnClickListener {
                             btnCookware.setBackgroundColor(Color.parseColor("#FED8B1"))
                             btnIngredients.setBackgroundColor(Color.parseColor("White"))
                             btnInstructions.setBackgroundColor(Color.parseColor("White"))
 
-                            val cookwareList = recipe?.cookware ?: listOf() // Retrieve cookware list from the recipe
+                            val cookwareList = recipe?.cookware ?: listOf()
                             displayCookwareList(cookwareList)
                         }
 
@@ -166,12 +170,9 @@ class RecipePage : AppCompatActivity() {
                             btnIngredients.setBackgroundColor(Color.parseColor("White"))
                             btnCookware.setBackgroundColor(Color.parseColor("White"))
 
-                            val instructionList = recipe?.instructions ?: listOf() // Retrieve cookware list from the recipe
-                            Log.d("RecipePage", "Instructions list: $instructionList")
+                            val instructionList = recipe.instructions ?: listOf()
                             displayInstructionsList(instructionList)
                         }
-
-                      
                     }
                 }
 
@@ -202,7 +203,7 @@ class RecipePage : AppCompatActivity() {
 
     private fun updateFavoriteButton(isFavorite: Boolean) {
         imageBtnFavourite.setImageResource(
-            if (isFavorite) R.drawable.favourite_filled
+            if (isFavorite) R.drawable.ic_heart_fave
             else R.drawable.favourite_svgrepo_com
         )
     }
