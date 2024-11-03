@@ -71,17 +71,17 @@
 
         <TextView
             android:id="@+id/lblMinutes"
-            android:layout_width="88dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Total minutes" />
+            android:text="@string/total_minutes" />
 
         <TextView
             android:id="@+id/lblServings"
-            android:layout_width="137dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
-            android:text="Total servings" />
+            android:text="@string/total_servings" />
 
     </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="@color/white"
-            android:text="Cookware"
+            android:text="@string/cookware_"
             android:textColor="@color/black" />
 
         <Button
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="@color/white"
-            android:text="Ingredients"
+            android:text="@string/ingredients_"
             android:textColor="@color/black" />
 
         <Button
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:backgroundTint="@color/white"
-            android:text="Instructions"
+            android:text="@string/instructions_"
             android:textColor="@color/black" />
     </LinearLayout>
 

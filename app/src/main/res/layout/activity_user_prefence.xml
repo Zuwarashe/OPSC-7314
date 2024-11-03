@@ -14,42 +14,42 @@
         android:id="@+id/minCarbs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Min Carbs (g)"
+        android:hint="@string/min_carbs_g"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/maxCarbs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Max Carbs (g)"
+        android:hint="@string/max_carbs_g"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/minProtein"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Min Protein (g)"
+        android:hint="@string/min_protein_g"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/maxProtein"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Max Protein (g)"
+        android:hint="@string/max_protein_g"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/minCalories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Min Calories"
+        android:hint="@string/min_calories"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/maxCalories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Max Calories"
+        android:hint="@string/max_calories"
         android:inputType="number" />
 
     <Button
@@ -58,12 +58,12 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#D67229"
         android:textColor="@color/black"
-        android:text="Search Recipes" />
+        android:text="@string/search_recipes" />
     <Button
         android:id="@+id/myButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Return"
+        android:text="@string/return_"
         android:backgroundTint="#D67229"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"

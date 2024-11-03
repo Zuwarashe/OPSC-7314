@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:text="Your Recipes"
+        android:text="@string/your_recipes"
         android:textColor="@color/your_text_color"
         android:textSize="16sp" />
 

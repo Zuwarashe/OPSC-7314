@@ -32,4 +32,31 @@
     <string name="instructions">Instruksies:</string>
     <string name="add">Voeg by</string>
     <string name="save_recipe">Stoor Resep</string>
+    <!-- Strings used for Favourites -->
+    <string name="my_favourites">My Gunstelinge</string>
+    <!-- Strings used for Home -->
+    <string name="build_a_meal_plan">Bou n maaltydplan</string>
+    <string name="recently_created">Onlangs geskep</string>
+    <string name="favourites">Gunstelinge</string>
+    <!-- Strings used for  Personalised meals -->
+    <string name="logout">Teken Af</string>
+    <!-- Strings used for recipe page -->
+    <string name="cookware_">Kookgerei</string>
+    <string name="ingredients_">Bestanddele</string>
+    <string name="instructions_">Instruksies</string>
+    <!-- Strings used for team -->
+    <string name="return_">Keer Terug</string>
+    <!-- Strings used for user preference -->
+    <string name="min_carbs_g">Min Koolhidrate (g)</string>
+    <string name="max_carbs_g">Max Koolhidrate (g)</string>
+    <string name="min_protein_g">Min Proteïene (g)</string>
+    <string name="max_protein_g">Max Proteïene (g)</string>
+    <string name="min_calories">Min Kalorieë</string>
+    <string name="max_calories">Max Calories</string>
+    <string name="search_recipes">Soek Resepte</string>
+    <!-- Strings used for user settings -->
+    <string name="your_preferences">Jou Voorkeure</string>
+    <string name="health_goals">Gesondheidsdoelwitte</string>
+    <string name="meet_our_team">Ontmoet ons span</string>
+    <string name="your_recipes">Jou Resepte</string>
 </resources>

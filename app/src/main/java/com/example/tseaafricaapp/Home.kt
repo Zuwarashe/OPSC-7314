@@ -234,8 +234,6 @@ class Home : AppCompatActivity() {
         val favoritesAdapter = RecipeAdapter(favoriteRecipesList)  // Use your existing RecipeAdapter
         val favoritesRecView = findViewById<RecyclerView>(R.id.favoritesRecView) // Ensure you have the correct reference
         favoritesRecView.adapter = favoritesAdapter
-        favoritesRecView.layoutManager = LinearLayoutManager(this)
+        favoritesRecView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
-
-
 }
