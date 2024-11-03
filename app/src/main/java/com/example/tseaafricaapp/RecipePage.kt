@@ -170,8 +170,8 @@ class RecipePage : AppCompatActivity() {
                             btnIngredients.setBackgroundColor(Color.parseColor("White"))
                             btnCookware.setBackgroundColor(Color.parseColor("White"))
 
-                            val instructionList = recipe.instructions ?: listOf()
-                            displayInstructionsList(instructionList)
+                            //val instructionList = recipe.instructions ?: listOf()
+                            ///displayInstructionsList(instructionList)
                         }
                     }
                 }

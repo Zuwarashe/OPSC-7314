@@ -26,19 +26,18 @@ import com.google.firebase.database.ValueEventListener
 class Home : AppCompatActivity() {
 
     private lateinit var notificationManager: NotificationManager
-
-    //testing Manula recipe
-
     private lateinit var firebaseManager: FirebaseManager
-    //end: testing Manula recipe
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
 //-------------------explore
-    private lateinit var exploreRecyclerView: RecyclerView
+    private lateinit var exploreAdapter: RecipeAdapter
+    private val exploreRecipesList = mutableListOf<Recipe>()
+
+    //private lateinit var exploreRecyclerView: RecyclerView
     private lateinit var exploreRecipeAdapter: RecipeAdapter
-    private val exploreRecipeList: MutableList<Recipe> = mutableListOf()
+    //private val exploreRecipeList: MutableList<Recipe> = mutableListOf()
 //===================END:  explore
 
 //------------------Fetch Recipes from Firebase in the Home Activity
@@ -51,6 +50,7 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+
 
     notificationManager = NotificationManager(this)
 
@@ -72,15 +72,15 @@ class Home : AppCompatActivity() {
     //savePreMadeRecipes()
 
 //--------------------    explore
-    exploreRecyclerView = findViewById(R.id.exploreRecView)
-    exploreRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-    exploreRecipeAdapter = RecipeAdapter(exploreRecipeList)
-    exploreRecyclerView.adapter = exploreRecipeAdapter
+    val exploreRecView = findViewById<RecyclerView>(R.id.exploreRecView)
+    exploreRecView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    exploreAdapter = RecipeAdapter(exploreRecipesList)
+    exploreRecView.adapter = exploreAdapter
 
-    fetchPublicRecipes()
+
+    //fetchPublicRecipes()
+    fetchExploreRecipes()
 //==========================END: explore
-
-
 
     //end: testing Manula recipe
 
@@ -92,6 +92,7 @@ class Home : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         fetchRecipesFromDatabase()
     fetchFavoriteRecipes()
+
 
 ///--------------Navigation
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
@@ -129,25 +130,35 @@ class Home : AppCompatActivity() {
         }
     }
 
-    private fun fetchPublicRecipes() {
-        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes").child("public")
+    private fun fetchExploreRecipes() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
+        exploreRecipesList.clear()
 
-        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+        databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                exploreRecipeList.clear() // Clear the previous list
-                for (recipeSnapshot in snapshot.children) {
-                    val recipe = recipeSnapshot.getValue(Recipe::class.java)
-                    recipe?.let { exploreRecipeList.add(it) }  // Add the public recipe to the list
+                exploreRecipesList.clear()
+                for (userSnapshot in snapshot.children) {
+                    for (recipeSnapshot in userSnapshot.children) {
+                        val recipe = recipeSnapshot.getValue(Recipe::class.java)
+                        if (recipe != null) {
+                            Log.d("fetchExploreRecipes", "Fetched recipe: ${recipe.name}, isPublic: ${recipe.isPublic}")
+                        }
+                        if (recipe?.isPublic == true) {
+                            exploreRecipesList.add(recipe)
+                        }
+                    }
                 }
-                exploreRecipeAdapter.notifyDataSetChanged() // Notify the adapter to refresh the view
+                Log.d("fetchExploreRecipes", "Total public recipes fetched: ${exploreRecipesList.size}")
+                exploreAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error
-                Log.e("HomePage", "Error fetching public recipes: ${error.message}")
+                Log.e("fetchExploreRecipes", "Error fetching explore recipes: ${error.message}")
             }
         })
     }
+
+
 
 
 
@@ -276,8 +287,9 @@ class Home : AppCompatActivity() {
         val favoritesAdapter = RecipeAdapter(favoriteRecipesList)  // Use your existing RecipeAdapter
         val favoritesRecView = findViewById<RecyclerView>(R.id.favoritesRecView) // Ensure you have the correct reference
         favoritesRecView.adapter = favoritesAdapter
-        favoritesRecView.layoutManager = LinearLayoutManager(this)
+        favoritesRecView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)  // Set to horizontal orientation
     }
+
 
 
 }

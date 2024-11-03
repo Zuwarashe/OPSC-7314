@@ -31,9 +31,8 @@ import android.Manifest
 
 
 class Cookware : AppCompatActivity() {
-
 //-------------------------------------------------------ADD PHOTO------------------------------------------------------------------------
-private lateinit var photoImageView: ImageView
+    private lateinit var photoImageView: ImageView
     private lateinit var selectPhotoButton: Button
     private lateinit var takePhotoButton: Button
     private lateinit var storage: FirebaseStorage
