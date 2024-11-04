@@ -1,6 +1,7 @@
 package com.example.tseaafricaapp
 
 import RecipeAdapter
+import android.app.NotificationManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -51,20 +52,7 @@ class Home : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
-
-    notificationManager = NotificationManager(this)
-
-    notificationManager.subscribeToTopic("new_recipes") { success ->
-        if (success) {
-            Toast.makeText(this, "Subscribed to new recipes", Toast.LENGTH_SHORT).show()
-        }
-    }
-    notificationManager.getDeviceToken { token ->
-        token?.let {
-            // Send this token to your backend server
-            // This token is needed to send notifications to specific devices
-        }
-    }
+    RecipeNotificationManager.subscribeToPublicRecipes()
 
 
     //testing Manula recipe

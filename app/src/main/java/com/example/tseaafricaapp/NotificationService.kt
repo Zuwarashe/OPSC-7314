@@ -7,116 +7,76 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
+import com.example.tseaafricaapp.Home
+import com.example.tseaafricaapp.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.example.tseaafricaapp.R
-import com.example.tseaafricaapp.MainActivity
 
 class NotificationService : FirebaseMessagingService() {
+    companion object {
+        private const val CHANNEL_ID = "recipe_notifications"
+        private const val NOTIFICATION_ID = 100
+    }
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        // Send this token to your server
-        sendRegistrationTokenToServer(token)
+        // Store the token in Firebase Database for the current user
+        saveTokenToDatabase(token)
+    }
+
+    private fun saveTokenToDatabase(token: String) {
+        val auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val database = FirebaseDatabase.getInstance().reference
+            database.child("user_tokens").child(userId).setValue(token)
+        }
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        // Handle notification when app is in foreground
-        remoteMessage.notification?.let { notification ->
-            createNotificationChannel()
-            showNotification(notification.title ?: "New Recipe Alert",
-                notification.body ?: "Check out what's cooking!")
-        }
+        // Create notification channel for Android O and above
+        createNotificationChannel()
 
-        // Handle data payload
-        remoteMessage.data.isNotEmpty().let {
-            // Process data payload
-            handleDataPayload(remoteMessage.data)
-        }
+        // Get notification data
+        val title = remoteMessage.data["title"] ?: "New Recipe Shared"
+        val message = remoteMessage.data["message"] ?: "Someone shared a new recipe!"
+
+        // Create intent for notification tap action
+        val intent = Intent(this, Home::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // Build notification
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.notifications)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+        // Show notification
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "recipe_notifications"
-            val channelName = "Recipe Notifications"
+            val name = "Recipe Notifications"
+            val descriptionText = "Notifications for new shared recipes"
             val importance = NotificationManager.IMPORTANCE_HIGH
-
-            val channel = NotificationChannel(channelId, channelName, importance).apply {
-                description = "Notifications for new recipes and updates"
-                enableLights(true)
-                enableVibration(true)
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
             }
-
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-    }
-
-    private fun showNotification(title: String, message: String) {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val builder = NotificationCompat.Builder(this, "recipe_notifications")
-            .setSmallIcon(R.drawable.notifications) // Make sure to create this icon
-            .setContentTitle(title)
-            .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
-    }
-
-    private fun handleDataPayload(data: Map<String, String>) {
-        // Handle different types of notifications based on data
-        when (data["type"]) {
-            "new_recipe" -> handleNewRecipeNotification(data)
-            "recipe_update" -> handleRecipeUpdateNotification(data)
-            "favorite" -> handleFavoriteNotification(data)
-            else -> handleDefaultNotification(data)
-        }
-    }
-
-    private fun handleNewRecipeNotification(data: Map<String, String>) {
-        showNotification(
-            "New Recipe Added!",
-            "Check out the new recipe: ${data["recipe_name"]}"
-        )
-    }
-
-    private fun handleRecipeUpdateNotification(data: Map<String, String>) {
-        showNotification(
-            "Recipe Updated",
-            "The recipe '${data["recipe_name"]}' has been updated"
-        )
-    }
-
-    private fun handleFavoriteNotification(data: Map<String, String>) {
-        showNotification(
-            "New Favorite!",
-            "Someone liked your recipe: ${data["recipe_name"]}"
-        )
-    }
-
-    private fun handleDefaultNotification(data: Map<String, String>) {
-        showNotification(
-            data["title"] ?: "New Notification",
-            data["message"] ?: "You have a new notification"
-        )
-    }
-
-    private fun sendRegistrationTokenToServer(token: String) {
-        // Implement the logic to send the token to your backend server
-        // This is important for targeting specific devices for notifications
     }
 }

@@ -341,6 +341,9 @@ class Cookware : AppCompatActivity() {
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
                                 clearInputs()
+                                if (isPublic) {
+                                    RecipeNotificationManager.sendNewRecipeNotification(recipeName)
+                                }
                             }
                             .addOnFailureListener {
                                 Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
