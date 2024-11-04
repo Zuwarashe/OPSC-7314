@@ -9,6 +9,7 @@
     android:background="@drawable/background"
     tools:context=".Cookware">
 
+
     <!-- Add ScrollView here -->
     <ScrollView
         android:layout_width="match_parent"
