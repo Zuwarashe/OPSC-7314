@@ -1,284 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background"
     tools:context=".Cookware">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+    <!-- Main content layout -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
-            android:id="@+id/imageBtnBack"
-            android:layout_width="25dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/design_default_color_background"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/backk" />
-
-        <ImageView
-            android:id="@+id/imageLogo"
-            android:layout_width="124dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="95dp"
-            app:srcCompat="@drawable/logo" />
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <CheckBox
-            android:id="@+id/chkPublic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="30dp"
-            android:text="Public"
-            android:textColor="@color/black"
-            android:buttonTint="@color/black" />
+            <!-- Header layout with logo and back button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/imageBtnBack"
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/design_default_color_background"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/backk" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/imageLogo"
+                    android:layout_width="124dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/logo" />
 
-        <TextView
-            android:id="@+id/lblName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/recipe_name"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <CheckBox
+                    android:id="@+id/chkPublic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Public"
+                    android:textColor="@color/black"
+                    android:buttonTint="@color/black" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/txtName"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
-    </LinearLayout>
+            <!-- Recipe Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recipe_name"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lblMinutes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/total_minutes"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/txtName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/customtxtbox" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/txtMinutes"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
-    </LinearLayout>
+            <!-- Total Minutes -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblMinutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_minutes"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lblServings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/total_servings"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/txtMinutes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/customtxtbox" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/txtServings"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
-    </LinearLayout>
+            <!-- Total Servings -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblServings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_servings"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/lblCookware"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/cookware"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/txtServings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/customtxtbox" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/txtCookware"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="54dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
+            <!-- Cookware -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-        <Button
-            android:id="@+id/btnAddCookware"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="#D67229"
-            android:text="@string/add"
-            app:cornerRadius="20dp" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/lblCookware"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cookware"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/txtCookware"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/customtxtbox" />
 
-        <TextView
-            android:id="@+id/lblIngredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/ingredients"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <Button
+                    android:id="@+id/btnAddCookware"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#D67229"
+                    android:text="@string/add" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/txtIngredient"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="46dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="@string/ingredient"
-            android:inputType="text" />
+            <!-- Ingredients -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
+                <TextView
+                    android:id="@+id/lblIngredient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ingredients"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/txtIngredient"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/customtxtbox"
+                    android:hint="@string/ingredient" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
 
-        <EditText
-            android:id="@+id/txtQuantity"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="146dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="@string/enter_quantity"
-            android:inputType="text" />
+                <EditText
+                    android:id="@+id/txtQuantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/customtxtbox"
+                    android:hint="@string/enter_quantity" />
 
-        <Button
-            android:id="@+id/btnAddIngredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="#D67229"
-            android:text="@string/add"
-            app:cornerRadius="20dp"/>
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/txtMeasurement"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/customtxtbox"
+                    android:hint="@string/measurement" />
 
+                <Button
+                    android:id="@+id/btnAddIngredient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#D67229"
+                    android:text="@string/add" />
+            </LinearLayout>
 
+            <!-- Instructions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-        <EditText
-            android:id="@+id/txtMeasurement"
-            android:layout_width="127dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="146dp"
-            android:background="@drawable/customtxtbox"
-            android:hint="@string/measurement"
-            android:inputType="text" />
+                <TextView
+                    android:id="@+id/lblInstruction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/instructions"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/txtInstruction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/customtxtbox" />
 
-        <TextView
-            android:id="@+id/lblInstruction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/instructions"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+                <Button
+                    android:id="@+id/btnAddInstruction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#D67229"
+                    android:text="@string/add" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/txtInstruction"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="42dp"
-            android:background="@drawable/customtxtbox"
-            android:ems="19" />
+            <!-- Save Recipe Button -->
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#D67229"
+                android:text="@string/save_recipe" />
+        </LinearLayout>
+    </ScrollView>
 
-        <Button
-            android:id="@+id/btnAddInstruction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="#D67229"
-            android:text="@string/add"
-            app:cornerRadius="20dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-
-
-
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:backgroundTint="#D67229"
-            android:text="@string/save_recipe"
-            app:cornerRadius="20dp" />
-    </LinearLayout>
-
+    <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:itemIconSize="25dp"
         app:itemIconTint="@drawable/item_selector"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/bottom_menu"
         android:elevation="2dp"
-        app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="unlabeled"
-        >
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-</LinearLayout>
+        app:menu="@menu/bottom_menu"
+        app:itemRippleColor="@android:color/transparent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
