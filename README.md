@@ -107,9 +107,11 @@ _Released on: November 1, 2024_
 
 - **Recipe Adding**  
 
-## Future Development Plans
 
 ![Screenshot 2024-11-04 234812](https://github.com/user-attachments/assets/bc64c75a-c8c0-49fa-89a0-44d66817fead)
+
+
+## Future Development Plans
 
 We aim to add the following features in future versions:
 - **Expanded Language Support**: Adding more languages to reach a wider audience.
