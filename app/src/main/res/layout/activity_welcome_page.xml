@@ -7,43 +7,47 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background"
+    android:padding="16dp"
     tools:context=".WelcomePage">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/tseafull"
-        android:layout_marginTop="100dp"/>
+<ImageView
+android:id="@+id/imageView3"
+android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
+    android:scaleType="fitCenter"
+    app:srcCompat="@drawable/tseafull" />
 
-    <Button
-        android:id="@+id/getStartedbtn"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="42dp"
-        android:backgroundTint="#D67229"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="Get Started"
-        app:cornerRadius="9dp" />
+<Button
+android:id="@+id/getStartedbtn"
+android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="42dp"
+    android:layout_gravity="center"
+    android:backgroundTint="#D67229"
+    android:textColor="@color/black"
+    android:textStyle="bold"
+    android:text="Get Started"
+    app:cornerRadius="9dp" />
 
-    <TextView
-        android:id="@+id/questiontxt"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="110sp"
-        android:text="Already a member?" />
+<TextView
+android:id="@+id/questiontxt"
+android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:layout_gravity="center_horizontal"
+    android:text="Already a member?"
+    android:textSize="16sp"
+    android:layout_marginBottom="8dp" />
 
-    <TextView
-        android:id="@+id/linktxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:layout_marginLeft="235dp"
-        android:text="@string/login"
-        android:textStyle="bold"
-        />
+<TextView
+android:id="@+id/linktxt"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_gravity="center_horizontal"
+    android:text="@string/login"
+    android:textStyle="bold"
+    android:textSize="16sp"
+    android:layout_marginTop="8dp" />
 
-</LinearLayout>
+    </LinearLayout>
