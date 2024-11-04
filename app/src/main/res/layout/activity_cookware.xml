@@ -45,6 +45,7 @@
                     android:layout_width="124dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginStart="85dp"
                     app:srcCompat="@drawable/logo" />
 
                 <CheckBox
@@ -52,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Public"
+                    android:layout_marginStart="45dp"
                     android:textColor="@color/black"
                     android:buttonTint="@color/black" />
             </LinearLayout>
@@ -76,7 +78,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="20dp"
                     android:background="@drawable/customtxtbox" />
             </LinearLayout>
 
@@ -100,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="19dp"
                     android:background="@drawable/customtxtbox" />
             </LinearLayout>
 
@@ -148,7 +150,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="45dp"
                     android:background="@drawable/customtxtbox" />
 
                 <Button
@@ -180,7 +182,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="38dp"
+                    android:paddingStart="5dp"
                     android:background="@drawable/customtxtbox"
                     android:hint="@string/ingredient" />
             </LinearLayout>
@@ -196,17 +199,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="118dp"
+                    android:paddingStart="5dp"
                     android:background="@drawable/customtxtbox"
                     android:hint="@string/enter_quantity" />
-
-                <EditText
-                    android:id="@+id/txtMeasurement"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/customtxtbox"
-                    android:hint="@string/measurement" />
 
                 <Button
                     android:id="@+id/btnAddIngredient"
@@ -216,6 +212,25 @@
                     android:backgroundTint="#D67229"
                     android:text="@string/add" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/txtMeasurement"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="118dp"
+                    android:paddingStart="5dp"
+                    android:background="@drawable/customtxtbox"
+                    android:hint="@string/measurement" />
+            </LinearLayout>
+
+
 
             <!-- Instructions -->
             <LinearLayout
@@ -237,7 +252,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="30dp"
                     android:background="@drawable/customtxtbox" />
 
                 <Button

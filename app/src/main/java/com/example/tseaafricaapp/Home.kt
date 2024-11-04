@@ -41,7 +41,7 @@ class Home : AppCompatActivity() {
     //=================END : Fetch Recipes from Firebase in the Home Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
     //testing Manula recipe
