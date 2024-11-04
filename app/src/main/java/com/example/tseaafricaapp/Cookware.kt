@@ -31,12 +31,24 @@ import android.Manifest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONObject
-import com.android.volley.Request
+//import com.android.volley.Request
 import android.util.Log
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
+
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileInputStream
+
+import okhttp3.*
+import okhttp3.Request
+
+
+import java.io.IOException
+
 
 
 class Cookware : AppCompatActivity() {
@@ -356,9 +368,7 @@ class Cookware : AppCompatActivity() {
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
                                 if (isPublic) {
-                                    // Increment the recipe count and log the event
-                                    val newRecipeCount = 1 // Here you would retrieve the actual count if needed
-                                    logRecipeEvent(newRecipeCount) // Log the event
+                                    FirebaseMessaging.getInstance().subscribeToTopic("recipes")
                                     sendRecipeNotification()
                                 }
                                 clearInputs()
@@ -392,12 +402,7 @@ class Cookware : AppCompatActivity() {
             database.child("recipes").child(userId).child(recipeId).setValue(recipe)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
-                    if (isPublic) {
-                        // Increment the recipe count and log the event
-                        val newRecipeCount = 1 // Here you would retrieve the actual count if needed
-                        logRecipeEvent(newRecipeCount) // Log the event
-                        sendRecipeNotification()
-                    }
+
                     clearInputs()
                 }
                 .addOnFailureListener {
@@ -406,52 +411,51 @@ class Cookware : AppCompatActivity() {
         }
     }
 
-
     private fun sendRecipeNotification() {
-        val fcmMessage = JSONObject().apply {
+        val title = "New Recipe Added" // Define the title for the notification
+        val message = "A new recipe has been added to the collection!" // Define the message for the notification
+
+        val serviceAccountKeyPath = "C:/Users/neoma/StudioProjects/TseaAfricaApp/backend/config/serviceAccountKey.json"
+        val credentials = GoogleCredentials.fromStream(FileInputStream(serviceAccountKeyPath))
+            .createScoped(listOf("https://www.googleapis.com/auth/firebase.messaging"))
+        credentials.refreshIfExpired()
+        val accessToken = credentials.accessToken.tokenValue
+
+        // FCM API URL
+        val fcmUrl = "https://fcm.googleapis.com/v1/projects/tseaafricadb-532c4/messages:send"
+
+        // JSON Payload
+        val jsonPayload = JSONObject().apply {
             put("message", JSONObject().apply {
                 put("topic", "recipes")
                 put("notification", JSONObject().apply {
-                    put("title", "New Recipe Added!")
-                    put("body", "Check out the latest recipe in Tsea Africa app.")
+                    put("title", title)
+                    put("body", message)
                 })
             })
         }
 
-        val notification = JSONObject()
+        val client = OkHttpClient()
+        val requestBody = jsonPayload.toString().toRequestBody("application/json".toMediaTypeOrNull())
+        val request = Request.Builder()
+            .url(fcmUrl)
+            .post(requestBody)
+            .addHeader("Authorization", "Bearer $accessToken")
+            .build()
 
-        notification.put("title", "New Recipe Added!")
-        notification.put("body", "Check out the latest recipe in Tsea Africa app.")
-
-        fcmMessage.put("to", "/topics/recipes")
-        fcmMessage.put("notification", notification)
-
-        sendNotificationToFcm(fcmMessage)
-    }
-
-    private fun sendNotificationToFcm(fcmMessage: JSONObject) {
-        // Load the service account JSON
-        val serviceAccount = FileInputStream(File("backend/config/serviceAccountKey.json"))
-        val googleCredentials = GoogleCredentials.fromStream(serviceAccount)
-            .createScoped(listOf("https://www.googleapis.com/auth/firebase.messaging"))
-        googleCredentials.refreshIfExpired()
-        val accessToken = googleCredentials.accessToken.tokenValue
-
-        val url = "https://fcm.googleapis.com/v1/projects/tseaafricadb-532c4/messages:send"
-
-        val request = object : JsonObjectRequest(Request.Method.POST, url, fcmMessage,
-            { response -> Log.d("FCM", "Message sent successfully: $response") },
-            { error -> Log.e("FCM", "Failed to send FCM message", error) }
-        ) {
-            override fun getHeaders(): Map<String, String> {
-                val headers = HashMap<String, String>()
-                headers["Authorization"] = "Bearer $accessToken"
-                headers["Content-Type"] = "application/json; UTF-8"
-                return headers
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("FCM", "Failed to send notification", e)
             }
-        }
 
-        Volley.newRequestQueue(this).add(request)
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    Log.d("FCM", "Notification sent successfully")
+                } else {
+                    Log.e("FCM", "Error sending notification: ${response.body?.string()}")
+                }
+            }
+        })
     }
 
 
