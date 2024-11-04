@@ -2,36 +2,66 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="130dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:background="@drawable/rounded_corners_bg">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="10dp">
 
+        <!-- Recipe ImageView -->
+        <ImageView
+            android:id="@+id/recipeImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/food" />
+
+        <!-- Add Button in the top right corner of the image -->
+
+
+        <!-- Recipe Name Below the ImageView -->
         <TextView
             android:id="@+id/tvRecipeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:layout_below="@id/recipeImageView"
+            android:layout_centerHorizontal="true"
+            android:text="Recipe Name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:textColor="@android:color/black" />
 
+        <!-- Total Minutes -->
         <TextView
             android:id="@+id/tvTotalMinutes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
+            android:layout_below="@id/tvRecipeName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="Total Minutes: 30"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
 
+        <!-- Total Servings -->
         <TextView
             android:id="@+id/tvTotalServings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
+            android:layout_below="@id/tvTotalMinutes"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="Servings: 4"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
 
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>
