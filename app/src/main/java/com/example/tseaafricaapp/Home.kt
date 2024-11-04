@@ -41,7 +41,7 @@ class Home : AppCompatActivity() {
     //=================END : Fetch Recipes from Firebase in the Home Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
     //testing Manula recipe
@@ -49,6 +49,20 @@ class Home : AppCompatActivity() {
     //savePreMadeRecipes()
 
 
+// Initialize Firebase Authentication instance
+        auth = FirebaseAuth.getInstance()
+
+        // Set up the logout button functionality
+        val logoutButton = findViewById<Button>(R.id.logout_button)
+        logoutButton.setOnClickListener {
+            // Sign out the user
+            auth.signOut()
+
+            // Redirect to the Login page
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+            finish() // Close the Home activity so the user cannot return by pressing the back button
+        }
 
     //end: testing Manula recipe
 

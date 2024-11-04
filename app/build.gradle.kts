@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.tseaafricaapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.tseaafricaapp"
@@ -38,6 +38,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
@@ -74,6 +75,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation ("com.google.android.gms:play-services-auth:20.5.0")
-
+    implementation("androidx.biometric:biometric-ktx:1.4.0-alpha02")
     implementation ("androidx.cardview:cardview:1.0.0")
 }

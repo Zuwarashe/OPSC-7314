@@ -3,8 +3,13 @@ package com.example.tseaafricaapp
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Looper
 import android.util.Log
+import android.os.Handler
 import android.widget.Toast
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -15,7 +20,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Transaction
 import com.google.firebase.firestore.FirebaseFirestore
+
 
 class FirebaseManager(private val context: Context) {
 
@@ -23,8 +30,9 @@ class FirebaseManager(private val context: Context) {
     private var database: DatabaseReference = FirebaseDatabase.getInstance().reference
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var biometricPrompt: BiometricPrompt
 
-//--------------------------Google Sign in
+    //--------------------------Google Sign in
     fun initializeGoogleSignInClient(webClientId: String) {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(webClientId)
@@ -36,6 +44,7 @@ class FirebaseManager(private val context: Context) {
     fun getGoogleSignInIntent(): Intent {
         return googleSignInClient.signInIntent
     }
+
     fun handleGoogleSignInResult(data: Intent?, onResult: (Boolean, String?) -> Unit) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         try {
@@ -45,7 +54,11 @@ class FirebaseManager(private val context: Context) {
             onResult(false, "Google sign-in failed: ${e.message}")
         }
     }
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?, onResult: (Boolean, String?) -> Unit) {
+
+    private fun firebaseAuthWithGoogle(
+        account: GoogleSignInAccount?,
+        onResult: (Boolean, String?) -> Unit
+    ) {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
@@ -63,7 +76,8 @@ class FirebaseManager(private val context: Context) {
                 }
             }
     }
-//==========================END:Google Sign in
+
+    //==========================END:Google Sign in
 //------------------Sign up (email and password)
     fun signUpWithEmail(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
         auth.createUserWithEmailAndPassword(email, password)
@@ -82,7 +96,8 @@ class FirebaseManager(private val context: Context) {
                 }
             }
     }
-//==================END: Sign up (email and password)
+
+    //==================END: Sign up (email and password)
 //----------------Sign IN (email and password)
     fun signInWithEmail(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
@@ -103,7 +118,7 @@ class FirebaseManager(private val context: Context) {
     }
 //================END:Sign IN (email and password)
 
-//--------------------Save ID and users email into Realtime database
+    //--------------------Save ID and users email into Realtime database
     private fun saveUserDataToDatabase(user: FirebaseUser?, onComplete: (Boolean) -> Unit) {
         val userId = user?.uid ?: return
         val userEmail = user.email ?: return
@@ -114,51 +129,55 @@ class FirebaseManager(private val context: Context) {
                 onComplete(task.isSuccessful)
             }
     }
-//====================END: Save ID and users email into Realtime database
+
+    //====================END: Save ID and users email into Realtime database
 //-------------------Cookware: Save Recipe to Firebase Realtime Database
-fun saveRecipeToDatabase(
-    recipeName: String,
-    totalMinutes: Int,
-    totalServings: Int,
-    cookwareList: List<String>,
-    instructionList: List<String>,
-    ingredientsList: List<String>,
-    isPublic: Boolean,
-    onResult: (Boolean, String?) -> Unit
-){
-    val userId = auth.currentUser?.uid ?: return
-    val recipeId = database.child("recipes").push().key ?: return
+    fun saveRecipeToDatabase(
+        recipeName: String,
+        totalMinutes: Int,
+        totalServings: Int,
+        cookwareList: List<String>,
+        instructionList: List<String>,
+        ingredientsList: List<String>,
+        isPublic: Boolean,
+        onResult: (Boolean, String?) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid ?: return
+        val recipeId = database.child("recipes").push().key ?: return
 
-    if (recipeName.isEmpty()) {
-        onResult(false, "Recipe name is required.")
-        return
+        if (recipeName.isEmpty()) {
+            onResult(false, "Recipe name is required.")
+            return
+        }
+        val recipe = hashMapOf(
+            "recipeId" to recipeId,
+            "userId" to userId,
+            "name" to recipeName,
+            "totalMinutes" to totalMinutes,
+            "totalServings" to totalServings,
+            "isPublic" to isPublic,
+            "cookware" to cookwareList,
+            "instruction" to instructionList,
+            "ingredients" to ingredientsList,
+            "isFavorite" to false
+        )
+        database.child("recipes").child(userId).child(recipeId).setValue(recipe)
+            .addOnSuccessListener {
+                onResult(true, null)
+            }
+            .addOnFailureListener {
+                onResult(false, "Failed to save recipe.")
+            }
+
     }
-    val recipe = hashMapOf(
-        "recipeId" to recipeId,
-        "userId" to userId,
-        "name" to recipeName,
-        "totalMinutes" to totalMinutes,
-        "totalServings" to totalServings,
-        "isPublic" to isPublic,
-        "cookware" to cookwareList,
-        "instruction" to instructionList,
-        "ingredients" to ingredientsList,
-        "isFavorite" to false
-    )
-    database.child("recipes").child(userId).child(recipeId).setValue(recipe)
-        .addOnSuccessListener {
-            onResult(true, null)
-        }
-        .addOnFailureListener {
-            onResult(false, "Failed to save recipe.")
-        }
-
-}
 //===================END:Save Recipe to Firebase Realtime Database
 //-------------------Manual Recipe
 
 
-    fun saveMultipleRecipesToDatabase(recipes: List<Map<String, Any>>, onResult: (Boolean, String?) -> Unit) {
+    fun saveMultipleRecipesToDatabase(
+        recipes: List<Map<String, Any>>,
+        onResult: (Boolean, String?) -> Unit
+    ) {
         val publicRecipesRef = database.child("recipes").child("public")
 
         for (recipe in recipes) {
@@ -175,7 +194,7 @@ fun saveRecipeToDatabase(
     }
 //==================END: Manual Recipe
 
-//----------------Other: not implemented
+    //----------------Other: not implemented
 // Summary
     /*
         -Check if user is logged in
@@ -198,4 +217,69 @@ fun saveRecipeToDatabase(
         return auth.currentUser
     }
 //=========================END: Other: not implemented
+
+
+    // Add this method to retrieve biometric data
+    fun getBiometricData(userId: String, onResult: (Map<String, Any>?, String?) -> Unit) {
+        database.child("biometrics").child(userId).get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    val biometricData = snapshot.value as Map<String, Any>
+                    onResult(biometricData, null)
+                } else {
+                    onResult(null, "No biometric data found.")
+                }
+            }
+            .addOnFailureListener {
+                onResult(null, "Failed to retrieve biometric data.")
+            }
+//-------------------END: Save and Retrieve Biometric Data
+    }
+
+    // Authenticate user with biometrics
+    fun authenticateWithBiometrics(activity: FragmentActivity, onAuthenticationSuccess: () -> Unit) {
+        val executor = ContextCompat.getMainExecutor(activity)
+        biometricPrompt =
+            BiometricPrompt(activity, executor, object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(activity, "Authentication successful", Toast.LENGTH_SHORT).show()
+                    onAuthenticationSuccess()
+                }
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(activity, "Authentication error: $errString", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(activity, "Authentication failed", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric Login")
+            .setSubtitle("Authenticate using fingerprint or facial recognition")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    // Store the biometric data into Firebase
+    fun saveBiometricData(userId: String, biometricIdentifier: String, callback: (Boolean, String?) -> Unit) {
+        val userRef = database.child("biometric_data").child(userId)
+        val biometricData = mapOf("biometricIdentifier" to biometricIdentifier)
+
+        userRef.setValue(biometricData)
+            .addOnSuccessListener { Log.d("FirebaseManager", "Biometric data saved successfully for user $userId")
+                callback(true, null)
+            }
+            .addOnFailureListener { e ->
+                Log.e("FirebaseManager", "Error saving biometric data: ${e.message}")
+                callback(false, e.message)
+            }
+    }
 }
