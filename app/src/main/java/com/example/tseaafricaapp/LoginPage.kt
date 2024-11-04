@@ -83,41 +83,30 @@ class LoginPage : AppCompatActivity() {
 
         when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
-                // Device supports biometric authentication and biometrics are enrolled
                 val executor = ContextCompat.getMainExecutor(this)
                 biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
 
                     override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                         super.onAuthenticationSucceeded(result)
-
-                        val currentUser = auth.currentUser
-                        if (currentUser != null) {
-                            // User is authenticated, proceed to Home
-                            startActivity(Intent(this@LoginPage, Home::class.java))
-                            finish()
-                        } else {
-                            // User not authenticated, save biometric data flag
-                            val userId = currentUser?.uid ?: return // Ensure userId is not null
-
-                            saveBiometricData(userId) { success, errorMessage ->
-                                if (success) {
-                                    Log.d("LoginPage", "Biometric data flag saved successfully.")
-                                } else {
-                                    Log.e("LoginPage", "Failed to save biometric data flag: $errorMessage")
-                                }
-                            }
-                        }
+                        // Show a success toast message
+                        Toast.makeText(this@LoginPage, "Authentication successful", Toast.LENGTH_SHORT).show()
+                        // Proceed to the Home page
+                        startActivity(Intent(this@LoginPage, Home::class.java))
+                        finish() // Close the LoginPage activity
                     }
-
 
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                         super.onAuthenticationError(errorCode, errString)
                         Toast.makeText(this@LoginPage, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@LoginPage, Home::class.java))
+                        finish() // Close the LoginPage activity
                     }
 
                     override fun onAuthenticationFailed() {
                         super.onAuthenticationFailed()
                         Toast.makeText(this@LoginPage, "Authentication failed. Try again.", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@LoginPage, Home::class.java))
+                        finish() // Close the LoginPage activity
                     }
                 })
 
@@ -128,6 +117,7 @@ class LoginPage : AppCompatActivity() {
                     .build()
             }
 
+            // Handle other biometric cases as you've already done
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
                 Toast.makeText(this, "Device does not support biometric authentication.", Toast.LENGTH_SHORT).show()
             }
@@ -147,25 +137,6 @@ class LoginPage : AppCompatActivity() {
             }
         }
     }
-
-    fun saveBiometricData(userId: String, onComplete: (Boolean, String?) -> Unit) {
-        // Initialize Firebase database reference (if not already initialized elsewhere)
-        val database = FirebaseDatabase.getInstance().reference
-        val biometricData = mapOf("biometricEnabled" to true)
-
-        // Set value in database and handle result with callbacks
-        database.child("biometric_data").child(userId).setValue(biometricData)
-            .addOnSuccessListener {
-                Log.d("FirebaseManager", "Biometric data saved successfully for user $userId")
-                onComplete(true, null) // Call callback with success result
-            }
-            .addOnFailureListener { error ->
-                Log.e("FirebaseManager", "Failed to save biometric data: ${error.message}")
-                onComplete(false, error.message) // Call callback with error result
-            }
-    }
-
-
 
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
@@ -189,7 +160,9 @@ class LoginPage : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                checkUserExists(auth.currentUser)
+                // No need to check user existence, just navigate to Home
+                startActivity(Intent(this, Home::class.java))
+                finish()
             } else {
                 Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
             }
@@ -204,18 +177,6 @@ class LoginPage : AppCompatActivity() {
             false
         }
     }
-
-//    private fun validatePassword(password: String): Boolean {
-//        val passwordPattern = Pattern.compile(
-//            "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#\$%^&+=]).{12,}$"
-//        )
-//        return if (passwordPattern.matcher(password).matches()) {
-//            true
-//        } else {
-//            Toast.makeText(this, "Password must be at least 12 characters long, include uppercase, lowercase, numbers, and symbols.", Toast.LENGTH_SHORT).show()
-//            false
-//        }
-//    }
 
     private fun checkUserExists(user: FirebaseUser?) {
         if (user != null) {
