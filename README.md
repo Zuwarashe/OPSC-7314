@@ -32,15 +32,21 @@ When designing Tsea Africa, the following design principles and technical consid
 - **User-Focused Layout**: The app was designed to prioritize simplicity and user-friendliness, with intuitive navigation.
 - **Consistency**: The app maintains consistent design patterns and interactions across all screens, making it easy for users to familiarize themselves with the app.
 - **Responsive Design**: Ensures compatibility and ease of use on a range of devices, from mobile phones to tablets.
+- 
+![Screenshot 2024-11-04 234755](https://github.com/user-attachments/assets/1316b9ec-d30b-48d7-aa71-e865e2a56b2c)
 
 ### Technical Design
 - **Backend Architecture**: The app integrates third-party APIs for nutritional information and AI-driven recommendations, enhancing user experience.
 - **Security**: User data is securely stored using Firebase or a similar cloud-based solution.
 - **Scalability**: The codebase is modular, making it easier to add features and maintain in future versions.
+- 
+![Screenshot 2024-11-04 234844](https://github.com/user-attachments/assets/f316ff22-b4d3-4295-bbb6-9d50bebf6201)
 
 ## CI/CD with GitHub Actions
 
 To streamline our development process, we use GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD). Our CI/CD pipeline is configured to automatically build and test the app when changes are pushed to the repository.
+![Screenshot 2024-11-04 225218](https://github.com/user-attachments/assets/5c083bb9-574c-44c1-a4aa-c11d62f4d7f5)
+
 
 ### GitHub Actions Workflow Overview
 
@@ -92,12 +98,18 @@ _Released on: November 1, 2024_
 ## Screenshots
 
 - **Home Screen**  
-  ![Home Screen](images/home-screen.png)
+
+![Screenshot 2024-11-04 234755](https://github.com/user-attachments/assets/94fa697c-bdef-48e6-808e-d0679080331e)
 
 - **Recipe Browsing**  
-  ![Recipe Browsing](images/recipe-browsing.png)
+ 
+![Screenshot 2024-11-04 234828](https://github.com/user-attachments/assets/4971a493-57d7-4561-96a7-818517f66c00)
+
+- **Recipe Adding**  
 
 ## Future Development Plans
+
+![Screenshot 2024-11-04 234812](https://github.com/user-attachments/assets/bc64c75a-c8c0-49fa-89a0-44d66817fead)
 
 We aim to add the following features in future versions:
 - **Expanded Language Support**: Adding more languages to reach a wider audience.
