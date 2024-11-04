@@ -28,6 +28,15 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import android.Manifest
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONObject
+import com.android.volley.Request
+import android.util.Log
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.firebase.analytics.FirebaseAnalytics
+import java.io.File
+import java.io.FileInputStream
 
 
 class Cookware : AppCompatActivity() {
@@ -298,8 +307,14 @@ class Cookware : AppCompatActivity() {
             Toast.makeText(this, "Please enter cookware", Toast.LENGTH_SHORT).show()
         }
     }
+    private fun logRecipeEvent(newRecipeCount: Int) {
+        val bundle = Bundle().apply {
+            putInt("recipe_count", newRecipeCount) // Log the new recipe count
+        }
+        FirebaseAnalytics.getInstance(this).logEvent("recipe_saved", bundle) // Custom event name
+    }
 
-    //---------Claude  METHOD save into realtime database
+
     private fun saveRecipe() {
         val userId = auth.currentUser?.uid ?: return
         val recipeId = database.child("recipes").push().key ?: return
@@ -340,10 +355,13 @@ class Cookware : AppCompatActivity() {
                         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
-                                clearInputs()
                                 if (isPublic) {
-                                    RecipeNotificationManager.sendNewRecipeNotification(recipeName)
+                                    // Increment the recipe count and log the event
+                                    val newRecipeCount = 1 // Here you would retrieve the actual count if needed
+                                    logRecipeEvent(newRecipeCount) // Log the event
+                                    sendRecipeNotification()
                                 }
+                                clearInputs()
                             }
                             .addOnFailureListener {
                                 Toast.makeText(this, "Failed to save recipe", Toast.LENGTH_SHORT).show()
@@ -374,6 +392,12 @@ class Cookware : AppCompatActivity() {
             database.child("recipes").child(userId).child(recipeId).setValue(recipe)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
+                    if (isPublic) {
+                        // Increment the recipe count and log the event
+                        val newRecipeCount = 1 // Here you would retrieve the actual count if needed
+                        logRecipeEvent(newRecipeCount) // Log the event
+                        sendRecipeNotification()
+                    }
                     clearInputs()
                 }
                 .addOnFailureListener {
@@ -383,12 +407,59 @@ class Cookware : AppCompatActivity() {
     }
 
 
-    //Clearing inputs
+    private fun sendRecipeNotification() {
+        val fcmMessage = JSONObject().apply {
+            put("message", JSONObject().apply {
+                put("topic", "recipes")
+                put("notification", JSONObject().apply {
+                    put("title", "New Recipe Added!")
+                    put("body", "Check out the latest recipe in Tsea Africa app.")
+                })
+            })
+        }
+
+        val notification = JSONObject()
+
+        notification.put("title", "New Recipe Added!")
+        notification.put("body", "Check out the latest recipe in Tsea Africa app.")
+
+        fcmMessage.put("to", "/topics/recipes")
+        fcmMessage.put("notification", notification)
+
+        sendNotificationToFcm(fcmMessage)
+    }
+
+    private fun sendNotificationToFcm(fcmMessage: JSONObject) {
+        // Load the service account JSON
+        val serviceAccount = FileInputStream(File("backend/config/serviceAccountKey.json"))
+        val googleCredentials = GoogleCredentials.fromStream(serviceAccount)
+            .createScoped(listOf("https://www.googleapis.com/auth/firebase.messaging"))
+        googleCredentials.refreshIfExpired()
+        val accessToken = googleCredentials.accessToken.tokenValue
+
+        val url = "https://fcm.googleapis.com/v1/projects/tseaafricadb-532c4/messages:send"
+
+        val request = object : JsonObjectRequest(Request.Method.POST, url, fcmMessage,
+            { response -> Log.d("FCM", "Message sent successfully: $response") },
+            { error -> Log.e("FCM", "Failed to send FCM message", error) }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $accessToken"
+                headers["Content-Type"] = "application/json; UTF-8"
+                return headers
+            }
+        }
+
+        Volley.newRequestQueue(this).add(request)
+    }
+
+
     private fun clearInputs(){
         txtName.text.clear()
         txtMinutes.text.clear()
         txtServings.text.clear()
         chkPublic.isChecked = false
     }
-//======END: Claude  METHOD save into realtime database
+
 }

@@ -1,24 +1,26 @@
-const admin = require("firebase-admin");
-const serviceAccount = require("./config/serviceAccountKey.json");
+const admin = require('firebase-admin');
+const serviceAccount = require('./config/serviceAccountKey.json');
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://tseaafricadb-532c4-default-rtdb.firebaseio.com"
+    credential: admin.credential.cert(serviceAccount)
 });
 
-// Sample code to send a message
-const message = {
-    notification: {
-        title: "New Recipe Available!",
-        body: "Check out the latest public recipe."
-    },
-    topic: "public_recipes"
-};
+function sendNewRecipeNotification(recipeName) {
+    const message = {
+        notification: {
+            title: 'New Recipe Available!',
+            body: `Someone shared a new recipe: ${recipeName}`
+        },
+        topic: 'public_recipes'
+    };
 
-admin.messaging().send(message)
-    .then((response) => {
-        console.log("Successfully sent message:", response);
-    })
-    .catch((error) => {
-        console.log("Error sending message:", error);
-    });
+    admin.messaging().send(message)
+        .then(response => {
+            console.log('Successfully sent message:', response);
+        })
+        .catch(error => {
+            console.log('Error sending message:', error);
+        });
+}
+
+module.exports = { sendNewRecipeNotification };

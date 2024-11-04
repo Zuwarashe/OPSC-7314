@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 class Home : AppCompatActivity() {
 
@@ -52,7 +53,29 @@ class Home : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
-    RecipeNotificationManager.subscribeToPublicRecipes()
+    FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+        if (!task.isSuccessful) {
+            Log.w("FCM", "Fetching FCM registration token failed", task.exception)
+            return@addOnCompleteListener
+        }
+
+        // Get new FCM registration token
+        val token = task.result
+        Log.d("FCM", "Token: $token")
+    }
+    FirebaseMessaging.getInstance().subscribeToTopic("recipes")
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("FCM", "Subscribed to recipes topic")
+            } else {
+                Log.e("FCM", "Failed to subscribe to recipes topic")
+            }
+        }
+
+
+
+
+    //RecipeNotificationManager.subscribeToPublicRecipes()
 
 
     //testing Manula recipe
