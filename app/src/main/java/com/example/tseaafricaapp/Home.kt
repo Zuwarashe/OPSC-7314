@@ -53,16 +53,7 @@ class Home : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         // Set up the logout button functionality
-        val logoutButton = findViewById<Button>(R.id.logout_button)
-        logoutButton.setOnClickListener {
-            // Sign out the user
-            auth.signOut()
 
-            // Redirect to the Login page
-            val intent = Intent(this, LoginPage::class.java)
-            startActivity(intent)
-            finish() // Close the Home activity so the user cannot return by pressing the back button
-        }
 
     //end: testing Manula recipe
 

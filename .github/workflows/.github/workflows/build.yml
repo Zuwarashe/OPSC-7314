@@ -1,0 +1,53 @@
+name: Android CI/CD Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up JDK 1.8
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: '1.8'
+
+      # Step 3: Decode the KeyStore from the Base64 secret
+      - name: Decode KeyStore file
+        id: decode-keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          encodedString: ${{ secrets.KEYSTORE }}
+          fileName: ./keystore.jks
+
+      # Alternative to Step 3 if not using timheuer's action
+      # - name: Decode KeyStore file manually
+      #   run: echo "${{ secrets.KEYSTORE }}" | base64 -d > ./keystore.jks
+
+      # Step 4: Set up environment variables for Gradle
+      - name: Set environment variables
+        run: |
+          echo "SIGNING_STORE_PASSWORD=${{ secrets.SIGNING_STORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "SIGNING_KEY_PASSWORD=${{ secrets.SIGNING_KEY_PASSWORD }}" >> $GITHUB_ENV
+          echo "SIGNING_KEY_ALIAS=${{ secrets.SIGNING_KEY_ALIAS }}" >> $GITHUB_ENV
+
+      # Step 5: Make Gradle wrapper executable
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+
+      # Step 6: Build the app bundle
+      - name: Build app bundle
+        run: ./gradlew app:bundleRelease
+
+      # Step 7: Upload the generated build artifacts
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-bundle
+          path: app/build/outputs
