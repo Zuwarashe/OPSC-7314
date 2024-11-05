@@ -22,13 +22,13 @@ android {
 
     signingConfigs {
         create("release") {
-            // Define the path to your keystore file directly
-            storeFile = file("keystore/your_keystore.jks")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            storeFile = file("/home/runner/work/OPSC-7314/OPSC-7314/app/keystore/your_keystore.jks") // Full path to your keystore
+            storePassword = System.getenv("password") // Ensure these environment variables are set in your CI/CD
+            keyAlias = System.getenv("your_key_alias")
+            keyPassword = System.getenv("password")
         }
     }
+
 
     buildTypes {
         getByName("release") {
