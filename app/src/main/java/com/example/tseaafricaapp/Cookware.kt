@@ -30,29 +30,19 @@ import com.google.firebase.storage.FirebaseStorage
 import android.Manifest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONObject
-//import com.android.volley.Request
-import android.util.Log
-import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
-
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
-import java.io.FileInputStream
-
-import okhttp3.*
-import okhttp3.Request
-
-
-import java.io.IOException
-
-
+import org.apache.http.client.methods.RequestBuilder.put
+import org.json.JSONObject
+import com.android.volley.Request
+import android.util.Log
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 
 class Cookware : AppCompatActivity() {
+
+    private lateinit var messaging: FirebaseMessaging
 //-------------------------------------------------------ADD PHOTO------------------------------------------------------------------------
     private lateinit var photoImageView: ImageView
     private lateinit var selectPhotoButton: Button
@@ -142,6 +132,14 @@ class Cookware : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_cookware)
+
+    messaging = FirebaseMessaging.getInstance()
+
+    // Request notification permission
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        requestNotificationPermission()
+    }
+
 //------------------------------------------Photo add
     // Initialize Firebase Storage
     storage = FirebaseStorage.getInstance()
@@ -240,7 +238,30 @@ class Cookware : AppCompatActivity() {
     }
 ///--------------Navigation end
     }
-//------------------------------------------Photo ------------------------------------------
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            // Permission granted, can send notifications
+        } else {
+            Toast.makeText(this, "Notification permission required for recipe updates", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    //------------------------------------------Photo ------------------------------------------
     private fun checkGalleryPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -320,12 +341,6 @@ class Cookware : AppCompatActivity() {
             Toast.makeText(this, "Please enter cookware", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun logRecipeEvent(newRecipeCount: Int) {
-        val bundle = Bundle().apply {
-            putInt("recipe_count", newRecipeCount) // Log the new recipe count
-        }
-        FirebaseAnalytics.getInstance(this).logEvent("recipe_saved", bundle) // Custom event name
-    }
 
 
     private fun saveRecipe() {
@@ -365,13 +380,16 @@ class Cookware : AppCompatActivity() {
                             "imageUrl" to downloadUrl.toString() // Save the image URL
                         )
 
+                        if (isPublic) {
+                            val fcmService = FCMService()
+                            fcmService.sendPublicRecipeNotification(recipeName, recipeId)
+                        }
+
+
                         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Recipe saved successfully", Toast.LENGTH_SHORT).show()
-                                if (isPublic) {
-                                    FirebaseMessaging.getInstance().subscribeToTopic("recipes")
-                                    sendRecipeNotification()
-                                }
+
                                 clearInputs()
                             }
                             .addOnFailureListener {
@@ -411,54 +429,6 @@ class Cookware : AppCompatActivity() {
                 }
         }
     }
-
-    private fun sendRecipeNotification() {
-        val title = "New Recipe Added" // Define the title for the notification
-        val message = "A new recipe has been added to the collection!" // Define the message for the notification
-
-        val serviceAccountKeyPath = "C:/Users/neoma/StudioProjects/TseaAfricaApp/backend/config/serviceAccountKey.json"
-        val credentials = GoogleCredentials.fromStream(FileInputStream(serviceAccountKeyPath))
-            .createScoped(listOf("https://www.googleapis.com/auth/firebase.messaging"))
-        credentials.refreshIfExpired()
-        val accessToken = credentials.accessToken.tokenValue
-
-        // FCM API URL
-        val fcmUrl = "https://fcm.googleapis.com/v1/projects/tseaafricadb-532c4/messages:send"
-
-        // JSON Payload
-        val jsonPayload = JSONObject().apply {
-            put("message", JSONObject().apply {
-                put("topic", "recipes")
-                put("notification", JSONObject().apply {
-                    put("title", title)
-                    put("body", message)
-                })
-            })
-        }
-
-        val client = OkHttpClient()
-        val requestBody = jsonPayload.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        val request = Request.Builder()
-            .url(fcmUrl)
-            .post(requestBody)
-            .addHeader("Authorization", "Bearer $accessToken")
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("FCM", "Failed to send notification", e)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    Log.d("FCM", "Notification sent successfully")
-                } else {
-                    Log.e("FCM", "Error sending notification: ${response.body?.string()}")
-                }
-            }
-        })
-    }
-
 
     private fun clearInputs(){
         txtName.text.clear()

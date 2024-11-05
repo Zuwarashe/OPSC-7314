@@ -13,8 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-# Node modules
-node_modules/
-# Firebase service account key
-backend/config/serviceAccountKey.json
+/credentials/service-account.json
 

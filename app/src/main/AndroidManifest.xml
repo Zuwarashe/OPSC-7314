@@ -11,7 +11,6 @@
 
     <!-- Indicate that the camera is an optional feature -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -23,14 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TseaAfricaApp"
         tools:targetApi="31">
-
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name=".RecipeMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
 
         <activity
             android:name=".Team"

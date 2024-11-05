@@ -73,9 +73,13 @@ dependencies {
     implementation(libs.firebase.messaging.ktx)
 
     implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-messaging:23.0.7")
+    implementation("com.google.firebase:firebase-messaging-ktx")
+
+    implementation ("com.android.volley:volley:1.2.1")
+
     implementation(libs.androidx.ui.desktop)
     implementation(libs.volley)
+    implementation(libs.androidx.datastore.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -85,4 +89,6 @@ dependencies {
     implementation("com.google.firebase:firebase-inappmessaging:21.0.0")
     implementation("com.google.firebase:firebase-inappmessaging-display:21.0.0")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.15.0")
+
+
 }
