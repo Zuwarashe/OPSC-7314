@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.inappmessaging.display)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

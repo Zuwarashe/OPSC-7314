@@ -1,14 +1,22 @@
 package com.example.tseaafricaapp
 
+import com.google.firebase.database.IgnoreExtraProperties
+import com.google.firebase.database.PropertyName
+
+@IgnoreExtraProperties
 data class Recipe(
-    val recipeId: String = "",              // Unique ID for the recipe
-    val userId: String = "",                // ID of the user who created the recipe
-    val name: String = "",                   // Name of the recipe
-    val totalMinutes: Int = 0,               // Total time to prepare the recipe (in minutes)
-    val totalServings: Int = 0,              // Number of servings the recipe makes
-    val isPublic: Boolean = false,            // Boolean indicating if the recipe is public
-    val cookware: List<String> = emptyList(), // List of cookware needed for the recipe
-    val ingredients: List<String> = emptyList(), // List of ingredients needed for the recipe
-    val instructions: List<String> = emptyList(), // Step-by-step instructions for the recipe
-    val isFavorite: Boolean = false           // Boolean indicating if the recipe is marked as favorite
+    @get:PropertyName("recipeId") @set:PropertyName("recipeId") var recipeId: String = "",
+    @get:PropertyName("userId") @set:PropertyName("userId") var userId: String = "",
+    @get:PropertyName("name") @set:PropertyName("name") var name: String = "",
+    @get:PropertyName("totalMinutes") @set:PropertyName("totalMinutes") var totalMinutes: Int = 0,
+    @get:PropertyName("totalServings") @set:PropertyName("totalServings") var totalServings: Int = 0,
+    @get:PropertyName("isPublic") @set:PropertyName("isPublic") var isPublic: Boolean = false,
+    @get:PropertyName("isFavorite") @set:PropertyName("isFavorite") var isFavorite: Boolean = false,
+    @get:PropertyName("cookware") @set:PropertyName("cookware") var cookware: List<String> = listOf(),
+    @get:PropertyName("ingredients") @set:PropertyName("ingredients") var ingredients: List<String> = listOf(),
+    @get:PropertyName("instruction") @set:PropertyName("instruction") var instruction: List<String> = listOf(),
+    @get:PropertyName("imageUrl") @set:PropertyName("imageUrl") var imageUrl: String = ""
 )
+
+
+
