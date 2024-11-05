@@ -53,6 +53,7 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+    NotificationHelper(this).createNotificationChannel()
 
 
 
