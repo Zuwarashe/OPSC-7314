@@ -1,0 +1,78 @@
+name: Build and Upload Android APK/AAB
+
+env:
+  main_project_module: app
+  playstore_name: Frogobox ID
+  SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}  # Add this line
+  SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}            # Add this line
+  SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}      # Add this line
+
+on:
+  push:
+    branches:
+      - 'release/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Set environment variables
+      - name: Set current date as env variable
+        run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Set repository name as env variable
+        run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+
+      # Set up Java environment
+      - name: Set Up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      # Change Gradle wrapper permissions
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      # Run tests
+      - name: Run gradle tests
+        run: ./gradlew test
+
+      # Build project
+      - name: Build gradle project
+        run: ./gradlew build
+
+      # Build APKs
+      - name: Build apk debug project
+        run: ./gradlew assembleDebug
+
+      - name: Build apk release project
+        run: ./gradlew assembleRelease  # Ensure to build release here
+
+      # Build AAB
+      - name: Build app bundle release
+        run: ./gradlew ${{ env.main_project_module }}:bundleRelease
+
+      # Upload artifacts
+      - name: Upload APK Debug
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug generated
+          path: ${{ env.main_project_module }}/build/outputs/apk/debug/
+
+      - name: Upload APK Release
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release generated
+          path: ${{ env.main_project_module }}/build/outputs/apk/release/
+
+      - name: Upload AAB (App Bundle) Release
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
+          path: ${{ env.main_project_module }}/build/outputs/bundle/release/
