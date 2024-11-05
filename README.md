@@ -5,7 +5,10 @@ available key : 2acf8c972dba47449275230ecdf43291
 
 This key can also be obtained by signing up on the Spoonacular API platform. Once the key is in place, the app will be able to authenticate and retrieve recipe data as intended.
 
-
+Nande Mzantsi-ST10082747
+Courtney Wicomb- ST10051000
+Manneng Maripane- ST10112454
+Zuwarashe Makarimayi- ST10386045
 
 
 # Tsea Africa
