@@ -53,19 +53,11 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
-    NotificationHelper(this).createNotificationChannel()
 
 
-
-
-
-
-    //RecipeNotificationManager.subscribeToPublicRecipes()
-
-
-    //testing Manula recipe
     firebaseManager = FirebaseManager(this)
-    //savePreMadeRecipes()
+
+
 
 //--------------------    explore
     val exploreRecView = findViewById<RecyclerView>(R.id.exploreRecView)

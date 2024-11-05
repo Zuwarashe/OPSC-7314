@@ -133,6 +133,18 @@ class Cookware : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_cookware)
 
+    FirebaseMessaging.getInstance().unsubscribeFromTopic("public_recipes")
+        .addOnCompleteListener {
+            FirebaseMessaging.getInstance().subscribeToTopic("public_recipes")
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("FCM", "Resubscribed to public_recipes topic on Cookware page")
+                    } else {
+                        Log.e("FCM", "Failed to resubscribe to public_recipes topic on Cookware page")
+                    }
+                }
+        }
+
     messaging = FirebaseMessaging.getInstance()
 
     // Request notification permission
@@ -379,11 +391,6 @@ class Cookware : AppCompatActivity() {
                             "isFavorite" to false,
                             "imageUrl" to downloadUrl.toString() // Save the image URL
                         )
-
-                        if (isPublic) {
-                            val fcmService = FCMService()
-                            fcmService.sendPublicRecipeNotification(recipeName, recipeId)
-                        }
 
 
                         database.child("recipes").child(userId).child(recipeId).setValue(recipe)
