@@ -93,23 +93,35 @@ _Released on: November 1, 2024_
 ---
 
 ## **Screenshots**
-- **Home Screen**  
-  ![Home Screen](https://github.com/user-attachments/assets/368ac016-f156-402c-b084-8c276ff1c093)
+- **Home Screen**
+- 
+- ![Screenshot 2024-11-04 234755](https://github.com/user-attachments/assets/8256b659-8b5c-47ea-8e9c-b37f9d7f8d80)
+
   
-- **Recipe Browsing**  
+- **Recipe Browsing**
+-
+-     ![Screenshot 2024-11-04 234828](https://github.com/user-attachments/assets/6e6ac19d-b972-4c64-9460-84e8b9410307)
+
   ![Recipe Browsing](https://github.com/user-attachments/assets/4971a493-57d7-4561-96a7-818517f66c00)
   
-- **Recipe Adding**  
+- **Recipe Adding**
+
+- 
   ![Recipe Adding](https://github.com/user-attachments/assets/bc64c75a-c8c0-49fa-89a0-44d66817fead)
 
-- **Language Change Feature**  
+- **Language Change Feature**
+
+- 
   ![Language Change](https://github.com/user-attachments/assets/368ac016-f156-402c-b084-8c276ff1c093)
 
-- **Live Picture Upload**  
+- **Live Picture Upload**
+
+- 
   ![Live Picture Upload](https://github.com/user-attachments/assets/921d3ac5-81a5-4773-addb-ae861c742786)
   ![Live Picture Preview](https://github.com/user-attachments/assets/56de9d84-dbf4-442e-9223-a8acb76d36eb)
 
-- **Biometric Access**  
+- **Biometric Access**
+- 
   ![Biometric Access](https://github.com/user-attachments/assets/1678bda7-3e35-4fe0-a6c4-613cb1933059)
 
 ---
